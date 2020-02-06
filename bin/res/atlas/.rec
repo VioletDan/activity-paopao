@@ -38,3 +38,16 @@ P 0587871F vscroll$up.png
 P 5FD17798 vscroll.png
 P DDDDFB9E vslider$bar.png
 P 01BAE7F5 vslider.png
+D gameBox
+P 3558641E arr.png
+P EF1B58F9 ball1.png
+P 9DD730C9 ball2.png
+R 77FDC04F bg.jpg
+R 9BCDC588 bottle.png
+R 6DC8AD83 bottom.png
+P 4D321DAA game_progressBar.png
+P 4B26C5E2 game_progressBg.png
+P 58EBF0B2 pp1.png
+P 03F16D9D pp2.png
+P 816FD5AF shine.png
+P 9BA1FEE7 txt.png
