@@ -5,6 +5,7 @@
  * 建议：如果是页面级的逻辑，需要频繁访问页面内多个元素，使用继承式写法，如果是独立小模块，功能单一，建议用脚本方式实现，比如子弹脚本。
  */
 let _this = null
+let preRadian = 0
 export default class GameUI extends Laya.Scene {
     constructor() {
         super();
@@ -21,7 +22,6 @@ export default class GameUI extends Laya.Scene {
     }
 
     onEnable() {
-        this.touchArrHandle()
     }
 
     onTipClick(e) {
@@ -33,8 +33,25 @@ export default class GameUI extends Laya.Scene {
         // this.bg.height = Laya.stage.height
         let bottomHeight = this.getChildByName('bottom').height
         this.getChildByName('bottom').y = Laya.stage.height - bottomHeight
+        // 发射物位置
         let ballItem = this.getChildByName('ball')
         ballItem.y = Laya.stage.height - bottomHeight - ballItem.height - 15
+        //箭头位置
+        let arrBox = this.arrBox
+        arrBox.y = ballItem.y - 15
+        //参照圆心位置
+        this.referenceBall.x = (Laya.stage.width - this.referenceBall.width) / 2
+        this.referenceBall.y = (arrBox.y - arrBox.height) + ((arrBox.height - this.referenceBall.height) / 2)
+        this.arrInitCoordinate = [{ stageX: this.referenceBall.x + this.referenceBall.width / 2, stageY: this.referenceBall.y + this.referenceBall.height / 2 }]
+        this.pointer.x = this.arrInitCoordinate[0].stageX
+        this.pointer.y = this.arrInitCoordinate[0].stageY
+        console.log(this.arrInitCoordinate)
+
+        //手指触碰热区位置 逻辑
+        this.touchArrHandle()
+        this.touchArea.height = this.arrBox.y - this.Cordonline.y
+        this.touchArea.y = this.Cordonline.y
+
     }
     /**增加分数 */
     addScore(value) {
@@ -72,35 +89,30 @@ export default class GameUI extends Laya.Scene {
      * 手指按住屏幕旋转箭头
      */
     touchArrHandle() {
-        this.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
+        this.touchArea.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
         Laya.stage.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
         Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.onMouseUp);
     }
 
     onMouseDown(e) {
         const Event = Laya.Event;
-        // 手机上才有 touches 属性
-        let touches = e.touches;
-        if (touches && touches.length == 2) {
-            preRadian = Math.atan2(
-                touches[0].stageY - touches[1].stageY,
-                touches[0].stageX - touches[1].stageX);
+        var x = e.stageX;
+        var y = e.stageY;
+        var origin = this.arrInitCoordinate // 当前元素的中心点
 
-            Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
-        }
+        // 计算出当前鼠标相对于元素中心点的坐标
+        x = x - origin[0].stageX;
+        y = origin[0].stageY - y;
+        var degree = this.atan2(y, x);
+        console.log('before',degree)
+        this.arrBox.rotation = degree;
     }
 
-    onMouseMove(e) {
-        let touches = e.touches;
-        if (touches && touches.length == 2) {
-            let nowRadian = Math.atan2(
-                touches[0].stageY - touches[1].stageY,
-                touches[0].stageX - touches[1].stageX);
-
-            this.bottleBox.getChildByName('arrBox').rotation += 180 / Math.PI * (nowRadian - preRadian);
-
-            preRadian = nowRadian;
-        }
+    //计算角度
+    atan2(y, x) {
+        var degree = 180 / Math.PI * (Math.atan2(y, x));
+        degree = -degree;
+        return degree
     }
 
     onMouseUp(e) {
