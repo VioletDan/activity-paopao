@@ -1,0 +1,7 @@
+//画直线
+        // this.arrBoxLine.alpha = 0
+        // this.arrBoxLine.graphics.clear(true)
+        // this.arrBoxLine.graphics.drawLine(this.pointA.X, this.pointA.Y, this.pointB.X, this.pointB.Y, "#ec9eaa", 11);
+        // Laya.Tween.to(this.arrBoxLine, {
+        //     alpha: 1
+        // }, 500);
