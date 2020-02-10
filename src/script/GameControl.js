@@ -3,6 +3,8 @@ import DropBox from "./DropBox";
 import Bullet from "./Bullet";
 let typeMouse = false, isMove = false;
 let allA = 0;   // 存放鼠标旋转总共的度数
+let mSkinList = ["gameBox/pp1.png", "gameBox/pp2.png"], mCurrSkinIndex = -1;//当前皮肤索引
+let mSkinListScreen = ["gameBox/pp2.png", "gameBox/pp1.png"]; // 更换屏幕中间的球的皮肤
 /**
  * 游戏控制脚本。定义了几个dropBox，bullet，createBoxInterval等变量，能够在IDE显示及设置该变量
  * 更多类型定义，请参考官方文档
@@ -14,6 +16,7 @@ export default class GameControl extends Laya.Script {
 
     constructor() { super(); }
     onEnable() {
+        this.speed = 35;//子弹速度
         //间隔多少毫秒创建一个下跌的容器
         this.createBoxInterval = 1000;
         //开始时间
@@ -35,11 +38,11 @@ export default class GameControl extends Laya.Script {
 
     onUpdate() {
         //每间隔一段时间创建一个盒子
-        let now = Date.now();
-        if (now - this._time > this.createBoxInterval) {
-            this._time = now;
-            this.createBox();
-        }
+        // let now = Date.now();
+        // if (now - this._time > this.createBoxInterval) {
+        //     this._time = now;
+        //     this.createBox();
+        // }
     }
 
     createBox() {
@@ -100,15 +103,27 @@ export default class GameControl extends Laya.Script {
         typeMouse = false;
         if (isMove) {
             //发射泡泡 
+            var _currentSkin = this.changeSkin();
+            this.owner.ball.getChildByName('ballChild').texture = mSkinListScreen[mCurrSkinIndex];
             let flyer = Laya.Pool.getItemByCreateFun("bullet", this.bullet.create, this.bullet);
             flyer.pos(this.owner.getChildByName('ball').x, this.owner.getChildByName('ball').y);
+            flyer.texture = _currentSkin;
             var rig = flyer.getComponent(Laya.RigidBody);
-            console.log(Math.cos(allA), Math.sin(allA))
-            rig.setVelocity({ x: 30 + Math.cos(allA), y: - Math.sin(allA) });
+            var rigX = Math.cos((90 - allA) * Math.PI / 180) * this.speed;
+            var rigY = -Math.sin((90 - allA) * Math.PI / 180) * this.speed;
+            rig.setVelocity({ x: rigX, y: rigY });
             this._gameBox.addChild(flyer);
         }
     }
-
+    //换皮肤
+    changeSkin(flyer) {
+        mCurrSkinIndex++;
+        let skinLength = mSkinList.length;
+        if (mCurrSkinIndex >= skinLength) {
+            mCurrSkinIndex = 0;
+        }
+        return mSkinList[mCurrSkinIndex];
+    }
     onStageClick(e) {
         //停止事件冒泡，提高性能，当然也可以不要
         e.stopPropagation();
@@ -128,5 +143,10 @@ export default class GameControl extends Laya.Script {
         this.enabled = false;
         this.createBoxInterval = 1000;
         this._gameBox.removeChildren();
+    }
+
+    /**碰撞角度计算 */
+    getCalcAngle() {
+        return allA
     }
 }

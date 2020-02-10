@@ -2,9 +2,9 @@
     "x":0,
     "type":"Sprite",
     "selectedBox":1,
-    "selecteID":2,
+    "selecteID":3,
     "searchKey":"Sprite,levelTxt",
-    "props":{"y":0,"x":0,"width":115,"texture":"gameBox/ball1.png","presetID":1,"preset":"laya/pages/prefab/DropBox.prefab","pivotY":59,"pivotX":57.5,"name":"levelTxt","isPresetRoot":true,"height":118,"group":1,"gravityScale":0.5},
+    "props":{"y":0,"x":0,"width":115,"texture":"gameBox/ball1.png","presetID":1,"preset":"laya/pages/prefab/DropBox.prefab","name":"levelTxt","isPresetRoot":true,"height":118,"group":1,"gravityScale":0.5},
     "nodeParent":-1,
     "maxID":8,
     "label":"levelTxt",
@@ -20,7 +20,7 @@
             "switchAble":true,
             "searchKey":"BoxCollider",
             "removeAble":true,
-            "props":{"y":0,"x":0,"width":115,"presetID":2,"preset":"laya/pages/prefab/DropBox.prefab","height":118},
+            "props":{"y":0,"x":0,"width":115,"restitution":0.5,"presetID":2,"preset":"laya/pages/prefab/DropBox.prefab","height":118},
             "nodeParent":1,
             "label":"BoxCollider(DropBox)",
             "isDirectory":false,
@@ -36,7 +36,7 @@
             "switchAble":true,
             "searchKey":"RigidBody",
             "removeAble":true,
-            "props":{"type":"kinematic","presetID":3,"preset":"laya/pages/prefab/DropBox.prefab","group":-1,"gravityScale":0.5},
+            "props":{"type":"kinematic","presetID":3,"preset":"laya/pages/prefab/DropBox.prefab","gravityScale":0.5,"bullet":true},
             "nodeParent":1,
             "label":"RigidBody(DropBox)",
             "isDirectory":false,
@@ -73,5 +73,6 @@
             "events":[
                 ],
             "action":0
-        }]
+        }],
+    "$HIDDEN":false
 }

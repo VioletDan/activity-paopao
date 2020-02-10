@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":40,
+    "selectedBox":7,
+    "selecteID":38,
     "searchKey":"View,gameBox",
     "props":{"width":750,"visible":false,"sceneColor":"#000000","runtime":"script/GameUI.js","name":"gameBox","height":1624},
     "nodeParent":-1,
-    "maxID":42,
+    "maxID":53,
     "label":"gameBox",
     "isOpen":true,
     "isDirectory":true,
@@ -27,51 +27,6 @@
             "compId":5,
             "child":[
                 ],
-            "$HIDDEN":false
-        },
-        {
-            "x":15,
-            "type":"Sprite",
-            "searchKey":"Sprite,Cordonline",
-            "props":{"y":250,"width":750,"var":"Cordonline","texture":"gameBox/game_progressBar.png","height":10},
-            "nodeParent":2,
-            "label":"Cordonline",
-            "isOpen":null,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":7,
-            "child":[
-                {
-                    "type":"BoxCollider",
-                    "switchAble":true,
-                    "searchKey":"BoxCollider",
-                    "removeAble":true,
-                    "props":{"width":750,"label":"Cordonline","height":10},
-                    "nodeParent":7,
-                    "label":"BoxCollider",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":38,
-                    "child":[
-                        ]
-                },
-                {
-                    "type":"RigidBody",
-                    "switchAble":true,
-                    "searchKey":"RigidBody",
-                    "removeAble":true,
-                    "props":{"type":"kinematic"},
-                    "nodeParent":7,
-                    "label":"RigidBody",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":39,
-                    "child":[
-                        ]
-                }],
             "$HIDDEN":false
         },
         {
@@ -174,7 +129,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,referenceBall",
-            "props":{"y":1324,"x":317,"width":118,"visible":false,"var":"referenceBall","texture":"gameBox/ball1.png","height":118},
+            "props":{"y":1323,"x":317,"width":118,"visible":false,"var":"referenceBall","texture":"gameBox/ball1.png","height":118},
             "nodeParent":2,
             "label":"referenceBall",
             "isDirectory":false,
@@ -188,7 +143,7 @@
             "x":15,
             "type":"Box",
             "searchKey":"Box,ball,ball",
-            "props":{"y":1324,"x":325,"width":100,"var":"ball","name":"ball","height":106},
+            "props":{"y":1323,"x":325,"width":100,"var":"ball","name":"ball","height":106},
             "nodeParent":2,
             "label":"ball",
             "isOpen":false,
@@ -228,7 +183,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,touchArea,touchArea",
-            "props":{"y":0,"x":0,"width":750,"var":"touchArea","name":"touchArea"},
+            "props":{"y":-1,"x":0,"width":750,"var":"touchArea","name":"touchArea"},
             "nodeParent":2,
             "label":"touchArea",
             "isDirectory":false,
@@ -242,7 +197,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,arrBox,arrBox",
-            "props":{"y":1300,"x":375,"width":63,"var":"arrBox","texture":"gameBox/arr.png","scaleY":1,"scaleX":1,"rotation":0,"pivotY":418,"pivotX":31.5,"name":"arrBox","height":418},
+            "props":{"y":1299,"x":375,"width":63,"var":"arrBox","texture":"gameBox/arr.png","scaleY":1,"scaleX":1,"rotation":0,"pivotY":418,"pivotX":31.5,"name":"arrBox","height":418},
             "nodeParent":2,
             "label":"arrBox",
             "isOpen":true,
@@ -260,10 +215,11 @@
             "source":"src/script/GameControl.js",
             "searchKey":"Script,GameControl",
             "removeAble":true,
-            "props":{"dropBox":"@Prefab:prefab/DropBox.prefab","bullet":"@Prefab:prefab/Bullet.prefab"},
+            "props":{"y":-1,"x":0,"dropBox":"@Prefab:prefab/DropBox.prefab","bullet":"@Prefab:prefab/Bullet.prefab"},
             "nodeParent":2,
             "label":"GameControl",
             "isDirectory":false,
+            "isClose":true,
             "isAniNode":true,
             "hasChild":false,
             "compId":33,
@@ -274,7 +230,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,gameBox",
-            "props":{"y":0,"x":0,"name":"gameBox"},
+            "props":{"y":-1,"x":0,"name":"gameBox"},
             "nodeParent":2,
             "label":"gameBox",
             "isDirectory":false,
@@ -283,6 +239,187 @@
             "compId":35,
             "child":[
                 ]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,Cordonline",
+            "props":{"y":249,"x":0,"width":750,"var":"Cordonline","texture":"gameBox/game_progressBar.png","height":10},
+            "nodeParent":2,
+            "label":"Cordonline",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":7,
+            "child":[
+                {
+                    "x":30,
+                    "type":"BoxCollider",
+                    "switchAble":true,
+                    "searchKey":"BoxCollider",
+                    "removeAble":true,
+                    "props":{"width":750,"label":"Cordonline","height":10},
+                    "nodeParent":7,
+                    "label":"BoxCollider",
+                    "isDirectory":false,
+                    "isClose":true,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":38,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"RigidBody",
+                    "switchAble":true,
+                    "searchKey":"RigidBody",
+                    "removeAble":true,
+                    "props":{"type":"static"},
+                    "nodeParent":7,
+                    "label":"RigidBody",
+                    "isDirectory":false,
+                    "isClose":true,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":39,
+                    "child":[
+                        ]
+                }],
+            "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,wall,wallLeft",
+            "props":{"y":249,"x":0,"width":10,"var":"wallLeft","name":"wall","height":1374},
+            "nodeParent":2,
+            "label":"wall",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":42,
+            "child":[
+                {
+                    "type":"BoxCollider",
+                    "switchAble":true,
+                    "searchKey":"BoxCollider",
+                    "removeAble":true,
+                    "props":{"y":0,"x":0,"width":10,"restitution":0.5,"label":"wallLeft","isSensor":true,"height":1374},
+                    "nodeParent":42,
+                    "label":"BoxCollider",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":45,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"RigidBody",
+                    "switchAble":true,
+                    "searchKey":"RigidBody",
+                    "removeAble":true,
+                    "props":{"type":"static"},
+                    "nodeParent":42,
+                    "label":"RigidBody",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":46,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,wall,wallRight",
+            "props":{"y":249,"x":740,"width":10,"var":"wallRight","name":"wall","height":1374},
+            "nodeParent":2,
+            "label":"wall",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":43,
+            "child":[
+                {
+                    "type":"BoxCollider",
+                    "switchAble":true,
+                    "searchKey":"BoxCollider",
+                    "removeAble":true,
+                    "props":{"width":10,"restitution":0.5,"label":"wallRight","isSensor":true,"height":1374},
+                    "nodeParent":43,
+                    "label":"BoxCollider",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":47,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"RigidBody",
+                    "switchAble":true,
+                    "searchKey":"RigidBody",
+                    "removeAble":true,
+                    "props":{"type":"static"},
+                    "nodeParent":43,
+                    "label":"RigidBody",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":48,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,wall,wallBottom",
+            "props":{"y":1444,"x":10,"width":730,"var":"wallBottom","name":"wall","height":10},
+            "nodeParent":2,
+            "label":"wall",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":44,
+            "child":[
+                {
+                    "type":"BoxCollider",
+                    "switchAble":true,
+                    "searchKey":"BoxCollider",
+                    "removeAble":true,
+                    "props":{"y":0,"x":0,"width":730,"restitution":0.5,"label":"wallBottom","isSensor":true,"height":10},
+                    "nodeParent":44,
+                    "label":"BoxCollider",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":49,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"RigidBody",
+                    "switchAble":true,
+                    "searchKey":"RigidBody",
+                    "removeAble":true,
+                    "props":{"type":"static"},
+                    "nodeParent":44,
+                    "label":"RigidBody",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":50,
+                    "child":[
+                        ]
+                }]
         }],
     "animations":[
         {
@@ -365,7 +502,7 @@
                             }]
                     }
                 }],
-            "name":"shine1",
+            "name":"shine",
             "id":1,
             "frameRate":60,
             "action":2

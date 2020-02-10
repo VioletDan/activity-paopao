@@ -48,21 +48,13 @@ export default class GameUI extends Laya.Scene {
         //参照圆心位置
         this.referenceBall.x = (Laya.stage.width - this.referenceBall.width) / 2
         this.referenceBall.y = ballItem.y
-        // this.referenceBall.y = (arrBox.y - arrBox.height) + ((arrBox.height - this.referenceBall.height) / 2)
-
-        // A,B,C分别代表中心点，起始点，结束点坐标
-        // this.pointA = {
-        //     X: this.referenceBall.x + this.referenceBall.width / 2,
-        //     Y: this.referenceBall.y + this.referenceBall.height / 2
-        // }
-        // this.pointB = {};
-        // this.pointC = {};
 
         //手指触碰热区位置 逻辑
-        // this.touchArrHandle()
         this.touchArea.height = Laya.stage.height - this.Cordonline.height
         this.touchArea.y = this.Cordonline.y
 
+        //墙壁
+        this.wallBottom.y = this.getChildByName('bottom').y
     }
 
     /**
@@ -111,73 +103,8 @@ export default class GameUI extends Laya.Scene {
     showShine() {
         // _this.bottleBox.getChildByName('shine1').play()
     }
-    /**
-     * 这里通过鼠标的移动获取起始点和结束点
-     */
-    touchArrHandle() {
-        this.touchArea.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
-        Laya.stage.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
-        Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.onballUp);
-    }
 
-    onMouseDown(e) {
-        //获取起始点坐标
-        this.pointB.X = e.stageX;
-        this.pointB.Y = e.stageY;
-        typeMouse = true;
-        //如果用户只是点击屏幕，这个时候也要让箭头旋转相应的角度
-        Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
-    }
 
-    onMouseMove(e) {
-        if (typeMouse) {
-            // 获取结束点坐标
-            this.pointC.X = e.stageX;
-            this.pointC.Y = e.stageY;
-
-            var _allA = this.getAngle()
-            this.arrBox.rotation = _allA
-
-            // 运算结束后将起始点重新赋值为结束点，作为下一次的起始点
-            this.pointB.X = this.pointC.X;
-            this.pointB.Y = this.pointC.Y;
-        }
-    }
-
-    getAngle() {
-        // 分别求出AB,AC的向量坐标表示
-        var AB = {};
-        var AC = {};
-        AB.X = (this.pointB.X - this.pointA.X);
-        AB.Y = (this.pointB.Y - this.pointA.Y);
-        AC.X = (this.pointC.X - this.pointA.X);
-        AC.Y = (this.pointC.Y - this.pointA.Y);
-        // AB与AC叉乘求出逆时针还是顺时针旋转               
-        var direct = (AB.X * AC.Y) - (AB.Y * AC.X);
-        var lengthAB = Math.sqrt(Math.pow(this.pointA.X - this.pointB.X, 2) + Math.pow(this.pointA.Y - this.pointB.Y, 2)),
-            lengthAC = Math.sqrt(Math.pow(this.pointA.X - this.pointC.X, 2) + Math.pow(this.pointA.Y - this.pointC.Y, 2)),
-            lengthBC = Math.sqrt(Math.pow(this.pointB.X - this.pointC.X, 2) + Math.pow(this.pointB.Y - this.pointC.Y, 2));
-        // 余弦定理求出旋转角
-        var cosA = (Math.pow(lengthAB, 2) + Math.pow(lengthAC, 2) - Math.pow(lengthBC, 2)) / (2 * lengthAB * lengthAC);
-        var angleA = Math.round(Math.acos(cosA) * 180 / Math.PI);
-        if (direct < 0) {
-            allA -= angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
-        } else {
-            allA += angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
-        }
-        return allA
-    }
-    onMouseUp(e) {
-        typeMouse = false;
-        Laya.stage.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
-    }
-    /**
-     * 发射逻辑
-     */
-    onallUp() {
-        typeMouse = false;
-        Laya.stage.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
-    }
     applayFilter() {
         // 创建一个发光滤镜
         const GlowFilter = Laya.GlowFilter;

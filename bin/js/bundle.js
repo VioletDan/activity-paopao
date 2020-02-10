@@ -15,7 +15,7 @@
 
         onUpdate() {
             //让持续盒子旋转
-            this.owner.rotation++;
+            // this.owner.rotation++;
         }
 
         onTriggerEnter(other, self, contact) {
@@ -67,38 +67,89 @@
     class Bullet extends Laya.Script {
         constructor() {
             super();
-            //设置单例的引用方式，方便其他类引用
         }
         onEnable() {
             //设置初始速度
             rig = this.owner.getComponent(Laya.RigidBody);
-            // rig.setVelocity({ x: 15, y: -15 });
         }
 
         onTriggerEnter(other, self, contact) {
+            console.log(other.label);
+            var _angle = GameUI.instance._control.getCalcAngle();
+            var _speed = GameUI.instance._control.speed;
+            console.log(_angle);
+            if (_angle < 0) {
+                if (360 - (Math.abs(_angle) % 360) > 180 && 360 - (Math.abs(_angle) % 360) < 360) {
+                    //初始左边
+                    this.wallLeftCollision(other, _speed, _angle);
+                } else {
+                    //初始右边
+                    this.wallRightCollision(other, _speed, _angle);
+                }
+            } else {
+                if (_angle % 360 > 0 && _angle % 360 < 180) {
+                    //初始右边
+                    this.wallRightCollision(other, _speed, _angle);
+                } else {
+                    //初始左边
+                    this.wallLeftCollision(other, _speed, _angle);
+                }
+
+            }
+
             //如果被碰到，则移除子弹
-            this.owner.removeSelf();
+            // this.owner.removeSelf();
         }
 
         onUpdate() {
             //如果子弹超出屏幕，则移除子弹
-            if (this.owner.y < GameUI.instance.Cordonline.y - this.owner.height) {
+            if (this.owner.y < GameUI.instance.Cordonline.y - this.owner.height || this.owner.y > Laya.stage.height) {
                 this.owner.removeSelf();
             }
-            if (this.owner.x > Laya.stage.width || this.owner.x < -Laya.stage.width) {
-                this.owner.removeSelf();
-            }
-            console.log(this.owner.x, this.owner.y);
+            if (this.owner.x > Laya.stage.width || this.owner.x < -Laya.stage.width) ;
         }
 
         onDisable() {
             //子弹被移除时，回收子弹到对象池，方便下次复用，减少对象创建开销
             Laya.Pool.recover("bullet", this.owner);
         }
+
+        /**初始值从左边碰撞和右边碰撞不一样 */
+        wallLeftCollision(other, _speed, _angle) {
+            var rigX, rigY;
+            if (other.label == "wallLeft") {
+                rigX = - Math.cos((90 - _angle) * Math.PI / 180) * _speed;
+                rigY = - Math.sin((90 - _angle) * Math.PI / 180) * _speed;
+                rig.setVelocity({ x: rigX, y: rigY });
+            }
+
+            if (other.label == "wallRight") {
+                rigX = Math.cos((90 - _angle) * Math.PI / 180) * _speed;
+                rigY = - Math.sin((90 - _angle) * Math.PI / 180) * _speed;
+                rig.setVelocity({ x: rigX, y: rigY });
+            }
+        }
+        /**初始值右边碰撞 */
+        wallRightCollision(other, _speed, _angle) {
+            var rigX, rigY;
+            if (other.label == "wallLeft") {
+                rigX = Math.cos((90 - _angle) * Math.PI / 180) * _speed;
+                rigY = - Math.sin((90 - _angle) * Math.PI / 180) * _speed;
+                rig.setVelocity({ x: rigX, y: rigY });
+            }
+
+            if (other.label == "wallRight") {
+                rigX = - Math.cos((90 - _angle) * Math.PI / 180) * _speed;
+                rigY = - Math.sin((90 - _angle) * Math.PI / 180) * _speed;
+                rig.setVelocity({ x: rigX, y: rigY });
+            }
+        }
     }
 
     let typeMouse = false, isMove = false;
     let allA = 0;   // 存放鼠标旋转总共的度数
+    let mSkinList = ["gameBox/pp1.png", "gameBox/pp2.png"], mCurrSkinIndex = -1;//当前皮肤索引
+    let mSkinListScreen = ["gameBox/pp2.png", "gameBox/pp1.png"]; // 更换屏幕中间的球的皮肤
     /**
      * 游戏控制脚本。定义了几个dropBox，bullet，createBoxInterval等变量，能够在IDE显示及设置该变量
      * 更多类型定义，请参考官方文档
@@ -110,6 +161,7 @@
 
         constructor() { super(); }
         onEnable() {
+            this.speed = 35;//子弹速度
             //间隔多少毫秒创建一个下跌的容器
             this.createBoxInterval = 1000;
             //开始时间
@@ -131,11 +183,11 @@
 
         onUpdate() {
             //每间隔一段时间创建一个盒子
-            let now = Date.now();
-            if (now - this._time > this.createBoxInterval) {
-                this._time = now;
-                this.createBox();
-            }
+            // let now = Date.now();
+            // if (now - this._time > this.createBoxInterval) {
+            //     this._time = now;
+            //     this.createBox();
+            // }
         }
 
         createBox() {
@@ -196,15 +248,27 @@
             typeMouse = false;
             if (isMove) {
                 //发射泡泡 
+                var _currentSkin = this.changeSkin();
+                this.owner.ball.getChildByName('ballChild').texture = mSkinListScreen[mCurrSkinIndex];
                 let flyer = Laya.Pool.getItemByCreateFun("bullet", this.bullet.create, this.bullet);
                 flyer.pos(this.owner.getChildByName('ball').x, this.owner.getChildByName('ball').y);
+                flyer.texture = _currentSkin;
                 var rig = flyer.getComponent(Laya.RigidBody);
-                console.log(Math.cos(allA), Math.sin(allA));
-                rig.setVelocity({ x: 30 + Math.cos(allA), y: - Math.sin(allA) });
+                var rigX = Math.cos((90 - allA) * Math.PI / 180) * this.speed;
+                var rigY = -Math.sin((90 - allA) * Math.PI / 180) * this.speed;
+                rig.setVelocity({ x: rigX, y: rigY });
                 this._gameBox.addChild(flyer);
             }
         }
-
+        //换皮肤
+        changeSkin(flyer) {
+            mCurrSkinIndex++;
+            let skinLength = mSkinList.length;
+            if (mCurrSkinIndex >= skinLength) {
+                mCurrSkinIndex = 0;
+            }
+            return mSkinList[mCurrSkinIndex];
+        }
         onStageClick(e) {
             //停止事件冒泡，提高性能，当然也可以不要
             e.stopPropagation();
@@ -225,11 +289,14 @@
             this.createBoxInterval = 1000;
             this._gameBox.removeChildren();
         }
+
+        /**碰撞角度计算 */
+        getCalcAngle() {
+            return allA
+        }
     }
 
     let ballItem;
-    let typeMouse$1 = false;
-    let allA$1 = 0;   // 存放鼠标旋转总共的度数
     class GameUI extends Laya.Scene {
         constructor() {
             super();
@@ -268,21 +335,13 @@
             //参照圆心位置
             this.referenceBall.x = (Laya.stage.width - this.referenceBall.width) / 2;
             this.referenceBall.y = ballItem.y;
-            // this.referenceBall.y = (arrBox.y - arrBox.height) + ((arrBox.height - this.referenceBall.height) / 2)
-
-            // A,B,C分别代表中心点，起始点，结束点坐标
-            // this.pointA = {
-            //     X: this.referenceBall.x + this.referenceBall.width / 2,
-            //     Y: this.referenceBall.y + this.referenceBall.height / 2
-            // }
-            // this.pointB = {};
-            // this.pointC = {};
 
             //手指触碰热区位置 逻辑
-            // this.touchArrHandle()
             this.touchArea.height = Laya.stage.height - this.Cordonline.height;
             this.touchArea.y = this.Cordonline.y;
 
+            //墙壁
+            this.wallBottom.y = this.getChildByName('bottom').y;
         }
 
         /**
@@ -331,73 +390,8 @@
         showShine() {
             // _this.bottleBox.getChildByName('shine1').play()
         }
-        /**
-         * 这里通过鼠标的移动获取起始点和结束点
-         */
-        touchArrHandle() {
-            this.touchArea.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDown);
-            Laya.stage.on(Laya.Event.MOUSE_UP, this, this.onMouseUp);
-            Laya.stage.on(Laya.Event.MOUSE_OUT, this, this.onballUp);
-        }
 
-        onMouseDown(e) {
-            //获取起始点坐标
-            this.pointB.X = e.stageX;
-            this.pointB.Y = e.stageY;
-            typeMouse$1 = true;
-            //如果用户只是点击屏幕，这个时候也要让箭头旋转相应的角度
-            Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
-        }
 
-        onMouseMove(e) {
-            if (typeMouse$1) {
-                // 获取结束点坐标
-                this.pointC.X = e.stageX;
-                this.pointC.Y = e.stageY;
-
-                var _allA = this.getAngle();
-                this.arrBox.rotation = _allA;
-
-                // 运算结束后将起始点重新赋值为结束点，作为下一次的起始点
-                this.pointB.X = this.pointC.X;
-                this.pointB.Y = this.pointC.Y;
-            }
-        }
-
-        getAngle() {
-            // 分别求出AB,AC的向量坐标表示
-            var AB = {};
-            var AC = {};
-            AB.X = (this.pointB.X - this.pointA.X);
-            AB.Y = (this.pointB.Y - this.pointA.Y);
-            AC.X = (this.pointC.X - this.pointA.X);
-            AC.Y = (this.pointC.Y - this.pointA.Y);
-            // AB与AC叉乘求出逆时针还是顺时针旋转               
-            var direct = (AB.X * AC.Y) - (AB.Y * AC.X);
-            var lengthAB = Math.sqrt(Math.pow(this.pointA.X - this.pointB.X, 2) + Math.pow(this.pointA.Y - this.pointB.Y, 2)),
-                lengthAC = Math.sqrt(Math.pow(this.pointA.X - this.pointC.X, 2) + Math.pow(this.pointA.Y - this.pointC.Y, 2)),
-                lengthBC = Math.sqrt(Math.pow(this.pointB.X - this.pointC.X, 2) + Math.pow(this.pointB.Y - this.pointC.Y, 2));
-            // 余弦定理求出旋转角
-            var cosA = (Math.pow(lengthAB, 2) + Math.pow(lengthAC, 2) - Math.pow(lengthBC, 2)) / (2 * lengthAB * lengthAC);
-            var angleA = Math.round(Math.acos(cosA) * 180 / Math.PI);
-            if (direct < 0) {
-                allA$1 -= angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
-            } else {
-                allA$1 += angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
-            }
-            return allA$1
-        }
-        onMouseUp(e) {
-            typeMouse$1 = false;
-            Laya.stage.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
-        }
-        /**
-         * 发射逻辑
-         */
-        onallUp() {
-            typeMouse$1 = false;
-            Laya.stage.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
-        }
         applayFilter() {
             // 创建一个发光滤镜
             const GlowFilter = Laya.GlowFilter;
