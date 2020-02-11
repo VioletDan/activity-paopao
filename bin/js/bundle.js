@@ -19,13 +19,13 @@
         }
 
         onTriggerEnter(other, self, contact) {
+            console.log(other.label, self,contact);
             var owner = this.owner;
-            if (other.label === "buttle") {
-                //碰撞到子弹后，增加积分，播放声音特效
-                if (this.level > 1) {
-                    this.level--;
-                    owner.getComponent(Laya.RigidBody).setVelocity({ x: 0, y: -10 });
-                } else {
+            if (other.label == 'buttle') {
+                //子弹碰撞            
+                if (self.label == 'redBall') {
+                    console.log(owner.x, owner.y);
+                    //碰到的是红色的球，直接消失爆炸
                     if (owner.parent) {
                         let effect = Laya.Pool.getItemByCreateFun("effect", this.createEffect, this);
                         effect.pos(owner.x, owner.y);
@@ -34,12 +34,40 @@
                         owner.removeSelf();
                     }
                 }
-                GameUI.instance.addScore(1);
-            } else if (other.label === "ground") {
-                //只要有一个盒子碰到地板，则停止游戏
-                owner.removeSelf();
-                GameUI.instance.stopGame();
+
+                if (self.label == 'grayBall') {
+                    //碰到的是灰色的球 ，变成红色
+                    this.owner.texture = 'gameBox/ball2.png';
+                    this.owner.getComponent(Laya.CircleCollider).label = 'redBall';
+                    console.log(this.owner.parent);
+                }
             }
+
+
+            // if (other.label === "buttle") {
+            //     //碰撞到子弹后，增加积分，播放声音特效
+            //     if (this.level > 1) {
+            //         this.level--;
+            //         owner.getComponent(Laya.RigidBody).setVelocity({ x: 0, y: -10 });
+            //     } else {
+            //         if (owner.parent) {
+            //             let effect = Laya.Pool.getItemByCreateFun("effect", this.createEffect, this);
+            //             effect.pos(owner.x, owner.y);
+            //             owner.parent.addChild(effect);
+            //             effect.play(0, true);
+            //             owner.removeSelf();
+            //         }
+            //     }
+            //     GameUI.instance.addScore(1);
+            // } else if (other.label === "ground") {
+            //     //只要有一个盒子碰到地板，则停止游戏
+            //     owner.removeSelf();
+            //     GameUI.instance.stopGame();
+            // }
+        }
+        //结束碰撞时更改球球状态
+        onTriggerExit(other, self, contact) {
+            console.log('onTriggerExit');
         }
 
         /**使用对象池创建爆炸动画 */
@@ -74,31 +102,42 @@
         }
 
         onTriggerEnter(other, self, contact) {
-            console.log(other.label);
-            var _angle = GameUI.instance._control.getCalcAngle();
-            var _speed = GameUI.instance._control.speed;
-            console.log(_angle);
-            if (_angle < 0) {
-                if (360 - (Math.abs(_angle) % 360) > 180 && 360 - (Math.abs(_angle) % 360) < 360) {
-                    //初始左边
-                    this.wallLeftCollision(other, _speed, _angle);
-                } else {
-                    //初始右边
-                    this.wallRightCollision(other, _speed, _angle);
-                }
+            if (other.label == 'Cordonline') {
+                //如果被碰到，则移除子弹
+                this.owner.removeSelf();
             } else {
-                if (_angle % 360 > 0 && _angle % 360 < 180) {
-                    //初始右边
-                    this.wallRightCollision(other, _speed, _angle);
+                var _angle = GameUI.instance._control.getCalcAngle();
+                var _speed = GameUI.instance._control.speed;
+                if (_angle < 0) {
+                    if (360 - (Math.abs(_angle) % 360) > 180 && 360 - (Math.abs(_angle) % 360) < 360) {
+                        //初始左边
+                        this.wallLeftCollision(other, _speed, _angle);
+                    } else {
+                        //初始右边
+                        this.wallRightCollision(other, _speed, _angle);
+                    }
                 } else {
-                    //初始左边
-                    this.wallLeftCollision(other, _speed, _angle);
-                }
+                    if (_angle % 360 > 0 && _angle % 360 < 180) {
+                        //初始右边
+                        this.wallRightCollision(other, _speed, _angle);
+                    } else {
+                        //初始左边
+                        this.wallLeftCollision(other, _speed, _angle);
+                    }
 
+                }
             }
 
-            //如果被碰到，则移除子弹
-            // this.owner.removeSelf();
+            //碰到的是球球
+            if (other.label == 'grayBall' || other.label == 'buttle' || other.label == 'redBall') {
+                rig.type = 'static';
+                Laya.Tween.to(this.owner, {
+                    alpha: 0,
+                }, 500, Laya.Ease.linearInOut, Laya.Handler.create(this, () => {
+                    this.owner.removeSelf();
+                }));
+
+            }
         }
 
         onUpdate() {
@@ -106,7 +145,9 @@
             if (this.owner.y < GameUI.instance.Cordonline.y - this.owner.height || this.owner.y > Laya.stage.height) {
                 this.owner.removeSelf();
             }
-            if (this.owner.x > Laya.stage.width || this.owner.x < -Laya.stage.width) ;
+            if (this.owner.x > Laya.stage.width || this.owner.x < -Laya.stage.width) {
+                this.owner.removeSelf();
+            }
         }
 
         onDisable() {
@@ -146,10 +187,35 @@
         }
     }
 
+    class Tool {
+        /**
+         * 从数组中随机取几个元素
+         * @param {*} arr 数组
+         * @param {*} count 取几个数
+         */
+        static getRandomArrayElements(arr, count) {
+            var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+            while (i-- > min) {
+                index = Math.floor((i + 1) * Math.random());
+                temp = shuffled[index];
+                shuffled[index] = shuffled[i];
+                shuffled[i] = temp;
+            }
+            return shuffled.slice(min);
+        }
+    }
+
     let typeMouse = false, isMove = false;
     let allA = 0;   // 存放鼠标旋转总共的度数
     let mSkinList = ["gameBox/pp1.png", "gameBox/pp2.png"], mCurrSkinIndex = -1;//当前皮肤索引
     let mSkinListScreen = ["gameBox/pp2.png", "gameBox/pp1.png"]; // 更换屏幕中间的球的皮肤
+    let columInitNum = 6; //初始创建泡泡的行数
+    let columAddNum = 0; // 后面追加的泡泡行数
+    let ballWIDTH = 115, //小球宽度
+        distanceNum1, //一行6个球的间距
+        distanceNum2, //一行5个球的间距
+        distanceY = ballWIDTH * 2; //需要往上平移的距离
+
     /**
      * 游戏控制脚本。定义了几个dropBox，bullet，createBoxInterval等变量，能够在IDE显示及设置该变量
      * 更多类型定义，请参考官方文档
@@ -157,20 +223,25 @@
     class GameControl extends Laya.Script {
         /** @prop {name:dropBox,tips:"掉落容器预制体对象",type:Prefab}*/
         /** @prop {name:bullet,tips:"子弹预制体对象",type:Prefab}*/
-        /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:1000}*/
+        /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:6000}*/
 
         constructor() { super(); }
         onEnable() {
             this.speed = 35;//子弹速度
-            //间隔多少毫秒创建一个下跌的容器
-            this.createBoxInterval = 1000;
+            ballWIDTH = 115, //小球宽度
+                distanceNum1 = (Laya.stage.width - ballWIDTH * 6) / 2, //一行6个球的间距
+                distanceNum2 = (Laya.stage.width - ballWIDTH * 5) / 2, //一行5个球的间距
+                distanceY = ballWIDTH * 2; //需要往上平移的距离
+            //间隔多少毫秒创建一行泡泡
+            this.createBoxInterval = 6000;
             //开始时间
             this._time = Date.now();
             //是否已经开始游戏
             this._started = false;
             //子弹和盒子所在的容器对象
             this._gameBox = this.owner.getChildByName("gameBox");
-            // this.createBox();
+            // 创建泡泡和泡泡的位置摆放
+            this.calcBoxPos();
 
             // A,B,C分别代表中心点，起始点，结束点坐标
             this.pointA = {
@@ -182,20 +253,71 @@
         }
 
         onUpdate() {
-            //每间隔一段时间创建一个盒子
-            // let now = Date.now();
-            // if (now - this._time > this.createBoxInterval) {
-            //     this._time = now;
-            //     this.createBox();
-            // }
+            //每间隔一段时间泡泡多一行
+            let now = Date.now();
+            if (now - this._time > this.createBoxInterval) {
+                this._time = now;
+                columAddNum++;
+                var _numChildren = this._gameBox.numChildren;
+                if (columAddNum <= 4) {
+                    for (var i = 0; i < _numChildren; i++) {
+                        if (this._gameBox.getChildAt(i).name == 'levelTxt') {
+                            Laya.Tween.to(this._gameBox.getChildAt(i), {
+                                y: this._gameBox.getChildAt(i).y + ballWIDTH
+                            }, 500);
+                        }
+                    }
+                }
+            }
         }
-
-        createBox() {
+        //创建泡泡和泡泡的位置摆放
+        calcBoxPos() {
+            for (var i = 0; i < columInitNum; i++) {
+                var isChangeColor = false;
+                var randomNumArr = Tool.getRandomArrayElements(['0', '1', '2', '3', '4', '5'], i % 2 == 0 ? 2 : 2);
+                var isSix = i % 2 == 0 ? 6 : 5;
+                // 偶数行有6个球全部居中显示
+                for (var j = 0; j < isSix; j++) {
+                    for (var kk = 0; kk < randomNumArr.length; kk++) {
+                        if (randomNumArr[kk] == j) {
+                            isChangeColor = true;
+                            break
+                        } else {
+                            isChangeColor = false;
+                        }
+                    }
+                    //使用对象池创建盒子
+                    this.createBox(j, i * ballWIDTH - distanceY, i % 2 == 0 ? distanceNum1 : distanceNum2, isChangeColor);
+                }
+            }
+        }
+        /**
+         * 
+         * @param {*} j 第几个球
+         * @param {*} y y轴坐标
+         * @param {*} distanceNum 初始里左边屏幕的间隔
+         * @param {*} isChangeColor 是否变成粉色泡泡
+         */
+        createBox(j, y, distanceNum, isChangeColor) {
+            // 每行最多3个彩色泡泡
             //使用对象池创建盒子
             let box = Laya.Pool.getItemByCreateFun("dropBox", this.dropBox.create, this.dropBox);
-            box.pos(Math.random() * (Laya.stage.width - 100), -100);
+            box.pos(distanceNum + j * box.width, y);
+            //设置初始速度
+            var rig = box.getComponent(Laya.RigidBody);
+            if (isChangeColor) {
+                //设置不同颜色的球
+                box.texture = 'gameBox/ball2.png';
+                box.getComponent(Laya.CircleCollider).label = 'redBall';
+
+            } else {
+                box.getComponent(Laya.CircleCollider).label = 'grayBall';
+            }
+
+            // rig.setVelocity({ x: 0, y: -10 });
             this._gameBox.addChild(box);
         }
+
         onStageMouseDown(e) {
             isMove = false;
             //停止事件冒泡，提高性能，当然也可以不要
@@ -252,8 +374,10 @@
                 this.owner.ball.getChildByName('ballChild').texture = mSkinListScreen[mCurrSkinIndex];
                 let flyer = Laya.Pool.getItemByCreateFun("bullet", this.bullet.create, this.bullet);
                 flyer.pos(this.owner.getChildByName('ball').x, this.owner.getChildByName('ball').y);
+                flyer.alpha = 1;
                 flyer.texture = _currentSkin;
                 var rig = flyer.getComponent(Laya.RigidBody);
+                rig.type = 'dynamic';
                 var rigX = Math.cos((90 - allA) * Math.PI / 180) * this.speed;
                 var rigY = -Math.sin((90 - allA) * Math.PI / 180) * this.speed;
                 rig.setVelocity({ x: rigX, y: rigY });
@@ -286,7 +410,7 @@
         stopGame() {
             this._started = false;
             this.enabled = false;
-            this.createBoxInterval = 1000;
+            this.createBoxInterval = 6000;
             this._gameBox.removeChildren();
         }
 

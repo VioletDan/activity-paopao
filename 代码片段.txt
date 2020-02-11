@@ -75,3 +75,9 @@
         typeMouse = false;
         Laya.stage.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMove);
     }
+
+ Laya.Tween.to(this.owner, {
+                alpha: 0,
+            }, 500, Laya.Ease.linearInOut, Laya.Handler.create(this, () => {
+               
+            }));

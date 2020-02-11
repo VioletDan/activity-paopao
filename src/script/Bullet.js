@@ -13,32 +13,43 @@ export default class Bullet extends Laya.Script {
     }
 
     onTriggerEnter(other, self, contact) {
-        console.log(other.label)
-        var rigX, rigY;
-        var _angle = GameUI.instance._control.getCalcAngle();
-        var _speed = GameUI.instance._control.speed;
-        console.log(_angle)
-        if (_angle < 0) {
-            if (360 - (Math.abs(_angle) % 360) > 180 && 360 - (Math.abs(_angle) % 360) < 360) {
-                //初始左边
-                this.wallLeftCollision(other, _speed, _angle)
-            } else {
-                //初始右边
-                this.wallRightCollision(other, _speed, _angle)
-            }
+        if (other.label == 'Cordonline') {
+            //如果被碰到，则移除子弹
+            this.owner.removeSelf();
         } else {
-            if (_angle % 360 > 0 && _angle % 360 < 180) {
-                //初始右边
-                this.wallRightCollision(other, _speed, _angle)
+            var rigX, rigY;
+            var _angle = GameUI.instance._control.getCalcAngle();
+            var _speed = GameUI.instance._control.speed;
+            if (_angle < 0) {
+                if (360 - (Math.abs(_angle) % 360) > 180 && 360 - (Math.abs(_angle) % 360) < 360) {
+                    //初始左边
+                    this.wallLeftCollision(other, _speed, _angle)
+                } else {
+                    //初始右边
+                    this.wallRightCollision(other, _speed, _angle)
+                }
             } else {
-                //初始左边
-                this.wallLeftCollision(other, _speed, _angle)
-            }
+                if (_angle % 360 > 0 && _angle % 360 < 180) {
+                    //初始右边
+                    this.wallRightCollision(other, _speed, _angle)
+                } else {
+                    //初始左边
+                    this.wallLeftCollision(other, _speed, _angle)
+                }
 
+            }
         }
 
-        //如果被碰到，则移除子弹
-        // this.owner.removeSelf();
+        //碰到的是球球
+        if (other.label == 'grayBall' || other.label == 'buttle' || other.label == 'redBall') {
+            rig.type = 'static'
+            Laya.Tween.to(this.owner, {
+                alpha: 0,
+            }, 500, Laya.Ease.linearInOut, Laya.Handler.create(this, () => {
+                this.owner.removeSelf();
+            }));
+
+        }
     }
 
     onUpdate() {
@@ -47,7 +58,7 @@ export default class Bullet extends Laya.Script {
             this.owner.removeSelf();
         }
         if (this.owner.x > Laya.stage.width || this.owner.x < -Laya.stage.width) {
-            // this.owner.removeSelf();
+            this.owner.removeSelf();
         }
     }
 
