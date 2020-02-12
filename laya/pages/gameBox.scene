@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":54,
+    "selectedBox":44,
+    "selecteID":49,
     "searchKey":"View,gameBox",
     "props":{"width":750,"visible":false,"sceneColor":"#000000","runtime":"script/GameUI.js","name":"gameBox","height":1624},
     "nodeParent":-1,
@@ -383,13 +383,14 @@
             "props":{"y":1444,"x":10,"width":730,"var":"wallBottom","name":"wall","height":10},
             "nodeParent":2,
             "label":"wall",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":44,
             "child":[
                 {
+                    "x":30,
                     "type":"BoxCollider",
                     "switchAble":true,
                     "searchKey":"BoxCollider",
@@ -405,6 +406,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",

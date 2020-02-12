@@ -29,6 +29,8 @@ export default class GameControl extends Laya.Script {
             distanceNum1 = (Laya.stage.width - ballWIDTH * 6) / 2, //一行6个球的间距
             distanceNum2 = (Laya.stage.width - ballWIDTH * 5) / 2, //一行5个球的间距
             distanceY = ballWIDTH * 2; //需要往上平移的距离
+        //行数
+        this.columInitNum = columInitNum;
         //间隔多少毫秒创建一行泡泡
         this.createBoxInterval = 6000;
         //开始时间
@@ -84,7 +86,7 @@ export default class GameControl extends Laya.Script {
                     }
                 }
                 //使用对象池创建盒子
-                this.createBox(j, i * ballWIDTH - distanceY, i % 2 == 0 ? distanceNum1 : distanceNum2, isChangeColor)
+                this.createBox(j, i * ballWIDTH - distanceY, i % 2 == 0 ? distanceNum1 : distanceNum2, isChangeColor, i + '' + j)
             }
         }
     }
@@ -94,21 +96,24 @@ export default class GameControl extends Laya.Script {
      * @param {*} y y轴坐标
      * @param {*} distanceNum 初始里左边屏幕的间隔
      * @param {*} isChangeColor 是否变成粉色泡泡
+     * @param {*} ranksPos  泡泡的行列位置
      */
-    createBox(j, y, distanceNum, isChangeColor) {
+    createBox(j, y, distanceNum, isChangeColor, ranksPos) {
         // 每行最多3个彩色泡泡
         //使用对象池创建盒子
         let box = Laya.Pool.getItemByCreateFun("dropBox", this.dropBox.create, this.dropBox);
-        box.pos(distanceNum + j * box.width, y);
+        box.pos(distanceNum + j * box.width + box.width / 2, y + box.width / 2);
+        // console.log(ranksPos, '=============', box.x, box.y)
+        box.var = ranksPos;
         //设置初始速度
         var rig = box.getComponent(Laya.RigidBody);
         if (isChangeColor) {
             //设置不同颜色的球
             box.texture = 'gameBox/ball2.png';
-            box.getComponent(Laya.CircleCollider).label = 'redBall'
+            box.getComponent(Laya.CircleCollider).label = 'redBall';
 
         } else {
-            box.getComponent(Laya.CircleCollider).label = 'grayBall'
+            box.getComponent(Laya.CircleCollider).label = 'grayBall';
         }
 
         // rig.setVelocity({ x: 0, y: -10 });

@@ -2,20 +2,19 @@
     "x":0,
     "type":"Sprite",
     "selectedBox":1,
-    "selecteID":3,
+    "selecteID":11,
     "searchKey":"Sprite,levelTxt",
-    "props":{"y":0,"x":0,"width":115,"texture":"gameBox/ball1.png","presetID":1,"preset":"laya/pages/prefab/DropBox.prefab","name":"levelTxt","isPresetRoot":true,"height":115,"group":1,"gravityScale":0.5},
+    "props":{"y":0,"x":0,"width":115,"texture":"gameBox/ball1.png","presetID":1,"preset":"laya/pages/prefab/DropBox.prefab","pivotY":57.5,"pivotX":57.5,"name":"levelTxt","isPresetRoot":true,"height":115,"group":1,"gravityScale":0.5},
     "nodeParent":-1,
     "maxID":13,
     "label":"levelTxt",
-    "isOpen":true,
+    "isOpen":false,
     "isDirectory":true,
     "isAniNode":true,
     "hasChild":true,
     "compId":1,
     "child":[
         {
-            "x":15,
             "type":"RigidBody",
             "switchAble":true,
             "searchKey":"RigidBody",
@@ -32,7 +31,6 @@
                 ]
         },
         {
-            "x":15,
             "type":"CircleCollider",
             "switchAble":true,
             "searchKey":"CircleCollider",
@@ -48,7 +46,6 @@
                 ]
         },
         {
-            "x":15,
             "type":"Script",
             "switchAble":true,
             "source":"src/script/DropBox.js",
