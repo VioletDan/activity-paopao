@@ -124,5 +124,18 @@
                 // for (var i = 0; i < arrSix.length; i++) {
                 //     this.removeSamePaopao(arrSix[i])
                 // }
-
+ arrSix.forEach((value, index) => {
+                console.log(value)
+                if (ele.x == value.x && ele.y == value.y) {
+                    // value.id = ele.var;
+                    value.isBall = true;
+                    value.index = Aindex;
+                    if (ele.getComponent(Laya.CircleCollider).label == 'redBall') {
+                        value.isRed = true;
+                        this.boomAni(ele, Aindex)
+                        // this.boomAll(ele, AllChildrenArr)
+                    }
+                    console.log('same', value)
+                }
+            })
 

@@ -6,15 +6,16 @@
     "searchKey":"Sprite,levelTxt",
     "props":{"y":0,"x":0,"width":115,"texture":"gameBox/ball1.png","presetID":1,"preset":"laya/pages/prefab/DropBox.prefab","pivotY":57.5,"pivotX":57.5,"name":"levelTxt","isPresetRoot":true,"height":115,"group":1,"gravityScale":0.5},
     "nodeParent":-1,
-    "maxID":13,
+    "maxID":14,
     "label":"levelTxt",
-    "isOpen":false,
+    "isOpen":true,
     "isDirectory":true,
     "isAniNode":true,
     "hasChild":true,
     "compId":1,
     "child":[
         {
+            "x":15,
             "type":"RigidBody",
             "switchAble":true,
             "searchKey":"RigidBody",
@@ -31,6 +32,7 @@
                 ]
         },
         {
+            "x":15,
             "type":"CircleCollider",
             "switchAble":true,
             "searchKey":"CircleCollider",
@@ -46,6 +48,7 @@
                 ]
         },
         {
+            "x":15,
             "type":"Script",
             "switchAble":true,
             "source":"src/script/DropBox.js",
@@ -58,6 +61,20 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":12,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Text",
+            "searchKey":"Text,number",
+            "props":{"y":32.5,"x":32.5,"width":50,"text":"1","presetID":8,"preset":"laya/pages/prefab/DropBox.prefab","name":"number","height":0,"fontSize":50,"color":"#ec221f","align":"center"},
+            "nodeParent":1,
+            "label":"number",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":13,
             "child":[
                 ]
         }],

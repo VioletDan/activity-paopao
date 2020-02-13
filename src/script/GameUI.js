@@ -50,26 +50,55 @@ export default class GameUI extends Laya.Scene {
         this.referenceBall.y = ballItem.y
 
         //手指触碰热区位置 逻辑
+        this.Cordonline.y = -Laya.stage.height;
+        this.Cordonline.visible = false;
         this.touchArea.height = Laya.stage.height - this.Cordonline.height
         this.touchArea.y = this.Cordonline.y
 
         //墙壁
-        this.wallBottom.y = this.getChildByName('bottom').y
+        this.wallBottom.y = ballItem.y
     }
 
     /**
      * 初始化箭头位置
      */
     initArrBoxLine() {
-        let arrBox = this.arrBox
-        arrBox.y = ballItem.y - 15
-        this.arrBoxLine = new Laya.Sprite()
-        this.arrBoxLine.zOrder = 10
-        Laya.stage.addChild(this.arrBoxLine);
+        let arrBox = this.arrBox;
+        arrBox.y = ballItem.y + 15;
+        arrBox.x = (Laya.stage.width - arrBox.width) / 2;
+        arrBox.texture = '';
+        this.creatPoint(ballItem.y)
+        // this.arrBoxLine = new Laya.Sprite()
+        // this.arrBoxLine.zOrder = 10
+        // Laya.stage.addChild(this.arrBoxLine);
         // this.applayFilter()
     }
+    //创建小点点
+    creatPoint(height) {
+        //定义一个小点点所在的高度为26
+        let arrBox = this.arrBox;
+        arrBox.height = height;
+        let initPoinDis = 40;
+        let pointNum = Math.floor(arrBox.height / initPoinDis);
+        arrBox.pivotY = arrBox.height
+        this.timeLine = new Laya.TimeLine();
+        this.timeLine.to(arrBox, { alpha: 0.5 }, 2000, null, 0)
+            .to(arrBox, { alpha: 1 }, 2000, null, 0)
+            .to(arrBox, { alpha: 0.5 }, 2000, null, 0)
+        this.timeLine.play(0, true);
+        creat()
+        function creat() {
+            for (var i = 0; i < pointNum; i++) {
+                var pointChild = new Laya.Sprite();
+                pointChild.texture = 'gameBox/pointer.png';
+                pointChild.width = arrBox.width;
+                pointChild.height = 16;
+                pointChild.pos(0, initPoinDis * i);
+                arrBox.addChild(pointChild);
+            }
+        }
 
-
+    }
     /**增加分数 */
     addScore(value) {
         console.log(value)

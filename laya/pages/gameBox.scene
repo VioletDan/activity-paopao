@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":44,
-    "selecteID":49,
+    "selectedBox":2,
+    "selecteID":17,
     "searchKey":"View,gameBox",
     "props":{"width":750,"visible":false,"sceneColor":"#000000","runtime":"script/GameUI.js","name":"gameBox","height":1624},
     "nodeParent":-1,
@@ -197,7 +197,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,arrBox,arrBox",
-            "props":{"y":1299,"x":375,"width":63,"var":"arrBox","texture":"gameBox/arr.png","scaleY":1,"scaleX":1,"rotation":0,"pivotY":418,"pivotX":31.5,"name":"arrBox","height":418},
+            "props":{"y":1299,"x":376,"width":16,"var":"arrBox","texture":"gameBox/arr.png","scaleY":1,"scaleX":1,"rotation":0,"pivotY":418,"pivotX":8,"name":"arrBox","height":418},
             "nodeParent":2,
             "label":"arrBox",
             "isOpen":true,
@@ -383,14 +383,13 @@
             "props":{"y":1444,"x":10,"width":730,"var":"wallBottom","name":"wall","height":10},
             "nodeParent":2,
             "label":"wall",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":44,
             "child":[
                 {
-                    "x":30,
                     "type":"BoxCollider",
                     "switchAble":true,
                     "searchKey":"BoxCollider",
@@ -406,7 +405,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",

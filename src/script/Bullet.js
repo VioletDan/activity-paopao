@@ -45,7 +45,7 @@ export default class Bullet extends Laya.Script {
             rig.type = 'static'
             Laya.Tween.to(this.owner, {
                 alpha: 0,
-            }, 500, Laya.Ease.linearInOut, Laya.Handler.create(this, () => {
+            }, 100, Laya.Ease.linearInOut, Laya.Handler.create(this, () => {
                 this.owner.removeSelf();
             }));
 

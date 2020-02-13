@@ -2,6 +2,7 @@
 import DropBox from "./DropBox";
 import Bullet from "./Bullet";
 import Tool from "./Tool";
+import GameUI from "./GameUI";
 let typeMouse = false, isMove = false;
 let allA = 0;   // 存放鼠标旋转总共的度数
 let mSkinList = ["gameBox/pp1.png", "gameBox/pp2.png"], mCurrSkinIndex = -1;//当前皮肤索引
@@ -24,7 +25,7 @@ export default class GameControl extends Laya.Script {
 
     constructor() { super(); }
     onEnable() {
-        this.speed = 35;//子弹速度
+        this.speed = 50;//子弹速度
         ballWIDTH = 115, //小球宽度
             distanceNum1 = (Laya.stage.width - ballWIDTH * 6) / 2, //一行6个球的间距
             distanceNum2 = (Laya.stage.width - ballWIDTH * 5) / 2, //一行5个球的间距
@@ -74,6 +75,7 @@ export default class GameControl extends Laya.Script {
         for (var i = 0; i < columInitNum; i++) {
             var isChangeColor = false;
             var randomNumArr = Tool.getRandomArrayElements(['0', '1', '2', '3', '4', '5'], i % 2 == 0 ? 2 : 2);
+            // var randomNumArr = ['0', '2', '4']
             var isSix = i % 2 == 0 ? 6 : 5
             // 偶数行有6个球全部居中显示
             for (var j = 0; j < isSix; j++) {
@@ -103,6 +105,7 @@ export default class GameControl extends Laya.Script {
         //使用对象池创建盒子
         let box = Laya.Pool.getItemByCreateFun("dropBox", this.dropBox.create, this.dropBox);
         box.pos(distanceNum + j * box.width + box.width / 2, y + box.width / 2);
+        box.getChildByName('number').text = ranksPos;
         // console.log(ranksPos, '=============', box.x, box.y)
         box.var = ranksPos;
         //设置初始速度
@@ -127,6 +130,9 @@ export default class GameControl extends Laya.Script {
         //获取起始点坐标
         this.pointB.X = e.stageX;
         this.pointB.Y = e.stageY;
+        // //计算线的高度
+        // var pointHeight = Math.abs(this.pointB.Y - this.pointA.Y)
+        // GameUI.instance.creatPoint(pointHeight)
         typeMouse = true;
 
     }
