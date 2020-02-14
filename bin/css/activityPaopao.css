@@ -1,0 +1,146 @@
+/* ---------------------------------------- 默认css针对16:9标准比例屏幕微信----------------------------------------*/
+article{background-color: transparent;background-image: url(../images/activityPaopao/page/bg.jpg);background-size:cover;}
+/* section */
+section{width: 100%;height: 100%;position: absolute;top: 0;left: 0;right: 0;bottom: 0;display: none;}
+
+/* gameGuideBox */
+section.gameGuideBox{display: block;z-index: 10;}
+section.gameGuideBox .guideTop{width: 100%;height: 5.47rem;position: absolute;left: 0;top: 0;}
+section.gameGuideBox .guideBottom{width: 100%;position: absolute;bottom: 0;left: 0;}
+section.gameGuideBox .guideMask{width: 100%;height: auto;position: absolute;top: 0;left: 0;transition: all 300ms;opacity: 0;}
+section.gameGuideBox .guideMaskB{width: 100%;height: 100%;position: absolute;bottom: 0;left: 0;}
+section.gameGuideBox .guideMaskB::before{content: '';width: 100%;height:  calc(100% - 15.36rem);display: block;position: absolute;bottom: 0;left: 0;background-color: rgba(0, 0, 0, .7);}
+section.gameGuideBox .guideMaskB.active{background-color: rgba(0, 0, 0, .7);}
+section.gameGuideBox .guideMaskB.active::before{background-color: transparent;}
+section.gameGuideBox .arr{width: .64rem;position: absolute;left: 50%;margin-left: -.32rem;bottom: 3.45rem;}
+section.gameGuideBox .guideTouch{width: 100%;height: 100%;position: absolute;top: 0;left: 0;z-index: 10;}
+
+/* gamePlayBox */
+section.gamePlayBox{-display: block;}
+section.gamePlayBox .topBox{width: 100%;position: absolute;top: 0;left: 0;background-image: url(../images/activityPaopao/page/bg.jpg);min-height: 2.3rem;z-index: 4;background-position: top center;background-size: 100% auto;transition: all 300ms;opacity: 0;z-index: 5;}
+section.gamePlayBox .topBox.active{
+    animation: topBox 1s linear forwards;
+}
+section.gamePlayBox .topBox .timerBox{text-align: right;margin: .4rem .4rem .65rem 0;}
+section.gamePlayBox .topBox .timerBox>span{color: #c96679;font-size: .3768rem;font-family: gotham;display: inline-block;text-align: center;}
+section.gamePlayBox .topBox .timerBox>span:first-child{width: .6rem;text-align: right;}
+section.gamePlayBox .topBox .timerBox>span:last-child{width: .6rem;text-align: left;}
+section.gamePlayBox .topBox .timerBox>span:nth-child(2){width: .22rem;}
+
+/* gamePlayBox  panelBox*/
+section.gamePlayBox .topBox .panelBox{width: 5.72rem;min-height: .76rem; margin: 0 auto;display: flex;justify-content: space-between;align-items: center;}
+section.gamePlayBox .topBox .panelBox .txt{width: 1.48rem;height: .75rem;background-image: url(../images/activityPaopao/gamePaopao/txt.png);}
+section.gamePlayBox .topBox .panelBox .progress{width: 4.24rem;height: .41rem;background-image: url(../images/activityPaopao/gamePaopao/progressBg.png);display: flex;justify-content: flex-start;align-items: center;padding:0 .035rem;}
+section.gamePlayBox .topBox .panelBox .BarPercent{font-size: .25rem;font-family: '黑体';text-align: center;width: .7rem; color: #fff;position: absolute;top: -.4rem;font-weight: bold; left: 0;text-shadow:0 0 8px #e5768c,0 0 8px #e5768c,0 4px 8px #e5768c;transition: all 300ms;transform: translateZ(0);}
+section.gamePlayBox .topBox .panelBox .progressBar{width: 0;height: .33rem;background-image: url(../images/activityPaopao/gamePaopao/progressBar.png);background-size: cover;border-radius:.3rem;filter: grayscale(35%);transition: all 300ms;}
+section.gamePlayBox .topBox .panelBox.active .progressBar{filter: grayscale(0);}
+
+/* gamePlayBox shineBox */
+section.gamePlayBox .topBox .panelBox .shineBox{opacity: 0;}
+section.gamePlayBox .topBox .panelBox.active .shineBox{opacity: 1;}
+section.gamePlayBox .topBox .panelBox .shineBox{width: 100%;height: 100%;position: absolute;top: 0;left: 0;}
+section.gamePlayBox .topBox .panelBox .shineBox .item{position: absolute;overflow: hidden;animation: shine-opacity 1s alternate-reverse linear infinite;transition: all 300ms;}
+section.gamePlayBox .topBox .panelBox .shineBox .item>img{width: .6rem;}
+section.gamePlayBox .topBox .panelBox .shineBox .item.itemG>img{width: .44rem;}
+section.gamePlayBox .topBox .panelBox .shineBox.shineBoxNoBar .item:nth-child(1){left: 0;top: -.15rem;}
+section.gamePlayBox .topBox .panelBox .shineBox.shineBoxNoBar .item:nth-child(2){left: .65rem;bottom:-.15rem;}
+section.gamePlayBox .topBox .panelBox .shineBox.shineBoxNoBar .item:nth-child(3){right: .1rem;bottom: -.15rem;}
+section.gamePlayBox .topBox .panelBox .shineBox.shineBoxNoBar .item:nth-child(4){right: -.1rem;top: -.15rem;}
+section.gamePlayBox .topBox .panelBox .shineBox.shineBoxBar .item:nth-child(1){right: -.35rem;top: 50%;transform: translateY(-50%);z-index: 1;}
+section.gamePlayBox .topBox .panelBox .shineBox.shineBoxBar .item:nth-child(2){right: -.2rem;top: 50%;transform: translateY(-50%);}
+
+/* gameResultBox */
+.middleBox{width: auto;position: absolute;top: 50%;left: 50%; transform: translate(-50%,-50%);}
+section.gameResultBox{-display: block;background-color: rgba(0, 0, 0, .7);text-align: center;z-index: 10;}
+section.gameResultBox .middleBox{width: 5.94rem;height: 6.58rem;background-image: url(../images/activityPaopao/page/result_bg.png);display: flex;justify-content: center;align-items: center;}
+section.gameResultBox .middleBox .border{width: 5.36rem;height: 5.94rem;background-image: url(../images/activityPaopao/page/result_border.png);display: flex;justify-content: center;align-items: center;}
+section.gameResultBox .middleBox .border .box{width: 100%;height: 100%;}
+section.gameResultBox .middleBox .border .title{font-size: .5634rem;color: #6181b0;font-style: italic;font-family: '黑体';margin-bottom: .6rem;margin-top: .7rem;}
+section.gameResultBox .middleBox .border .txt{font-size: .325rem;color: #6181b0;font-family: '黑体';line-height: .5rem;}
+section.gameResultBox .middleBox .border .txt2{margin-top: .3rem;margin-bottom: .56rem;display: none;}
+section.gameResultBox .middleBox .border .btnBox{width: 4rem;height: 2.16rem; margin: 0 auto;display: flex;justify-content: space-between;flex-direction: column;align-items: center}
+section.gameResultBox .middleBox .border .btnBox .btn{width: 100%;height: .98rem;}
+section.gameResultBox .middleBox .border .btnBox .btn:first-child{background-image: url(../images/activityPaopao/page/result_againBtn.png);display: none;}
+section.gameResultBox .middleBox .border .btnBox .btn:last-child{background-image: url(../images/activityPaopao/page/result_prizeBtn.png);display: none;}
+.closeBtn{width: .5rem;height: .5rem;background-image: url(../images/activityPaopao/page/result_colseBtn.png);position: absolute;top: .1rem;right: .1rem;z-index: 10;display: none;}
+
+
+/* type1 0~75%  还差一点 */
+section.gameResultBox .middleBox .border.type1 .btnBox{justify-content: center;}
+section.gameResultBox .middleBox .border.type1 .btnBox .btn:first-child{display: block;}
+
+/* type2 >75%  太棒了 */
+section.gameResultBox .middleBox .border.type2 .btnBox{justify-content: center;height: auto;}
+section.gameResultBox .middleBox .border.type2 .txt2{display: block;}
+section.gameResultBox .middleBox .border.type2 .btnBox .btn:last-child{display: block;}
+
+/* type3 0~75%  游戏结束  == 再一次玩 */
+section.gameResultBox .middleBox .border.type3 .txt2{display: block;opacity: 0;-margin-bottom: 0;margin-top: 0;}
+section.gameResultBox .middleBox .border.type3 .btnBox{justify-content: space-between;height: 2.16rem;}
+section.gameResultBox .middleBox .border.type3 .btnBox .btn:first-child{display: block;}
+section.gameResultBox .middleBox .border.type3 .btnBox .btn:last-child{display: block;}
+
+@keyframes shine-opacity {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes topBox {
+    0% {
+        opacity: 0;
+        transform: translateY(-120px)
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+#layaContainer{
+	position: absolute;
+    z-index: 4;
+    /* display: none; */
+}
+/*---------------------------------------- normal ----------------------*/
+article.screenNormal section.gameGuideBox .arr{transform: scale(0.85);bottom: 3rem;}
+
+/*---------------------------------------- 15:9 ----------------------*/
+article.screen159 section.gameGuideBox .arr{transform: scale(0.7);bottom: 2.5rem;}
+
+/*---------------------------------------- 18:9 ----------------------*/
+/*.screen189  .btn1{margin:.6rem auto 0;}*/
+
+/*---------------------------------------- 15:9 android 微信 && 16:9 浏览器----------------------*/
+@media screen and (device-width:360px) and (max-height:540px), screen and (device-width:320px) and (max-height:470px), screen and (device-width:375px) and (max-height:560px){
+
+}
+
+/*---------------------------------------- 18:9 android 微信 ----------------------*/
+@media screen and (device-width:360px) and (min-height:600px), screen and (device-width:393px) and (min-height:660px), screen and (device-width:412px) and (min-height:720px){
+}
+
+/*---------------------------------------- iphoneX 微信----------------------*/
+@media screen and (device-width:375px) and (min-height:720px),screen and (device-width:414px) and (min-height:720px){
+
+}
+
+/*---------------------------------------- iphoneX 浏览器----------------------------------------------*/
+@media screen and (device-width:375px) and (min-height:630px) and (max-height:640px),screen and (device-width:414px) and (min-height:690px){
+
+}
+
+/*---------------------------------------- android----------------------*/
+@media screen and (device-width:360px), screen and (device-width:393px){
+
+}
+
+/*---------------------------------------- iphone ----------------------------------------------*/
+@media screen and (device-width:320px), screen and (device-width:375px), screen and (device-width:414px){
+
+}

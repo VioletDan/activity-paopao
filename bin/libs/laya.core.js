@@ -7229,7 +7229,7 @@ window.Laya= (function (exports) {
                 Browser.__init__();
                 Browser._container = Browser.createElement("div");
                 Browser._container.id = "layaContainer";
-                Browser._document.body.appendChild(Browser._container);
+                Browser._document.getElementById('gamePlayBox').appendChild(Browser._container);
             }
             return Browser._container;
         }

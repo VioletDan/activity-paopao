@@ -21,21 +21,26 @@ export default class GameUI extends Laya.Scene {
         this.loadScene("gameBox.scene");
         this.alpha = 0 //过渡页面
         this._UItransition(null, this, this.showShine)
-        this.initPage()
     }
 
     onEnable() {
+        this.initPage();
         //戏控制脚本引用，避免每次获取组件带来不必要的性能开销
         this._control = this.getComponent(GameControl);
+        //点击提示文字，开始游戏
+        // this.tipLbll.on(Laya.Event.CLICK, this, this.onTipClick);
     }
 
     onTipClick(e) {
-
+        this.tipLbll.visible = false;
+        this._score = 0;
+        this._control.startGame();
     }
     /** 初始化页面*/
     initPage() {
-        //初始话页面
-        // this.bg.height = Laya.stage.height
+        //初始化页面
+        // this.bg.visible = false;
+        this.tipLbll.visible = false;
         let bottomHeight = this.getChildByName('bottom').height
         this.getChildByName('bottom').y = Laya.stage.height - bottomHeight
         // 发射物位置
@@ -77,37 +82,55 @@ export default class GameUI extends Laya.Scene {
     creatPoint(height) {
         //定义一个小点点所在的高度为26
         let arrBox = this.arrBox;
+        arrBox.alpha = 0;
         arrBox.height = height;
         let initPoinDis = 40;
         let pointNum = Math.floor(arrBox.height / initPoinDis);
-        arrBox.pivotY = arrBox.height
-        this.timeLine = new Laya.TimeLine();
-        this.timeLine.to(arrBox, { alpha: 0.5 }, 2000, null, 0)
-            .to(arrBox, { alpha: 1 }, 2000, null, 0)
-            .to(arrBox, { alpha: 0.5 }, 2000, null, 0)
-        this.timeLine.play(0, true);
+        arrBox.pivotY = arrBox.height;
+        var that = this;
         creat()
         function creat() {
             for (var i = 0; i < pointNum; i++) {
-                var pointChild = new Laya.Sprite();
-                pointChild.texture = 'gameBox/pointer.png';
-                pointChild.width = arrBox.width;
-                pointChild.height = 16;
-                pointChild.pos(0, initPoinDis * i);
-                arrBox.addChild(pointChild);
+
+                if (i % 2 == 0) {
+                    var pointChild = new Laya.Sprite();
+                    pointChild.texture = 'images/gameBox/pointer.png';
+                    pointChild.width = arrBox.width;
+                    pointChild.height = 16;
+                    pointChild.pos(0, initPoinDis * i);
+                    arrBox.addChild(pointChild);
+                } else {
+                    let effect = Laya.Pool.getItemByCreateFun("effect", that.createEffect, that);
+                    effect.width = arrBox.width;
+                    effect.height = 16;
+                    effect.pos(arrBox.width / 2, initPoinDis * i + arrBox.width / 2);
+                    arrBox.addChild(effect);
+                    effect.play(0, true);
+                }
             }
         }
 
     }
+    /**使用对象池创建点点动画 */
+    createEffect() {
+        let ani = new Laya.Animation();
+        ani.loadAnimation("ani/TestPoint.ani");
+        ani.on(Laya.Event.COMPLETE, null, recover);
+        function recover() {
+            // ani.removeSelf();
+            // Laya.Pool.recover("effect", ani);
+        }
+        return ani;
+    }
     /**增加分数 */
     addScore(value) {
-        console.log(value)
-
+        this._score += Number(value);
+        console.log("分数：", this._score);
     }
 
     /**停止游戏 */
     stopGame() {
-
+        this._control.stopGame();
     }
     /**
      * 页面过渡

@@ -1,9 +1,9 @@
 ﻿import GameConfig from "./GameConfig";
 var Loader = Laya.Loader;
 var PreResources = [
-	{ url: 'gameBox/bg.jpg', type: Loader.IMAGE },
-	{ url: 'gameBox/bottle.png', type: Loader.IMAGE },
-	{ url: 'gameBox/bottom.png', type: Loader.IMAGE },
+	{ url: 'images/gameBox/bg.jpg', type: Loader.IMAGE },
+	{ url: 'images/gameBox/bottle.png', type: Loader.IMAGE },
+	{ url: 'images/gameBox/bottom.png', type: Loader.IMAGE },
 	{ url: 'res/atlas/gameBox.atlas', type: Loader.ATLAS },
 	{ url: 'res/atlas/gameBox.png', type: Loader.IMAGE }
 ];
@@ -29,7 +29,8 @@ class Main {
 		Laya.alertGlobalError = true;
 
 		//激活资源版本控制，version.json由IDE发布功能自动生成，如果没有也不影响后续流程
-		Laya.ResourceVersion.enable("version.json", Laya.Handler.create(this, this.onVersionLoaded), Laya.ResourceVersion.FILENAME_VERSION);
+		// Laya.ResourceVersion.enable("version.json", Laya.Handler.create(this, this.onVersionLoaded), Laya.ResourceVersion.FILENAME_VERSION);
+		this.onVersionLoaded()
 	}
 
 	onVersionLoaded() {
@@ -39,8 +40,8 @@ class Main {
 
 	onConfigLoaded() {		
 		//加载IDE指定的场景
-		// GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
-		Laya.loader.load(PreResources,Laya.Handler.create(this, this.loadInit));
+		GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
+		// Laya.loader.load(PreResources,Laya.Handler.create(this, this.loadInit));
 	}
 
 	loadInit(){

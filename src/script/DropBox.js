@@ -37,13 +37,18 @@ export default class DropBox extends Laya.Script {
                     this.boomAll(owner, AllChildrenArr, true);
                     //没有任何子集时,消除自己
                     this.boomAni(owner, true);
+                    // //爆炸一个加一分
+                    // GameUI.instance.addScore(1);
                 }
             }
 
             if (self.label == 'grayBall') {
                 //碰到的是灰色的球 ，变成红色
-                this.owner.texture = 'gameBox/ball2.png';
+                this.owner.texture = 'images/gameBox/ball2.png';
                 this.owner.getComponent(Laya.CircleCollider).label = 'redBall';
+                //播放动画
+                this.owner.shine.alpha = 1;
+                this.owner.shine.play();
                 //重新或者全部的子集
                 // this.getAllChildren(this.owner);
             }
@@ -123,7 +128,8 @@ export default class DropBox extends Laya.Script {
                 index > -1 && AllChildrenArr.splice(index, 1);
                 AllChildrenlist.splice(j, 1);
                 rig.type = 'dynamic';
-                rig.gravityScale = 2;
+                rig.gravityScale = 1;
+                rig.setVelocity({ x: 0, y: 10 });
             }
         }
     }
@@ -250,12 +256,13 @@ export default class DropBox extends Laya.Script {
             this.removePaopaoDrop()
         }
         else GameUI.instance._control._gameBox.removeChild(obj);
+
     }
 
     /**使用对象池创建爆炸动画 */
     createEffect() {
         let ani = new Laya.Animation();
-        ani.loadAnimation("TestAni.ani");
+        ani.loadAnimation("ani/TestAni.ani");
         ani.on(Laya.Event.COMPLETE, null, recover);
         function recover() {
             ani.removeSelf();

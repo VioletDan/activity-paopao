@@ -1,0 +1,1 @@
+{"type":"Scene","props":{"width":750,"name":"loadBox","height":1624},"compId":2,"child":[{"type":"Sprite","props":{"y":0,"x":0,"texture":"images/gameBox/bg.jpg","name":"b1"},"compId":3}],"loadList":["images/gameBox/bg.jpg"],"loadList3D":[]}

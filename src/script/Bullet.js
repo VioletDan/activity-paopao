@@ -18,7 +18,8 @@ export default class Bullet extends Laya.Script {
             this.owner.removeSelf();
         } else {
             var rigX, rigY;
-            var _angle = GameUI.instance._control.getCalcAngle();
+            // var _angle = GameUI.instance._control.getCalcAngle();
+            var _angle = GameUI.instance.arrBox.rotation;
             var _speed = GameUI.instance._control.speed;
             if (_angle < 0) {
                 if (360 - (Math.abs(_angle) % 360) > 180 && 360 - (Math.abs(_angle) % 360) < 360) {
@@ -54,12 +55,16 @@ export default class Bullet extends Laya.Script {
 
     onUpdate() {
         //如果子弹超出屏幕，则移除子弹
+        if (this.owner.y > GameUI.instance.ball.y) {
+            this.owner.removeSelf();
+        }
         if (this.owner.y < GameUI.instance.Cordonline.y - this.owner.height || this.owner.y > Laya.stage.height) {
             this.owner.removeSelf();
         }
         if (this.owner.x > Laya.stage.width || this.owner.x < -Laya.stage.width) {
             this.owner.removeSelf();
         }
+
     }
 
     onDisable() {

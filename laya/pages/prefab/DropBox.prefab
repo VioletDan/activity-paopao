@@ -4,9 +4,9 @@
     "selectedBox":1,
     "selecteID":11,
     "searchKey":"Sprite,levelTxt",
-    "props":{"y":0,"x":0,"width":115,"texture":"gameBox/ball1.png","presetID":1,"preset":"laya/pages/prefab/DropBox.prefab","pivotY":57.5,"pivotX":57.5,"name":"levelTxt","isPresetRoot":true,"height":115,"group":1,"gravityScale":0.5},
+    "props":{"y":0,"x":0,"width":115,"texture":"images/gameBox/ball1.png","presetID":1,"preset":"laya/pages/prefab/DropBox.prefab","pivotY":57.5,"pivotX":57.5,"name":"levelTxt","isPresetRoot":true,"height":115,"group":1,"gravityScale":0.5},
     "nodeParent":-1,
-    "maxID":14,
+    "maxID":15,
     "label":"levelTxt",
     "isOpen":true,
     "isDirectory":true,
@@ -37,7 +37,7 @@
             "switchAble":true,
             "searchKey":"CircleCollider",
             "removeAble":true,
-            "props":{"y":0,"x":0,"radius":57.5,"presetID":6,"preset":"laya/pages/prefab/DropBox.prefab","label":"grayBall"},
+            "props":{"y":0,"x":0,"radius":57.5,"presetID":6,"preset":"laya/pages/prefab/DropBox.prefab","label":"grayBall","density":100},
             "nodeParent":1,
             "label":"CircleCollider(DropBox)",
             "isDirectory":false,
@@ -68,7 +68,7 @@
             "x":15,
             "type":"Text",
             "searchKey":"Text,number",
-            "props":{"y":32.5,"x":32.5,"width":50,"text":"1","presetID":8,"preset":"laya/pages/prefab/DropBox.prefab","name":"number","height":0,"fontSize":50,"color":"#ec221f","align":"center"},
+            "props":{"y":32.5,"x":32.5,"width":50,"presetID":8,"preset":"laya/pages/prefab/DropBox.prefab","name":"number","height":0,"fontSize":50,"color":"#ec221f","align":"center"},
             "nodeParent":1,
             "label":"number",
             "isDirectory":false,
@@ -77,12 +77,90 @@
             "compId":13,
             "child":[
                 ]
+        },
+        {
+            "x":15,
+            "type":"Sprite",
+            "searchKey":"Sprite,shine",
+            "props":{"y":0,"x":32.5,"width":100,"texture":"images/gameBox/shine.png","presetID":9,"preset":"laya/pages/prefab/DropBox.prefab","name":"shine","height":75,"alpha":0},
+            "nodeParent":1,
+            "label":"shine",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":14,
+            "child":[
+                ]
         }],
     "animations":[
         {
             "nodes":[
-                ],
-            "name":"ani1",
+                {
+                    "target":14,
+                    "keyframes":{
+                        "x":[
+                            {
+                                "value":32.5,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":14,
+                                "key":"x",
+                                "index":0
+                            }],
+                        "width":[
+                            {
+                                "value":100,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":14,
+                                "key":"width",
+                                "index":0
+                            }],
+                        "height":[
+                            {
+                                "value":75,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":14,
+                                "key":"height",
+                                "index":0
+                            }],
+                        "alpha":[
+                            {
+                                "value":0.3,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":14,
+                                "key":"alpha",
+                                "index":0
+                            },
+                            {
+                                "value":1,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":14,
+                                "key":"alpha",
+                                "index":40
+                            },
+                            {
+                                "value":0.3,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":14,
+                                "key":"alpha",
+                                "index":80
+                            },
+                            {
+                                "value":0.8,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":14,
+                                "key":"alpha",
+                                "index":140
+                            }]
+                    }
+                }],
+            "name":"shine",
             "id":1,
             "frameRate":24,
             "events":[

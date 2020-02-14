@@ -1,0 +1,126 @@
+/* ---------------------------------------- 默认css针对16:9标准比例屏幕微信----------------------------------------*/
+article{background-color: #fff;background-image: url(../images/activityPaopao/page/bg3.jpg);background-size:cover;}
+/* section */
+section{width: 100%;height: 100%;position: absolute;top: 0;left: 0;right: 0;bottom: 0;display: none;}
+section *::before,section *::after{position: absolute;background-position: 50% 50%;background-repeat: no-repeat;background-size: 100% 100%;}
+
+/* pageInfo */
+section.pageInfo{-display: block;color: #7794c0;font-family: '黑体';}
+section.pageInfo .middleBox{width: 6.6rem;position: absolute;top: 1rem;bottom: 1rem;left: 50%;transform: translateX(-50%); background-image: url(../images/activityPaopao/page/titleBg.png);}
+section.pageInfo .middleBox .box{width: 100%; position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+section.pageInfo .titleBox{text-align: center;width: 4.5rem;margin: 0 auto .06rem;}
+section.pageInfo .titleBox .title1{height: 1.78rem;padding: .38rem 0;margin-bottom: .52rem;}
+section.pageInfo .titleBox .title1::before{content: '';width: 100%;height: 1px;background-image: url(../images/activityPaopao/page/line.png);position: absolute;top: 0;left: 0;}
+section.pageInfo .titleBox .title1::after{content: '';width: 100%;height: 1px;background-image: url(../images/activityPaopao/page/line.png);position: absolute;bottom: 0;left: 0;}
+section.pageInfo .titleBox .title1 .t1{font-size: .45rem;margin-bottom: .25rem;font-weight: bold;}
+section.pageInfo .titleBox .title1 .t2{font-size: .32rem;}
+section.pageInfo .titleBox .title2{font-size: .3191rem;line-height: .55rem;}
+
+/* pageInfo formBox */
+section.pageInfo .formBox{width: 4.5rem;margin: 0 auto;}
+section.pageInfo .formBox .formcon{width: 4.15rem;margin: 0 auto;}
+section.pageInfo .formBox .formcon .inputBox{width: 100%;height: .77rem;background-color: #9cb4d9;display: flex;justify-content: space-between;align-items: center;margin-top: .4rem;}
+section.pageInfo .formBox .formcon .inputBox .label{width: 1rem;color: #fff;font-size: .3159rem;height: 100%;line-height: .77rem;text-align: center;}
+section.pageInfo .formBox .formcon .inputBox>.input{width: 3.12rem;height: 100%;font-size: .3159rem;color: #fff;}
+
+/* pageInfo termsBox */
+section.pageInfo .formBox .termsBox{padding-top: .3rem;color: #7794c0;font-family: '黑体';}
+section.pageInfo .formBox .termsBox .txt{display: flex;justify-content: left;align-items: center;}
+section.pageInfo .formBox .termsBox .txt:last-child{margin-top: .1rem;}
+section.pageInfo .formBox .termsBox .item{font-size: .1831rem;text-align: left;line-height: .3rem;height: .3rem;}
+section.pageInfo .formBox .termsBox .item>span{display: inline-block;height: 100%;position: relative;}
+section.pageInfo .formBox .termsBox .item>span::before{content: '';width: 90%;height: 1px;background-color: #7794c0;position: absolute;top: initial; left: 50%;bottom: 0;transform: translate(-50%,0);}
+section.pageInfo .formBox .termsBox .iconGou{width: .2rem;height: .2rem;border: 1px solid #7794c0;margin-right: .09rem;}
+section.pageInfo .formBox .termsBox .iconGou.active{position: relative;}
+section.pageInfo .formBox .termsBox .iconGou.active::before{content: '';width: .15rem;height: .11rem;background-image: url(../images/activityPaopao/page/icon_gou.png);animation:option .5s linear 0s 1 forwards;position: absolute;top: 50%;left: 50%;}
+@keyframes option{
+    0% { transform: translate(-50%,-50%) scale(1) }
+    50%{transform: translate(-50%,-50%) scale(1.2)}
+    100% { transform: translate(-50%,-50%) scale(1) }
+}
+section.pageInfo .btnSure{background-image: url(../images/activityPaopao/page/btn_sure.png);width: 3.92rem;height: .96rem;margin: .8rem auto 0;}
+
+/* pageTerms */
+section.pageTerms{-display: block;background-color: rgba(0, 0, 0, .5);background-image: none;}
+section.pageTerms .close{width: .8rem;height: .8rem;background-image: url(../images/activity/exchange/icon_no.png?v=1);background-size: .4rem .3rem;background-position: center center; position: absolute;top: 0;right: 0;z-index: 10;}
+section.pageTerms .conBox{width: 6rem;height: 7.5rem;margin: 0 auto;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);background-color: rgba(255,255,255,1);border-radius: .1rem;padding: .2rem;}
+section.pageTerms .swiper-container {width: 100%;height: 100%;}
+section.pageTerms .swiper-slide {height: auto;-webkit-box-sizing: border-box;box-sizing: border-box;color: #000;text-align: left;}
+section.pageTerms .swiper-scrollbar-drag{background: rgba(0,0,0,.3);}
+section.pageTerms .title{text-align: center;font-size: .28rem;font-weight: bold;line-height: 1.6;padding-top: .5rem;}
+section.pageTerms .smallTitle{text-align: center;font-size: .28rem;font-weight: bold;line-height: 1.6;}
+section.pageTerms .txt p{text-indent: .4rem;font-size: .24rem;padding-top: .35rem;padding-bottom: .35rem;color: #050505;line-height: 1.5;}
+
+
+/* 气泡 */
+.bg-bubbles{width: 100%;height: 100%;position: absolute;top: 0;left: 0; bottom: 0;}
+.bg-bubbles .paopaoItem{width: 1.2rem;height: 1.2rem;position: absolute;bottom: -3.2rem; left: 0;background-image: url(../images/activityPaopao/page/paopao.png);
+ -webkit-animation: square 20s infinite;animation: square 20s infinite;-webkit-transition-timing-function: linear;transition-timing-function: linear;}
+.bg-bubbles .paopaoItem:nth-child(1) {left: -10%;}
+.bg-bubbles .paopaoItem:nth-child(2) {left: 10%;width: 1.6rem;height: 1.60rem;-webkit-animation-delay: 2s;animation-delay: 2s;-webkit-animation-duration: 17s;animation-duration: 17s;}
+.bg-bubbles .paopaoItem:nth-child(3) {left: 15%;-webkit-animation-delay: 4s;animation-delay: 4s;}
+.bg-bubbles .paopaoItem:nth-child(4) {left: 30%;width: 1.20rem;height: 1.20rem;-webkit-animation-duration: 22s;animation-duration: 22s;opacity: 0.25;}
+.bg-bubbles .paopaoItem:nth-child(5) {left: 60%;}
+.bg-bubbles .paopaoItem:nth-child(6) {left: 70%;width: 2.40rem;height: 2.40rem;-webkit-animation-delay: 3s;animation-delay: 3s;opacity: 0.5;}
+.bg-bubbles .paopaoItem:nth-child(7) {left: 22%;width: 3.20rem;height: 3.20rem;-webkit-animation-delay: 7s;animation-delay: 7s;}
+.bg-bubbles .paopaoItem:nth-child(8) {left: 45%;width: .40rem;height: .40rem;-webkit-animation-delay: 15s;animation-delay: 15s;-webkit-animation-duration: 40s;animation-duration: 40s;}
+.bg-bubbles .paopaoItem:nth-child(9) {left: 15%;width: .20rem;height: .20rem;-webkit-animation-delay: 2s;animation-delay: 2s;-webkit-animation-duration: 40s;animation-duration: 40s;opacity: 0.3;}
+.bg-bubbles .paopaoItem:nth-child(10) {left: 80%;width: 3.20rem;height: 3.20rem;-webkit-animation-delay: 11s;animation-delay: 11s;}
+@-webkit-keyframes square {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    100% {
+        -webkit-transform: translateY(-20.00rem) rotate(600deg);
+        transform: translateY(-20.00rem) rotate(600deg);
+    }
+}
+@keyframes square {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    100% {
+        -webkit-transform: translateY(-20.00rem) rotate(600deg);
+        transform: translateY(-20.00rem) rotate(600deg);
+    }
+}
+
+/*---------------------------------------- normal ----------------------*/
+article.screenNormal section.pageInfo .middleBox .box{transform: translate(-50%,-50%) scale(0.9);}
+
+/*---------------------------------------- 15:9 ----------------------*/
+article.screen159 section.pageInfo .middleBox .box{transform: translate(-50%,-50%) scale(0.85);}
+
+/*---------------------------------------- 18:9 ----------------------*/
+/*.screen189  .btn1{margin:.6rem auto 0;}*/
+
+/*---------------------------------------- 15:9 android 微信 && 16:9 浏览器----------------------*/
+@media screen and (device-width:360px) and (max-height:540px), screen and (device-width:320px) and (max-height:470px), screen and (device-width:375px) and (max-height:560px){
+
+}
+
+/*---------------------------------------- 18:9 android 微信 ----------------------*/
+@media screen and (device-width:360px) and (min-height:600px), screen and (device-width:393px) and (min-height:660px), screen and (device-width:412px) and (min-height:720px){
+}
+
+/*---------------------------------------- iphoneX 微信----------------------*/
+@media screen and (device-width:375px) and (min-height:720px),screen and (device-width:414px) and (min-height:720px){
+
+}
+
+/*---------------------------------------- iphoneX 浏览器----------------------------------------------*/
+@media screen and (device-width:375px) and (min-height:630px) and (max-height:640px),screen and (device-width:414px) and (min-height:690px){
+
+}
+
+/*---------------------------------------- android----------------------*/
+@media screen and (device-width:360px), screen and (device-width:393px){
+
+}
+
+/*---------------------------------------- iphone ----------------------------------------------*/
+@media screen and (device-width:320px), screen and (device-width:375px), screen and (device-width:414px){
+
+}

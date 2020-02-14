@@ -38,13 +38,18 @@
                         this.boomAll(owner, AllChildrenArr, true);
                         //没有任何子集时,消除自己
                         this.boomAni(owner, true);
+                        // //爆炸一个加一分
+                        // GameUI.instance.addScore(1);
                     }
                 }
 
                 if (self.label == 'grayBall') {
                     //碰到的是灰色的球 ，变成红色
-                    this.owner.texture = 'gameBox/ball2.png';
+                    this.owner.texture = 'images/gameBox/ball2.png';
                     this.owner.getComponent(Laya.CircleCollider).label = 'redBall';
+                    //播放动画
+                    this.owner.shine.alpha = 1;
+                    this.owner.shine.play();
                     //重新或者全部的子集
                     // this.getAllChildren(this.owner);
                 }
@@ -123,7 +128,8 @@
                     index > -1 && AllChildrenArr.splice(index, 1);
                     AllChildrenlist.splice(j, 1);
                     rig.type = 'dynamic';
-                    rig.gravityScale = 2;
+                    rig.gravityScale = 1;
+                    rig.setVelocity({ x: 0, y: 10 });
                 }
             }
         }
@@ -250,12 +256,13 @@
                 this.removePaopaoDrop();
             }
             else GameUI.instance._control._gameBox.removeChild(obj);
+
         }
 
         /**使用对象池创建爆炸动画 */
         createEffect() {
             let ani = new Laya.Animation();
-            ani.loadAnimation("TestAni.ani");
+            ani.loadAnimation("ani/TestAni.ani");
             ani.on(Laya.Event.COMPLETE, null, recover);
             function recover() {
                 ani.removeSelf();
@@ -288,7 +295,8 @@
                 //如果被碰到，则移除子弹
                 this.owner.removeSelf();
             } else {
-                var _angle = GameUI.instance._control.getCalcAngle();
+                // var _angle = GameUI.instance._control.getCalcAngle();
+                var _angle = GameUI.instance.arrBox.rotation;
                 var _speed = GameUI.instance._control.speed;
                 if (_angle < 0) {
                     if (360 - (Math.abs(_angle) % 360) > 180 && 360 - (Math.abs(_angle) % 360) < 360) {
@@ -324,12 +332,16 @@
 
         onUpdate() {
             //如果子弹超出屏幕，则移除子弹
+            if (this.owner.y > GameUI.instance.ball.y) {
+                this.owner.removeSelf();
+            }
             if (this.owner.y < GameUI.instance.Cordonline.y - this.owner.height || this.owner.y > Laya.stage.height) {
                 this.owner.removeSelf();
             }
             if (this.owner.x > Laya.stage.width || this.owner.x < -Laya.stage.width) {
                 this.owner.removeSelf();
             }
+
         }
 
         onDisable() {
@@ -389,14 +401,16 @@
 
     let typeMouse = false, isMove = false;
     let allA = 0;   // 存放鼠标旋转总共的度数
-    let mSkinList = ["gameBox/pp1.png", "gameBox/pp2.png"], mCurrSkinIndex = -1;//当前皮肤索引
-    let mSkinListScreen = ["gameBox/pp2.png", "gameBox/pp1.png"]; // 更换屏幕中间的球的皮肤
+    let mSkinList = ["images/gameBox/pp1.png", "images/gameBox/pp2.png"], mCurrSkinIndex = -1;//当前皮肤索引
+    let mSkinListScreen = ["images/gameBox/pp2.png", "images/gameBox/pp1.png"]; // 更换屏幕中间的球的皮肤
     let columInitNum = 6; //初始创建泡泡的行数
     let columAddNum = 0; // 后面追加的泡泡行数
     let ballWIDTH$1 = 115, //小球宽度
         distanceNum1, //一行6个球的间距
         distanceNum2, //一行5个球的间距
         distanceY = ballWIDTH$1 * 2; //需要往上平移的距离
+
+    let isMouseDownFirst = false;
 
     /**
      * 游戏控制脚本。定义了几个dropBox，bullet，createBoxInterval等变量，能够在IDE显示及设置该变量
@@ -414,6 +428,7 @@
                 distanceNum1 = (Laya.stage.width - ballWIDTH$1 * 6) / 2, //一行6个球的间距
                 distanceNum2 = (Laya.stage.width - ballWIDTH$1 * 5) / 2, //一行5个球的间距
                 distanceY = ballWIDTH$1 * 2; //需要往上平移的距离
+            GameControl.instance = this;
             //行数
             this.columInitNum = columInitNum;
             //间隔多少毫秒创建一行泡泡
@@ -438,6 +453,7 @@
 
         onUpdate() {
             //每间隔一段时间泡泡多一行
+            // if (this._started) {
             let now = Date.now();
             if (now - this._time > this.createBoxInterval) {
                 this._time = now;
@@ -453,9 +469,13 @@
                     }
                 }
             }
+            // }
+
         }
         //创建泡泡和泡泡的位置摆放
         calcBoxPos() {
+            //每次创建之前先清除盒子
+            GameUI.instance.getChildByName("gameBox").removeChildren();
             for (var i = 0; i < columInitNum; i++) {
                 var isChangeColor = false;
                 var randomNumArr = Tool.getRandomArrayElements(['0', '1', '2', '3', '4', '5'], i % 2 == 0 ? 2 : 2);
@@ -488,15 +508,29 @@
             // 每行最多3个彩色泡泡
             //使用对象池创建盒子
             let box = Laya.Pool.getItemByCreateFun("dropBox", this.dropBox.create, this.dropBox);
+            var rig = box.getComponent(Laya.RigidBody);
+
+            //=======取出之前重置数据
+            box.texture = 'images/gameBox/ball1.png';
+            box.getComponent(Laya.CircleCollider).label = 'grayBall';
+            if (rig.type = 'dynamic') {
+                rig.type = 'static';
+                rig.gravityScale = 0;
+            }
+            //=======取出之前重置数据
+
             box.pos(distanceNum + j * box.width + box.width / 2, y + box.width / 2);
-            box.getChildByName('number').text = ranksPos;
+            // box.getChildByName('number').text = ranksPos;
             // console.log(ranksPos, '=============', box.x, box.y)
+            if (isChangeColor) {
+                box.shine.alpha = 1;
+                box.shine.play();
+            }
             box.var = ranksPos;
             //设置初始速度
-            var rig = box.getComponent(Laya.RigidBody);
             if (isChangeColor) {
                 //设置不同颜色的球
-                box.texture = 'gameBox/ball2.png';
+                box.texture = 'images/gameBox/ball2.png';
                 box.getComponent(Laya.CircleCollider).label = 'redBall';
 
             } else {
@@ -508,59 +542,102 @@
         }
 
         onStageMouseDown(e) {
+            // if (!this._started) return;        
             isMove = false;
             //停止事件冒泡，提高性能，当然也可以不要
             e.stopPropagation();
             //获取起始点坐标
             this.pointB.X = e.stageX;
             this.pointB.Y = e.stageY;
-            // //计算线的高度
-            // var pointHeight = Math.abs(this.pointB.Y - this.pointA.Y)
-            // GameUI.instance.creatPoint(pointHeight)
             typeMouse = true;
-
+            isMouseDownFirst = true;
+            //计算线的高度
+            if (isMouseDownFirst) {
+                var _tallA;
+                var a = { X: this.pointA.X, Y: this.pointA.Y };
+                var b = { X: this.pointA.X, Y: this.pointB.Y };
+                var c = { X: this.pointB.X, Y: this.pointB.Y };
+                _tallA = this.getAngle(a, b, c, true);
+                this.owner.arrBox.rotation = _tallA;
+            }
+            this.isOpacity(this.owner.arrBox, 1);
+            //---------------------------------------------
         }
 
         onStageMouseMove(e) {
+            isMouseDownFirst = false;
             if (typeMouse) {
                 isMove = true;
                 // 获取结束点坐标
                 this.pointC.X = e.stageX;
                 this.pointC.Y = e.stageY;
 
-                var _allA = this.getAngle();
+                var _allA = this.getAngle(this.pointA, this.pointB, this.pointC);
                 this.owner.arrBox.rotation = _allA;
+                if (Math.abs(this.owner.arrBox.rotation) % 360 >= 90 && Math.abs(this.owner.arrBox.rotation) % 360 <= 270) {
+                    //底部就隐藏箭头
+                    this.isOpacity(this.owner.arrBox, 0);
+                } else {
+                    this.isOpacity(this.owner.arrBox, 1);
+                }
                 // 运算结束后将起始点重新赋值为结束点，作为下一次的起始点
                 this.pointB.X = this.pointC.X;
                 this.pointB.Y = this.pointC.Y;
+
+
             }
         }
-        getAngle() {
+        /**
+         * 
+         * @param {*} a 发射点圆心
+         * @param {*} b  第一次触摸点
+         * @param {*} c  第二次触摸点
+         */
+        getAngle(a, b, c) {
             // 分别求出AB,AC的向量坐标表示
+            var tallA;
             var AB = {};
             var AC = {};
-            AB.X = (this.pointB.X - this.pointA.X);
-            AB.Y = (this.pointB.Y - this.pointA.Y);
-            AC.X = (this.pointC.X - this.pointA.X);
-            AC.Y = (this.pointC.Y - this.pointA.Y);
+            AB.X = (b.X - a.X);
+            AB.Y = (b.Y - a.Y);
+            AC.X = (c.X - a.X);
+            AC.Y = (c.Y - a.Y);
             // AB与AC叉乘求出逆时针还是顺时针旋转               
             var direct = (AB.X * AC.Y) - (AB.Y * AC.X);
-            var lengthAB = Math.sqrt(Math.pow(this.pointA.X - this.pointB.X, 2) + Math.pow(this.pointA.Y - this.pointB.Y, 2)),
-                lengthAC = Math.sqrt(Math.pow(this.pointA.X - this.pointC.X, 2) + Math.pow(this.pointA.Y - this.pointC.Y, 2)),
-                lengthBC = Math.sqrt(Math.pow(this.pointB.X - this.pointC.X, 2) + Math.pow(this.pointB.Y - this.pointC.Y, 2));
+            var lengthAB = Math.sqrt(Math.pow(a.X - b.X, 2) + Math.pow(a.Y - b.Y, 2)),
+                lengthAC = Math.sqrt(Math.pow(a.X - c.X, 2) + Math.pow(a.Y - c.Y, 2)),
+                lengthBC = Math.sqrt(Math.pow(b.X - c.X, 2) + Math.pow(b.Y - c.Y, 2));
             // 余弦定理求出旋转角
             var cosA = (Math.pow(lengthAB, 2) + Math.pow(lengthAC, 2) - Math.pow(lengthBC, 2)) / (2 * lengthAB * lengthAC);
             var angleA = Math.round(Math.acos(cosA) * 180 / Math.PI);
-            if (direct < 0) {
-                allA -= angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
+            if (isMouseDownFirst) {
+                //一次触摸
+                if (direct < 0) {
+                    tallA = - angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
+                } else {
+                    tallA = +angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
+                }
+                return tallA
             } else {
-                allA += angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
+                if (direct < 0) {
+                    allA -= angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
+                } else {
+                    allA += angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
+                }
+                return allA
             }
-            return allA
         }
         onStageMouseUp(e) {
+            //游戏未开始
+            allA = 0;
+            // if (Math.abs(this.owner.arrBox.rotation) % 360 >= 90 && Math.abs(this.owner.arrBox.rotation) % 360 <= 270) {
+            //     this.isOpacity(this.owner.arrBox, 0)
+            //     return
+            // } else {
+            //     this.isOpacity(this.owner.arrBox, 1)
+            // }
             typeMouse = false;
-            if (isMove) {
+            if (isMove || isMouseDownFirst) {
                 //发射泡泡 
                 var _currentSkin = this.changeSkin();
                 this.owner.ball.getChildByName('ballChild').texture = mSkinListScreen[mCurrSkinIndex];
@@ -570,10 +647,11 @@
                 flyer.texture = _currentSkin;
                 var rig = flyer.getComponent(Laya.RigidBody);
                 rig.type = 'dynamic';
-                var rigX = Math.cos((90 - allA) * Math.PI / 180) * this.speed;
-                var rigY = -Math.sin((90 - allA) * Math.PI / 180) * this.speed;
+                var rigX = Math.cos((90 - this.owner.arrBox.rotation) * Math.PI / 180) * this.speed;
+                var rigY = -Math.sin((90 - this.owner.arrBox.rotation) * Math.PI / 180) * this.speed;
                 rig.setVelocity({ x: rigX, y: rigY });
                 this._gameBox.addChild(flyer);
+                this.isOpacity(this.owner.arrBox, 0);
             }
         }
         //换皮肤
@@ -595,6 +673,7 @@
             if (!this._started) {
                 this._started = true;
                 this.enabled = true;
+                console.log('开始游戏');
             }
         }
 
@@ -603,12 +682,38 @@
             this._started = false;
             this.enabled = false;
             this.createBoxInterval = 6000;
-            this._gameBox.removeChildren();
+            // GameUI.instance.getChildByName("gameBox").removeChildren();
+            columAddNum = 5;
+            console.log('结束游戏');
+        }
+        /**再玩一次 */
+        againGame() {
+            columAddNum = 0;
+            GameControl.instance.calcBoxPos();
+            this.startGame();
         }
 
+        onDisable() {
+            //泡泡被移除时，回收子弹到对象池，方便下次复用，减少对象创建开销
+            Laya.Pool.recover("dropBox", this.owner);
+        }
         /**碰撞角度计算 */
         getCalcAngle() {
-            return allA
+            return allA;
+        }
+
+        //透明度变换
+        /**
+         * 
+         * @param {*} ele 元素
+         * @param {*} alpha 透明度
+         * @param {*} dur 持续时间
+         */
+        isOpacity(ele, alpha, dur) {
+            var dur = dur || 300;
+            Laya.Tween.to(ele, {
+                alpha: alpha,
+            }, dur);
         }
     }
 
@@ -624,21 +729,26 @@
             this.loadScene("gameBox.scene");
             this.alpha = 0; //过渡页面
             this._UItransition(null, this, this.showShine);
-            this.initPage();
         }
 
         onEnable() {
+            this.initPage();
             //戏控制脚本引用，避免每次获取组件带来不必要的性能开销
             this._control = this.getComponent(GameControl);
+            //点击提示文字，开始游戏
+            // this.tipLbll.on(Laya.Event.CLICK, this, this.onTipClick);
         }
 
         onTipClick(e) {
-
+            this.tipLbll.visible = false;
+            this._score = 0;
+            this._control.startGame();
         }
         /** 初始化页面*/
         initPage() {
-            //初始话页面
-            // this.bg.height = Laya.stage.height
+            //初始化页面
+            // this.bg.visible = false;
+            this.tipLbll.visible = false;
             let bottomHeight = this.getChildByName('bottom').height;
             this.getChildByName('bottom').y = Laya.stage.height - bottomHeight;
             // 发射物位置
@@ -680,37 +790,55 @@
         creatPoint(height) {
             //定义一个小点点所在的高度为26
             let arrBox = this.arrBox;
+            arrBox.alpha = 0;
             arrBox.height = height;
             let initPoinDis = 40;
             let pointNum = Math.floor(arrBox.height / initPoinDis);
             arrBox.pivotY = arrBox.height;
-            this.timeLine = new Laya.TimeLine();
-            this.timeLine.to(arrBox, { alpha: 0.5 }, 2000, null, 0)
-                .to(arrBox, { alpha: 1 }, 2000, null, 0)
-                .to(arrBox, { alpha: 0.5 }, 2000, null, 0);
-            this.timeLine.play(0, true);
+            var that = this;
             creat();
             function creat() {
                 for (var i = 0; i < pointNum; i++) {
-                    var pointChild = new Laya.Sprite();
-                    pointChild.texture = 'gameBox/pointer.png';
-                    pointChild.width = arrBox.width;
-                    pointChild.height = 16;
-                    pointChild.pos(0, initPoinDis * i);
-                    arrBox.addChild(pointChild);
+
+                    if (i % 2 == 0) {
+                        var pointChild = new Laya.Sprite();
+                        pointChild.texture = 'images/gameBox/pointer.png';
+                        pointChild.width = arrBox.width;
+                        pointChild.height = 16;
+                        pointChild.pos(0, initPoinDis * i);
+                        arrBox.addChild(pointChild);
+                    } else {
+                        let effect = Laya.Pool.getItemByCreateFun("effect", that.createEffect, that);
+                        effect.width = arrBox.width;
+                        effect.height = 16;
+                        effect.pos(arrBox.width / 2, initPoinDis * i + arrBox.width / 2);
+                        arrBox.addChild(effect);
+                        effect.play(0, true);
+                    }
                 }
             }
 
         }
+        /**使用对象池创建点点动画 */
+        createEffect() {
+            let ani = new Laya.Animation();
+            ani.loadAnimation("ani/TestPoint.ani");
+            ani.on(Laya.Event.COMPLETE, null, recover);
+            function recover() {
+                // ani.removeSelf();
+                // Laya.Pool.recover("effect", ani);
+            }
+            return ani;
+        }
         /**增加分数 */
         addScore(value) {
-            console.log(value);
-
+            this._score += Number(value);
+            console.log("分数：", this._score);
         }
 
         /**停止游戏 */
         stopGame() {
-
+            this._control.stopGame();
         }
         /**
          * 页面过渡
@@ -764,7 +892,7 @@
     GameConfig.screenMode = "none";
     GameConfig.alignV = "middle";
     GameConfig.alignH = "center";
-    GameConfig.startScene = "gameBox.scene";
+    GameConfig.startScene = "loadBox.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
@@ -775,9 +903,9 @@
 
     var Loader = Laya.Loader;
     var PreResources = [
-    	{ url: 'gameBox/bg.jpg', type: Loader.IMAGE },
-    	{ url: 'gameBox/bottle.png', type: Loader.IMAGE },
-    	{ url: 'gameBox/bottom.png', type: Loader.IMAGE },
+    	{ url: 'images/gameBox/bg.jpg', type: Loader.IMAGE },
+    	{ url: 'images/gameBox/bottle.png', type: Loader.IMAGE },
+    	{ url: 'images/gameBox/bottom.png', type: Loader.IMAGE },
     	{ url: 'res/atlas/gameBox.atlas', type: Loader.ATLAS },
     	{ url: 'res/atlas/gameBox.png', type: Loader.IMAGE }
     ];
@@ -803,7 +931,8 @@
     		Laya.alertGlobalError = true;
 
     		//激活资源版本控制，version.json由IDE发布功能自动生成，如果没有也不影响后续流程
-    		Laya.ResourceVersion.enable("version.json", Laya.Handler.create(this, this.onVersionLoaded), Laya.ResourceVersion.FILENAME_VERSION);
+    		// Laya.ResourceVersion.enable("version.json", Laya.Handler.create(this, this.onVersionLoaded), Laya.ResourceVersion.FILENAME_VERSION);
+    		this.onVersionLoaded();
     	}
 
     	onVersionLoaded() {
@@ -813,8 +942,8 @@
 
     	onConfigLoaded() {		
     		//加载IDE指定的场景
-    		// GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
-    		Laya.loader.load(PreResources,Laya.Handler.create(this, this.loadInit));
+    		GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
+    		// Laya.loader.load(PreResources,Laya.Handler.create(this, this.loadInit));
     	}
 
     	loadInit(){

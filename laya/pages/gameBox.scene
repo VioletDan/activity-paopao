@@ -2,11 +2,11 @@
     "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":17,
+    "selecteID":9,
     "searchKey":"View,gameBox",
     "props":{"width":750,"visible":false,"sceneColor":"#000000","runtime":"script/GameUI.js","name":"gameBox","height":1624},
     "nodeParent":-1,
-    "maxID":57,
+    "maxID":58,
     "label":"gameBox",
     "isOpen":true,
     "isDirectory":true,
@@ -17,8 +17,8 @@
         {
             "x":15,
             "type":"Sprite",
-            "searchKey":"Sprite,bg",
-            "props":{"y":-2,"x":0,"texture":"gameBox/bg.jpg","name":"bg"},
+            "searchKey":"Sprite,bg,bg",
+            "props":{"y":0,"x":0,"var":"bg","texture":"images/gameBox/bg.jpg","name":"bg"},
             "nodeParent":2,
             "label":"bg",
             "isDirectory":false,
@@ -48,7 +48,7 @@
                     "props":{"x":0,"name":"bottleBg","bottom":0},
                     "nodeParent":9,
                     "label":"bottleBg",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -57,7 +57,7 @@
                         {
                             "type":"Sprite",
                             "searchKey":"Sprite",
-                            "props":{"texture":"gameBox/bottom.png"},
+                            "props":{"texture":"images/gameBox/bottom.png"},
                             "nodeParent":13,
                             "label":"Sprite",
                             "isDirectory":false,
@@ -75,7 +75,7 @@
                     "props":{"x":115,"name":"bottle","bottom":0},
                     "nodeParent":9,
                     "label":"bottle",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -84,7 +84,7 @@
                         {
                             "type":"Sprite",
                             "searchKey":"Sprite",
-                            "props":{"width":520,"texture":"gameBox/bottle.png","height":180},
+                            "props":{"width":520,"texture":"images/gameBox/bottle.png","height":180},
                             "nodeParent":14,
                             "label":"Sprite",
                             "isDirectory":false,
@@ -99,7 +99,7 @@
                 {
                     "type":"Sprite",
                     "searchKey":"Sprite,shine2",
-                    "props":{"y":40,"x":375,"width":187,"texture":"gameBox/shine.png","name":"shine2","height":112},
+                    "props":{"y":40,"x":375,"width":187,"texture":"images/gameBox/shine.png","name":"shine2","height":112},
                     "nodeParent":9,
                     "label":"shine2",
                     "isOpen":true,
@@ -113,7 +113,7 @@
                 {
                     "type":"Sprite",
                     "searchKey":"Sprite,shine1",
-                    "props":{"y":128,"x":142,"width":142,"texture":"gameBox/shine.png","name":"shine1","height":77},
+                    "props":{"y":128,"x":142,"width":142,"texture":"images/gameBox/shine.png","name":"shine1","height":77},
                     "nodeParent":9,
                     "label":"shine1",
                     "isDirectory":false,
@@ -129,7 +129,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,referenceBall",
-            "props":{"y":1323,"x":317,"width":118,"visible":false,"var":"referenceBall","texture":"gameBox/ball1.png","height":118},
+            "props":{"y":1323,"x":317,"width":118,"visible":false,"var":"referenceBall","texture":"images/gameBox/ball1.png","height":118},
             "nodeParent":2,
             "label":"referenceBall",
             "isDirectory":false,
@@ -155,7 +155,7 @@
                 {
                     "type":"Sprite",
                     "searchKey":"Sprite,ballChild,ballChild",
-                    "props":{"x":-0.5,"width":100,"var":"ballChild","texture":"gameBox/pp1.png","name":"ballChild","height":106},
+                    "props":{"x":-0.5,"width":100,"var":"ballChild","texture":"images/gameBox/pp1.png","name":"ballChild","height":106},
                     "nodeParent":19,
                     "label":"ballChild",
                     "isDirectory":false,
@@ -168,7 +168,7 @@
                 {
                     "type":"Sprite",
                     "searchKey":"Sprite,shine",
-                    "props":{"y":0,"x":56,"width":44,"texture":"gameBox/shine.png","name":"shine","height":33},
+                    "props":{"y":0,"x":56,"width":44,"texture":"images/gameBox/shine.png","name":"shine","height":33},
                     "nodeParent":19,
                     "label":"shine",
                     "isDirectory":false,
@@ -197,7 +197,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,arrBox,arrBox",
-            "props":{"y":1299,"x":376,"width":16,"var":"arrBox","texture":"gameBox/arr.png","scaleY":1,"scaleX":1,"rotation":0,"pivotY":418,"pivotX":8,"name":"arrBox","height":418},
+            "props":{"y":1299,"x":376,"width":16,"var":"arrBox","texture":"images/gameBox/arr.png","scaleY":1,"scaleX":1,"rotation":0,"pivotY":418,"pivotX":8,"name":"arrBox","height":418},
             "nodeParent":2,
             "label":"arrBox",
             "isOpen":true,
@@ -245,7 +245,7 @@
             "x":15,
             "type":"Sprite",
             "searchKey":"Sprite,Cordonline",
-            "props":{"y":230,"x":0,"width":750,"var":"Cordonline","texture":"gameBox/game_progressBar.png","height":1},
+            "props":{"y":230,"x":0,"width":750,"var":"Cordonline","texture":"images/gameBox/game_progressBar.png","height":1},
             "nodeParent":2,
             "label":"Cordonline",
             "isOpen":false,
@@ -255,6 +255,7 @@
             "compId":7,
             "child":[
                 {
+                    "x":30,
                     "type":"BoxCollider",
                     "switchAble":true,
                     "searchKey":"BoxCollider",
@@ -271,6 +272,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"RigidBody",
                     "switchAble":true,
                     "searchKey":"RigidBody",
@@ -419,6 +421,20 @@
                     "child":[
                         ]
                 }]
+        },
+        {
+            "x":15,
+            "type":"Button",
+            "searchKey":"Button,tipLbll,tipLbll",
+            "props":{"zOrder":1000,"var":"tipLbll","skin":"images/gameBox/txt.png","name":"tipLbll","label":"label"},
+            "nodeParent":2,
+            "label":"tipLbll",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":57,
+            "child":[
+                ]
         }],
     "animations":[
         {
