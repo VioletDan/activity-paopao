@@ -24,7 +24,7 @@ let tallA;
 export default class GameControl extends Laya.Script {
     /** @prop {name:dropBox,tips:"掉落容器预制体对象",type:Prefab}*/
     /** @prop {name:bullet,tips:"子弹预制体对象",type:Prefab}*/
-    /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:6000}*/
+    /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:3000}*/
 
     constructor() { super(); }
     onEnable() {
@@ -37,7 +37,7 @@ export default class GameControl extends Laya.Script {
         //行数
         this.columInitNum = columInitNum;
         //间隔多少毫秒创建一行泡泡
-        this.createBoxInterval = 6000;
+        this.createBoxInterval = 3000;
         //开始时间
         this._time = Date.now();
         //是否已经开始游戏
@@ -122,6 +122,7 @@ export default class GameControl extends Laya.Script {
             rig.type = 'static';
             rig.gravityScale = 0;
         }
+        box.shine.stop(true);
         //=======取出之前重置数据
 
         box.pos(distanceNum + j * box.width + box.width / 2, y + box.width / 2);
@@ -286,7 +287,7 @@ export default class GameControl extends Laya.Script {
     stopGame() {
         this._started = false;
         this.enabled = false;
-        this.createBoxInterval = 6000;
+        this.createBoxInterval = 3000;
         // GameUI.instance.getChildByName("gameBox").removeChildren();
         columAddNum = 5;
         console.log('结束游戏');
