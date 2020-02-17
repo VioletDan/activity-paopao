@@ -1,6 +1,6 @@
 var timerSet = null //计时器
 var Seconds = $('section.gamePlayBox .timerBox').children('span.secondsNum') // 秒数
-var BarPercent = $('section.gamePlayBox .BarPercent') //百分比
+var BarPercent = $('.BarPercent') //百分比
 var progressBar = $('section.gamePlayBox .progressBar') //进度条
 /**
  * 计算百分比
@@ -43,7 +43,7 @@ var activityPaopaoGame = importActivityPaopaoGame()
 function importActivityPaopaoGame() {
   var activityPaopaoGame = {}
   activityPaopaoGame.BarPercentNum = 0 //游戏得分百分比
-  activityPaopaoGame.times = 6 // 游戏秒数
+  activityPaopaoGame.times = 30 // 游戏秒数
   activityPaopaoGame.currentTime = 0 // 当前游戏秒数
   activityPaopaoGame.init = function (callback) {
     Seconds.html(activityPaopaoGame.times)
@@ -57,9 +57,6 @@ function importActivityPaopaoGame() {
     t--
     activityPaopaoGame.currentTime = t
     t < 10 ? Seconds.html('0' + t) : Seconds.html(t)
-    //---渲染用户得分百分比
-    activityPaopaoGame.BarPercentNum = parseInt((1 - (AllChildrenArr.length / ballNumber)) * 100)
-    if (activityPaopaoGame.BarPercentNum > 0) activityPaopaoGame.renderPanel(activityPaopaoGame.BarPercentNum)
     if (t == 0) {
       clearTimeout(timerSet)
       setTimeout(activityPaopaoGame.end, 200)
@@ -76,6 +73,12 @@ function importActivityPaopaoGame() {
     if (per >= 75) gamePlayBox.find('.panelBox').addClass('active')
     progressBar.css({ width: _per })
     BarPercent.html(per + '%').css({ left: _perLeft })
+
+    if (per >= 100) {
+      //停止游戏
+      clearTimeout(timerSet)
+      setTimeout(activityPaopaoGame.end, 200)
+    }
   }
   // ---游戏开始
   activityPaopaoGame.start = function () {
@@ -136,6 +139,7 @@ function importActivityPaopaoGame() {
    * type3 游戏结束    您消除了XX%污染泡泡/再接再厉创造光芒奇迹吧！    
    */
   function getResultModal() {
+    resultBorder.removeClass('type1 type2 type3')
     gameResultBox.show()
     if (isSecondPlay && activityPaopaoGame.BarPercentNum < 75) {
       //如果第一次消除未达到75%，并且再玩一次也未能达到，则弹出此框。让未达标用户也可以留资 则出现“游戏结束”弹框

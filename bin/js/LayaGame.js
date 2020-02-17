@@ -1,5 +1,5 @@
 let HexagonArr = []; //存放碰撞球的周边6个球的位置
-    let AllChildrenArr = [];//全部子集
+    // let AllChildrenArr = [];//全部子集
     let ballWIDTH = 115; //小球宽度
 
     /**
@@ -9,6 +9,12 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
     class DropBox extends Laya.Script {
         constructor() {
             super();
+            //设置单例的引用方式，方便其他类引用
+            DropBox.instance = this;
+            //子弹和盒子所在的容器对象
+            this._gameBox = GameUI.instance.getChildByName("gameBox");
+            //全部子集
+            this.AllChildrenArr = [];
         }
         onEnable() {
             /**获得组件引用，避免每次获取组件带来不必要的查询开销 */
@@ -16,7 +22,7 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             //盒子等级
             this.level = 1;
             //全部子集
-            this.getAllChildren(this.owner);
+            this.getAllChildren();
         }
 
         onUpdate() {
@@ -26,15 +32,17 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
 
         onTriggerEnter(other, self, contact) {
             // console.log(other.label, self.label)
+            //全部子集
+            this.getAllChildren();
             var owner = this.owner;
             if (other.label == 'buttle') {
                 //子弹碰撞            
                 if (self.label == 'redBall') {
                     // 碰到的是红色的球，直接消失爆炸
                     if (owner.parent) {
-                        this.boomAll(owner, AllChildrenArr, true);
+                        this.boomAll(owner, this.AllChildrenArr, true);
                         //没有任何子集时,消除自己
-                        this.boomAni(owner, true);
+                        this.boomAni(owner, 'redBall');
                         // //爆炸一个加一分
                         // GameUI.instance.addScore(1);
                     }
@@ -47,14 +55,12 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
                     //播放动画
                     this.owner.shine.alpha = 1;
                     this.owner.shine.play();
-                    //重新或者全部的子集
-                    // this.getAllChildren(this.owner);
                 }
             } else if (other.label === "wallBottom") {
                 //只盒子碰到地板，则也是消失
                 if (owner.parent) {
                     //消除自己
-                    this.boomAni(owner, true);
+                    this.boomAni(owner, 'wallBottom');
                 }
             }
         }
@@ -98,35 +104,9 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
                 }
             }
 
-            if (first) {
-                this.removePaopaoDrop();
-            }
-        }
-
-        /**
-         * 
-         * @param {*} AllChildrenlist 消除后行子集
-         * 只判断这个球球的左上和右上有没有连接的球球，没有的话就掉落
-         */
-        checkPaopaoDrop(AllChildrenlist) {
-            for (var j = 0; j < AllChildrenlist.length; j++) {
-                var ele = AllChildrenlist[j];
-                var rig = ele.getComponent(Laya.RigidBody);
-
-                var arrSix = this.onCheckCollision(ele);
-                //只取左上和右上           
-                var arrSixTop = [arrSix[2], arrSix[4]];
-                var isDrop = arrSixTop.some((value, index) => {
-                    var index = AllChildrenArr.findIndex(AllChildren => AllChildren.x == value.x && AllChildren.y == value.y);
-                    return index > -1;
-                });
-                if (!isDrop) {
-                    const index = AllChildrenArr.findIndex(AllChildren => ele.var == AllChildren.var);
-                    index > -1 && AllChildrenArr.splice(index, 1);
-                    AllChildrenlist.splice(j, 1);
-                    rig.type = 'dynamic';
-                    rig.gravityScale = 1;
-                    rig.setVelocity({ x: 0, y: 10 });
+            if (first) {            
+                if (GameControl.instance._isDrop) {
+                    this.removePaopaoDrop();
                 }
             }
         }
@@ -137,7 +117,10 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
         removePaopaoDrop() {
             //判断掉落
             const rowArr = [];
-            AllChildrenArr.forEach(AllChildren => {
+
+            this.getAllChildren();
+
+            this.AllChildrenArr.forEach(AllChildren => {
                 const row = parseInt(Number(AllChildren.var) / 10);
 
                 if (row > 0) {
@@ -149,6 +132,34 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
                 }
             });
             rowArr.forEach(row => this.checkPaopaoDrop(row));
+        }
+
+        /**
+        * 
+        * @param {*} AllChildrenlist 消除后行子集
+        * 只判断这个球球的左上和右上有没有连接的球球，没有的话就掉落
+        */
+        checkPaopaoDrop(AllChildrenlist) {
+            for (var j = 0; j < AllChildrenlist.length; j++) {
+                var ele = AllChildrenlist[j];
+                var rig = ele.getComponent(Laya.RigidBody);
+
+                var arrSix = this.onCheckCollision(ele);
+                //只取左上和右上           
+                var arrSixTop = [arrSix[2], arrSix[4]];
+                var isDrop = arrSixTop.some((value, index) => {
+                    var index = this.AllChildrenArr.findIndex(AllChildren => AllChildren.x == value.x && AllChildren.y == value.y);
+                    return index > -1;
+                });
+                if (!isDrop) {
+                    const index = this.AllChildrenArr.findIndex(AllChildren => ele.var == AllChildren.var);
+                    index > -1 && this.AllChildrenArr.splice(index, 1);
+                    AllChildrenlist.splice(j, 1);
+                    rig.type = 'dynamic';
+                    rig.gravityScale = 1;
+                    rig.setVelocity({ x: 0, y: 10 });
+                }
+            }
         }
         /**
          * 
@@ -224,13 +235,14 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
         /**
          * 获取页面子集
          */
-        getAllChildren(obj) {
-            AllChildrenArr = [];
-            var _numChildren = obj.parent.numChildren;
+        getAllChildren() {
+            var child = this._gameBox;
+            this.AllChildrenArr = [];
+            var _numChildren = child.numChildren;
             for (var i = 0; i < _numChildren; i++) {
-                var childPaopao = this.owner.parent.getChildAt(i);
+                var childPaopao = child.getChildAt(i);
                 if (childPaopao.name == 'levelTxt') {
-                    AllChildrenArr.push(childPaopao);
+                    this.AllChildrenArr.push(childPaopao);
                 }
             }
         }
@@ -238,6 +250,7 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
         /**
          * 
          * @param {*} obj 爆炸位置
+         * @param {*} first 引发爆炸的刚体  是红球还是地板 redBall   wallBottom
          */
         boomAni(obj, first) {
             var owner = obj;
@@ -246,14 +259,20 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             GameUI.instance._control._gameBox.addChild(effect);
             effect.play(0, true);
             if (first) {
-                const index = AllChildrenArr.findIndex(AllChildren => obj.var == AllChildren.var);
-                index > -1 && AllChildrenArr.splice(index, 1);
+                const index = this.AllChildrenArr.findIndex(AllChildren => obj.var == AllChildren.var);
+                index > -1 && this.AllChildrenArr.splice(index, 1);
                 owner.removeSelf();
                 //判断掉落
-                this.removePaopaoDrop();
+                if (GameControl.instance._isDrop) {
+                    this.removePaopaoDrop();
+                }
             }
             else GameUI.instance._control._gameBox.removeChild(obj);
-
+            activityPaopaoGame.BarPercentNum = parseInt((1 - (this.AllChildrenArr.length / ballNumber)) * 100);
+            if (activityPaopaoGame.BarPercentNum > 0) activityPaopaoGame.renderPanel(activityPaopaoGame.BarPercentNum);
+            // if (window.document.getElementsByClassName('BarPercent')[0]) {
+            //     window.document.getElementsByClassName('BarPercent')[0].innerHTML = parseInt((1 - (this.AllChildrenArr.length / maxBallNum)) * 100)
+            // }
         }
 
         /**使用对象池创建爆炸动画 */
@@ -394,6 +413,26 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             }
             return shuffled.slice(min);
         }
+
+        //节流函数 时间戳版
+    	/**
+    	 * 
+    	 * @param listenerObj 侦听函数所属对象(作用域)
+    	 * @param callback 回调
+    	 * @param wait 时间间隔
+    	 */
+    	static throttle(listenerObj, callback, wait) {
+    		let previous = 0;
+    		return function () {
+    			let now = Date.now();
+    			let context = listenerObj;
+    			let args = arguments;
+    			if (now - previous > wait) {
+    				callback.apply(context, args);
+    				previous = now;
+    			}
+    		}
+    	}
     }
 
     let typeMouse = false, isMove = false;
@@ -416,20 +455,26 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
     class GameControl extends Laya.Script {
         /** @prop {name:dropBox,tips:"掉落容器预制体对象",type:Prefab}*/
         /** @prop {name:bullet,tips:"子弹预制体对象",type:Prefab}*/
-        /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:3000}*/
+        /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:2000}*/
 
-        constructor() { super(); }
+        constructor() {
+            super();
+            //设置单例的引用方式，方便其他类引用
+            GameControl.instance = this;
+
+            //控制是否整体改变要掉落的泡泡位置 false:不可掉落 true:可掉落
+            this._isDrop = true;
+        }
         onEnable() {
             this.speed = 50;//子弹速度
             ballWIDTH$1 = 115, //小球宽度
                 distanceNum1 = (Laya.stage.width - ballWIDTH$1 * 6) / 2, //一行6个球的间距
                 distanceNum2 = (Laya.stage.width - ballWIDTH$1 * 5) / 2, //一行5个球的间距
                 distanceY = ballWIDTH$1 * 2; //需要往上平移的距离
-            GameControl.instance = this;
             //行数
             this.columInitNum = columInitNum;
             //间隔多少毫秒创建一行泡泡
-            this.createBoxInterval = 3000;
+            this.createBoxInterval = 2000;
             //开始时间
             this._time = Date.now();
             //是否已经开始游戏
@@ -446,38 +491,67 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             };
             this.pointB = {};
             this.pointC = {};
+
+            //点击事件
+            Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.OnStageMouseDown);
+            Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.OnStageMouseMove);
+            Laya.stage.on(Laya.Event.MOUSE_UP, this, Tool.throttle(this, this.OnStageMouseUp, 500));
         }
 
         onUpdate() {
             //每间隔一段时间泡泡多一行
-            // if (this._started) {
             let now = Date.now();
             if (now - this._time > this.createBoxInterval) {
                 this._time = now;
                 columAddNum++;
                 var _numChildren = this._gameBox.numChildren;
                 if (columAddNum <= 4) {
+                    this._isDrop = false;
+                    let num = 0;
+                    const AllChildrenArr = [];
+
                     for (var i = 0; i < _numChildren; i++) {
                         if (this._gameBox.getChildAt(i).name == 'levelTxt') {
-                            Laya.Tween.to(this._gameBox.getChildAt(i), {
-                                y: this._gameBox.getChildAt(i).y + ballWIDTH$1
-                            }, 500);
+                            AllChildrenArr.push(this._gameBox.getChildAt(i));
                         }
                     }
+
+                    AllChildrenArr.forEach(child => {
+                        Laya.Tween.to(child, {
+                            y: child.y + ballWIDTH$1
+                        }, 300, Laya.Ease.linearInOut, Laya.Handler.create(this, () => {
+                            num++;
+
+                            if (num === AllChildrenArr.length) {
+                                // console.log('移动完毕');
+                                DropBox.instance.AllChildrenArr = [].concat(AllChildrenArr);
+
+                                this._isDrop = true;
+                            }
+                        }, [i]));
+                    });
                 }
             }
-            // }
-
         }
         //创建泡泡和泡泡的位置摆放
         calcBoxPos() {
             //每次创建之前先清除盒子
             GameUI.instance.getChildByName("gameBox").removeChildren();
+            // const arr = [
+            //     ["3", "4"],
+            //     ["2", "1"],
+            //     ["0", "2"],
+            //     ["4", "3"],
+            //     ["5", "0"],
+            //     ["5", "1"]
+            // ]
+
             for (var i = 0; i < columInitNum; i++) {
                 var isChangeColor = false;
                 var randomNumArr = Tool.getRandomArrayElements(['0', '1', '2', '3', '4', '5'], i % 2 == 0 ? 2 : 2);
-                // var randomNumArr = ['0', '2', '4']
+                // var randomNumArr = arr[i]
                 var isSix = i % 2 == 0 ? 6 : 5;
+                var distanceNum = i % 2 == 0 ? distanceNum1 : distanceNum2;
                 // 偶数行有6个球全部居中显示
                 for (var j = 0; j < isSix; j++) {
                     for (var kk = 0; kk < randomNumArr.length; kk++) {
@@ -489,19 +563,21 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
                         }
                     }
                     //使用对象池创建盒子
-                    this.createBox(j, i * ballWIDTH$1 - distanceY, i % 2 == 0 ? distanceNum1 : distanceNum2, isChangeColor, i + '' + j);
+                    var x = distanceNum + j * ballWIDTH$1 + ballWIDTH$1 / 2,
+                        y = i * ballWIDTH$1 - distanceY + + ballWIDTH$1 / 2;
+                    this.createBox(x, y, isChangeColor, i + '' + j, i);
                 }
             }
         }
         /**
          * 
-         * @param {*} j 第几个球
+         * @param {*} x x轴坐标
          * @param {*} y y轴坐标
-         * @param {*} distanceNum 初始里左边屏幕的间隔
          * @param {*} isChangeColor 是否变成粉色泡泡
          * @param {*} ranksPos  泡泡的行列位置
+         * @param {*} row  泡泡的行数
          */
-        createBox(j, y, distanceNum, isChangeColor, ranksPos) {
+        createBox(x, y, isChangeColor, ranksPos, row) {
             // 每行最多3个彩色泡泡
             //使用对象池创建盒子
             let box = Laya.Pool.getItemByCreateFun("dropBox", this.dropBox.create, this.dropBox);
@@ -514,10 +590,10 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
                 rig.type = 'static';
                 rig.gravityScale = 0;
             }
-            box.shine.clearCache();
+            box.shine.stop(true);
             //=======取出之前重置数据
 
-            box.pos(distanceNum + j * box.width + box.width / 2, y + box.width / 2);
+            box.pos(x, y);
             // box.getChildByName('number').text = ranksPos;
             // console.log(ranksPos, '=============', box.x, box.y)
             if (isChangeColor) {
@@ -539,8 +615,8 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             this._gameBox.addChild(box);
         }
 
-        onStageMouseDown(e) {
-            // if (!this._started) return;        
+        OnStageMouseDown(e) {
+            // if (!this._started) return;    
             isMove = false;
             //停止事件冒泡，提高性能，当然也可以不要
             e.stopPropagation();
@@ -557,21 +633,22 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
                 var c = { X: this.pointB.X, Y: this.pointB.Y };
                 _tallA = this.getAngle(a, b, c, true);
                 this.owner.arrBox.rotation = _tallA;
+                this.owner.arrBox.moveDownRattion = _tallA;
             }
             this.isOpacity(this.owner.arrBox, 1);
+
             //---------------------------------------------
         }
 
-        onStageMouseMove(e) {
+        OnStageMouseMove(e) {
             isMouseDownFirst = false;
             if (typeMouse) {
                 isMove = true;
                 // 获取结束点坐标
                 this.pointC.X = e.stageX;
                 this.pointC.Y = e.stageY;
-
                 var _allA = this.getAngle(this.pointA, this.pointB, this.pointC);
-                this.owner.arrBox.rotation = _allA;
+                this.owner.arrBox.rotation = this.owner.arrBox.moveDownRattion + _allA;
                 if (Math.abs(this.owner.arrBox.rotation) % 360 >= 90 && Math.abs(this.owner.arrBox.rotation) % 360 <= 270) {
                     //底部就隐藏箭头
                     this.isOpacity(this.owner.arrBox, 0);
@@ -579,10 +656,8 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
                     this.isOpacity(this.owner.arrBox, 1);
                 }
                 // 运算结束后将起始点重新赋值为结束点，作为下一次的起始点
-                this.pointB.X = this.pointC.X;
-                this.pointB.Y = this.pointC.Y;
-
-
+                // this.pointB.X = this.pointC.X;
+                // this.pointB.Y = this.pointC.Y;
             }
         }
         /**
@@ -608,24 +683,33 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             // 余弦定理求出旋转角
             var cosA = (Math.pow(lengthAB, 2) + Math.pow(lengthAC, 2) - Math.pow(lengthBC, 2)) / (2 * lengthAB * lengthAC);
             var angleA = Math.round(Math.acos(cosA) * 180 / Math.PI);
-            if (isMouseDownFirst) {
-                //一次触摸
-                if (direct < 0) {
-                    tallA = - angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
-                } else {
-                    tallA = +angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
-                }
-                return tallA
+
+            if (direct < 0) {
+                tallA = - angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
             } else {
-                if (direct < 0) {
-                    allA -= angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
-                } else {
-                    allA += angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
-                }
-                return allA
+                tallA = +angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
             }
+
+            return tallA;
+
+            // if (isMouseDownFirst) {
+            //     //一次触摸
+            //     if (direct < 0) {
+            //         tallA = - angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
+            //     } else {
+            //         tallA = +angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
+            //     }
+            //     return tallA
+            // } else {
+            //     if (direct < 0) {
+            //         allA -= angleA;   //叉乘结果为负表示逆时针旋转， 逆时针旋转减度数
+            //     } else {
+            //         allA += angleA;   //叉乘结果为正表示顺时针旋转，顺时针旋转加度数
+            //     }
+            //     return allA
+            // }
         }
-        onStageMouseUp(e) {
+        OnStageMouseUp(e) {
             //游戏未开始
             allA = 0;
             // if (Math.abs(this.owner.arrBox.rotation) % 360 >= 90 && Math.abs(this.owner.arrBox.rotation) % 360 <= 270) {
@@ -636,22 +720,29 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             // }
             typeMouse = false;
             if (isMove || isMouseDownFirst) {
-                //发射泡泡 
-                var _currentSkin = this.changeSkin();
-                this.owner.ball.getChildByName('ballChild').texture = mSkinListScreen[mCurrSkinIndex];
-                let flyer = Laya.Pool.getItemByCreateFun("bullet", this.bullet.create, this.bullet);
-                flyer.pos(this.owner.getChildByName('ball').x, this.owner.getChildByName('ball').y);
-                flyer.alpha = 1;
-                flyer.texture = _currentSkin;
-                var rig = flyer.getComponent(Laya.RigidBody);
-                rig.type = 'dynamic';
-                var rigX = Math.cos((90 - this.owner.arrBox.rotation) * Math.PI / 180) * this.speed;
-                var rigY = -Math.sin((90 - this.owner.arrBox.rotation) * Math.PI / 180) * this.speed;
-                rig.setVelocity({ x: rigX, y: rigY });
-                this._gameBox.addChild(flyer);
-                this.isOpacity(this.owner.arrBox, 0);
+                this.launchPaopao();
             }
         }
+        /**
+         * 发射泡泡
+         */
+        launchPaopao() {
+            //发射泡泡 
+            var _currentSkin = this.changeSkin();
+            this.owner.ball.getChildByName('ballChild').texture = mSkinListScreen[mCurrSkinIndex];
+            let flyer = Laya.Pool.getItemByCreateFun("bullet", this.bullet.create, this.bullet);
+            flyer.pos(this.owner.getChildByName('ball').x, this.owner.getChildByName('ball').y);
+            flyer.alpha = 1;
+            flyer.texture = _currentSkin;
+            var rig = flyer.getComponent(Laya.RigidBody);
+            rig.type = 'dynamic';
+            var rigX = Math.cos((90 - this.owner.arrBox.rotation) * Math.PI / 180) * this.speed;
+            var rigY = -Math.sin((90 - this.owner.arrBox.rotation) * Math.PI / 180) * this.speed;
+            rig.setVelocity({ x: rigX, y: rigY });
+            this._gameBox.addChild(flyer);
+            this.isOpacity(this.owner.arrBox, 0);
+        }
+
         //换皮肤
         changeSkin(flyer) {
             mCurrSkinIndex++;
@@ -679,21 +770,29 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
         stopGame() {
             this._started = false;
             this.enabled = false;
-            this.createBoxInterval = 3000;
+            this.createBoxInterval = 2000;
             // GameUI.instance.getChildByName("gameBox").removeChildren();
             columAddNum = 5;
+            Laya.stage.off(Laya.Event.MOUSE_DOWN, this, this.OnStageMouseDown);
+            Laya.stage.off(Laya.Event.MOUSE_MOVE, this, this.OnStageMouseMove);
+            Laya.stage.off(Laya.Event.MOUSE_UP, this, Tool.throttle(this, this.OnStageMouseUp, 500));
             console.log('结束游戏');
         }
         /**再玩一次 */
         againGame() {
             columAddNum = 0;
+            this._isDrop = true;
             GameControl.instance.calcBoxPos();
             this.startGame();
+            //点击事件
+            Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.OnStageMouseDown);
+            Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.OnStageMouseMove);
+            Laya.stage.on(Laya.Event.MOUSE_UP, this, Tool.throttle(this, this.OnStageMouseUp, 500));
         }
 
         onDisable() {
-            //泡泡被移除时，回收子弹到对象池，方便下次复用，减少对象创建开销
-            Laya.Pool.recover("dropBox", this.owner);
+            // //泡泡被移除时，回收子弹到对象池，方便下次复用，减少对象创建开销
+            // Laya.Pool.recover("dropBox", this.owner);
         }
         /**碰撞角度计算 */
         getCalcAngle() {

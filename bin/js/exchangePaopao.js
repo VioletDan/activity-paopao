@@ -119,7 +119,7 @@ $(document).ready(function () {
   function initIsOrder () {
     loadBox.show()
     API.IsOrder({
-      ActivityID: 7,
+      ActivityID: 8,
       SessionKey: SessionKey
     }, (res) => {
       if (res && res.result.Flag == 1) {
@@ -128,7 +128,7 @@ $(document).ready(function () {
       } else {
         //再判断活动8有没有留资,留过资走后面逻辑,否则显示留资窗口
         API.IsOrder({
-          ActivityID: 8,
+          ActivityID: 9,
           SessionKey: SessionKey
         }, (res) => {
           if (res && res.result.Flag == 1) {

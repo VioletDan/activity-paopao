@@ -1,8 +1,11 @@
 ﻿import GameUI from "./GameUI";
+import GameControl from "./GameControl";
+
 let HexagonArr = []; //存放碰撞球的周边6个球的位置
-let AllChildrenArr = [];//全部子集
+// let AllChildrenArr = [];//全部子集
 let ballWIDTH = 115; //小球宽度
 let ballPosition = Math.sqrt(Math.pow(ballWIDTH, 2) - Math.pow(ballWIDTH / 2, 2))
+let maxBallNum = 33 //球球的总共的数量
 
 /**
  * 掉落盒子脚本，实现盒子碰撞及回收流程
@@ -11,6 +14,12 @@ let ballPosition = Math.sqrt(Math.pow(ballWIDTH, 2) - Math.pow(ballWIDTH / 2, 2)
 export default class DropBox extends Laya.Script {
     constructor() {
         super();
+        //设置单例的引用方式，方便其他类引用
+        DropBox.instance = this;
+        //子弹和盒子所在的容器对象
+        this._gameBox = GameUI.instance.getChildByName("gameBox");
+        //全部子集
+        this.AllChildrenArr = []
     }
     onEnable() {
         /**获得组件引用，避免每次获取组件带来不必要的查询开销 */
@@ -18,7 +27,7 @@ export default class DropBox extends Laya.Script {
         //盒子等级
         this.level = 1;
         //全部子集
-        this.getAllChildren(this.owner);
+        this.getAllChildren();
     }
 
     onUpdate() {
@@ -28,15 +37,17 @@ export default class DropBox extends Laya.Script {
 
     onTriggerEnter(other, self, contact) {
         // console.log(other.label, self.label)
+        //全部子集
+        this.getAllChildren();
         var owner = this.owner;
         if (other.label == 'buttle') {
             //子弹碰撞            
             if (self.label == 'redBall') {
                 // 碰到的是红色的球，直接消失爆炸
                 if (owner.parent) {
-                    this.boomAll(owner, AllChildrenArr, true);
+                    this.boomAll(owner, this.AllChildrenArr, true);
                     //没有任何子集时,消除自己
-                    this.boomAni(owner, true);
+                    this.boomAni(owner, 'redBall');
                     // //爆炸一个加一分
                     // GameUI.instance.addScore(1);
                 }
@@ -49,14 +60,12 @@ export default class DropBox extends Laya.Script {
                 //播放动画
                 this.owner.shine.alpha = 1;
                 this.owner.shine.play();
-                //重新或者全部的子集
-                // this.getAllChildren(this.owner);
             }
         } else if (other.label === "wallBottom") {
             //只盒子碰到地板，则也是消失
             if (owner.parent) {
                 //消除自己
-                this.boomAni(owner, true);
+                this.boomAni(owner, 'wallBottom');
             }
         }
     }
@@ -100,36 +109,9 @@ export default class DropBox extends Laya.Script {
             }
         }
 
-        if (first) {
-            this.removePaopaoDrop()
-        }
-    }
-
-    /**
-     * 
-     * @param {*} AllChildrenlist 消除后行子集
-     * 只判断这个球球的左上和右上有没有连接的球球，没有的话就掉落
-     */
-    checkPaopaoDrop(AllChildrenlist) {
-        for (var j = 0; j < AllChildrenlist.length; j++) {
-            var ele = AllChildrenlist[j]
-            var Aindex = j
-            var rig = ele.getComponent(Laya.RigidBody);
-
-            var arrSix = this.onCheckCollision(ele);
-            //只取左上和右上           
-            var arrSixTop = [arrSix[2], arrSix[4]];
-            var isDrop = arrSixTop.some((value, index) => {
-                var index = AllChildrenArr.findIndex(AllChildren => AllChildren.x == value.x && AllChildren.y == value.y);
-                return index > -1;
-            })
-            if (!isDrop) {
-                const index = AllChildrenArr.findIndex(AllChildren => ele.var == AllChildren.var)
-                index > -1 && AllChildrenArr.splice(index, 1);
-                AllChildrenlist.splice(j, 1);
-                rig.type = 'dynamic';
-                rig.gravityScale = 1;
-                rig.setVelocity({ x: 0, y: 10 });
+        if (first) {            
+            if (GameControl.instance._isDrop) {
+                this.removePaopaoDrop()
             }
         }
     }
@@ -140,7 +122,10 @@ export default class DropBox extends Laya.Script {
     removePaopaoDrop() {
         //判断掉落
         const rowArr = []
-        AllChildrenArr.forEach(AllChildren => {
+
+        this.getAllChildren()
+
+        this.AllChildrenArr.forEach(AllChildren => {
             const row = parseInt(Number(AllChildren.var) / 10)
 
             if (row > 0) {
@@ -152,6 +137,35 @@ export default class DropBox extends Laya.Script {
             }
         });
         rowArr.forEach(row => this.checkPaopaoDrop(row))
+    }
+
+    /**
+    * 
+    * @param {*} AllChildrenlist 消除后行子集
+    * 只判断这个球球的左上和右上有没有连接的球球，没有的话就掉落
+    */
+    checkPaopaoDrop(AllChildrenlist) {
+        for (var j = 0; j < AllChildrenlist.length; j++) {
+            var ele = AllChildrenlist[j]
+            var Aindex = j
+            var rig = ele.getComponent(Laya.RigidBody);
+
+            var arrSix = this.onCheckCollision(ele);
+            //只取左上和右上           
+            var arrSixTop = [arrSix[2], arrSix[4]];
+            var isDrop = arrSixTop.some((value, index) => {
+                var index = this.AllChildrenArr.findIndex(AllChildren => AllChildren.x == value.x && AllChildren.y == value.y);
+                return index > -1;
+            })
+            if (!isDrop) {
+                const index = this.AllChildrenArr.findIndex(AllChildren => ele.var == AllChildren.var)
+                index > -1 && this.AllChildrenArr.splice(index, 1);
+                AllChildrenlist.splice(j, 1);
+                rig.type = 'dynamic';
+                rig.gravityScale = 1;
+                rig.setVelocity({ x: 0, y: 10 });
+            }
+        }
     }
     /**
      * 
@@ -227,13 +241,14 @@ export default class DropBox extends Laya.Script {
     /**
      * 获取页面子集
      */
-    getAllChildren(obj) {
-        AllChildrenArr = [];
-        var _numChildren = obj.parent.numChildren;
+    getAllChildren() {
+        var child = this._gameBox
+        this.AllChildrenArr = [];
+        var _numChildren = child.numChildren;
         for (var i = 0; i < _numChildren; i++) {
-            var childPaopao = this.owner.parent.getChildAt(i);
+            var childPaopao = child.getChildAt(i);
             if (childPaopao.name == 'levelTxt') {
-                AllChildrenArr.push(childPaopao)
+                this.AllChildrenArr.push(childPaopao)
             }
         }
     }
@@ -241,6 +256,7 @@ export default class DropBox extends Laya.Script {
     /**
      * 
      * @param {*} obj 爆炸位置
+     * @param {*} first 引发爆炸的刚体  是红球还是地板 redBall   wallBottom
      */
     boomAni(obj, first) {
         var owner = obj;
@@ -249,14 +265,20 @@ export default class DropBox extends Laya.Script {
         GameUI.instance._control._gameBox.addChild(effect);
         effect.play(0, true);
         if (first) {
-            const index = AllChildrenArr.findIndex(AllChildren => obj.var == AllChildren.var);
-            index > -1 && AllChildrenArr.splice(index, 1);
+            const index = this.AllChildrenArr.findIndex(AllChildren => obj.var == AllChildren.var);
+            index > -1 && this.AllChildrenArr.splice(index, 1);
             owner.removeSelf();
             //判断掉落
-            this.removePaopaoDrop()
+            if (GameControl.instance._isDrop) {
+                this.removePaopaoDrop()
+            }
         }
         else GameUI.instance._control._gameBox.removeChild(obj);
-
+        activityPaopaoGame.BarPercentNum = parseInt((1 - (this.AllChildrenArr.length / ballNumber)) * 100)
+        if (activityPaopaoGame.BarPercentNum > 0) activityPaopaoGame.renderPanel(activityPaopaoGame.BarPercentNum)
+        // if (window.document.getElementsByClassName('BarPercent')[0]) {
+        //     window.document.getElementsByClassName('BarPercent')[0].innerHTML = parseInt((1 - (this.AllChildrenArr.length / maxBallNum)) * 100)
+        // }
     }
 
     /**使用对象池创建爆炸动画 */

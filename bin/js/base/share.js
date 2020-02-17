@@ -102,8 +102,9 @@ function importShare(){
 	        });//end wx.config
 	        share.wxSigned = true;//通过微信新SDK验证
 	        wx.ready(function () {
-	            wx.showOptionMenu();//用微信“扫一扫”打开，optionMenu是off状态，默认开启
-	            share.wxShare();
+	            // wx.showOptionMenu();//用微信“扫一扫”打开，optionMenu是off状态，默认开启
+				// share.wxShare();
+				wx.hideOptionMenu()
 	        });//end wx.ready
 		}
 
