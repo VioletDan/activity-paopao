@@ -139,3 +139,10 @@
                 }
             })
 
+
+app.Transition('boomAni', {
+        y:-2000
+      }, 1000, 'ease', function (page, cssTarget) {
+        console.log(cssTarget)
+       }, true)
+
