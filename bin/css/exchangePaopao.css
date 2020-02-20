@@ -3,20 +3,22 @@ article{background-color: #fff;background-image: url(../images/activityPaopao/pa
 /* section */
 section{width: 100%;height: 100%;position: absolute;top: 0;left: 0;right: 0;bottom: 0;display: none;}
 section *::before,section *::after{position: absolute;background-position: 50% 50%;background-repeat: no-repeat;background-size: 100% 100%;}
+section.page .btn{width: 3.92rem;height: .96rem;margin: 0 auto;}
 
-/* pageInfo */
-section.pageInfo{display: block;color: #7794c0;font-family: '黑体';}
-section.pageInfo .middleBox{width: 6.6rem;position: absolute;top: 1rem;bottom: 1rem;left: 50%;transform: translateX(-50%); background-image: url(../images/activityPaopao/page/titleBg.png);}
-section.pageInfo .middleBox .box{width: 100%; position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);}
-section.pageInfo .titleBox{text-align: center;width: 4.5rem;margin: 0 auto .06rem;}
-section.pageInfo .titleBox .title1{height: 1.78rem;padding: .38rem 0;margin-bottom: .52rem;}
-section.pageInfo .titleBox .title1::before{content: '';width: 100%;height: 1px;background-image: url(../images/activityPaopao/page/line.png);position: absolute;top: 0;left: 0;}
-section.pageInfo .titleBox .title1::after{content: '';width: 100%;height: 1px;background-image: url(../images/activityPaopao/page/line.png);position: absolute;bottom: 0;left: 0;}
-section.pageInfo .titleBox .title1 .t1{font-size: .45rem;margin-bottom: .25rem;font-weight: bold;}
-section.pageInfo .titleBox .title1 .t2{font-size: .32rem;}
-section.pageInfo .titleBox .title2{font-size: .3191rem;line-height: .55rem;}
+/* page */
+section.page {color: #7794c0;font-family: '黑体';}
+section.page .middleBox{width: 6.6rem;position: absolute;top: .6rem;bottom: .6rem;left: 50%;transform: translateX(-50%); background-image: url(../images/activityPaopao/page/titleBg.png);}
+section.page .middleBox .box{width: 100%; position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+section.page .titleBox{text-align: center;width: 4.5rem;margin: 0 auto .06rem;}
+section.page .titleBox .title1{height: 1.78rem;padding: .38rem 0;margin-bottom: .52rem;}
+section.page .titleBox .title1 .t1{font-size: .45rem;margin-bottom: .25rem;font-weight: bold;}
+section.page .titleBox .title1 .t2{font-size: .32rem;}
+section.page .titleBox .title2{font-size: .3191rem;line-height: .55rem;}
+section.page .titleBox .line::before{content: '';width: 100%;height: 1px;background-image: url(../images/activityPaopao/page/line.png);position: absolute;top: 0;left: 0;}
+section.page .titleBox .line::after{content: '';width: 100%;height: 1px;background-image: url(../images/activityPaopao/page/line.png);position: absolute;bottom: 0;left: 0;}
 
 /* pageInfo formBox */
+section.pageInfo{-display: block;}
 section.pageInfo .formBox{width: 4.5rem;margin: 0 auto;}
 section.pageInfo .formBox .formcon{width: 4.15rem;margin: 0 auto;}
 section.pageInfo .formBox .formcon .inputBox{width: 100%;height: .77rem;background-color: #9cb4d9;display: flex;justify-content: space-between;align-items: center;margin-top: .4rem;}
@@ -38,7 +40,7 @@ section.pageInfo .formBox .termsBox .iconGou.active::before{content: '';width: .
     50%{transform: translate(-50%,-50%) scale(1.2)}
     100% { transform: translate(-50%,-50%) scale(1) }
 }
-section.pageInfo .btnSure{background-image: url(../images/activityPaopao/page/btn_sure.png);width: 3.92rem;height: .96rem;margin: .8rem auto 0;}
+section.pageInfo .btnSure{background-image: url(../images/activityPaopao/page/btn_sure.png);margin: .8rem auto 0;}
 
 /* pageTerms */
 section.pageTerms{-display: block;background-color: rgba(0, 0, 0, .5);background-image: none;}
@@ -51,21 +53,68 @@ section.pageTerms .title{text-align: center;font-size: .28rem;font-weight: bold;
 section.pageTerms .smallTitle{text-align: center;font-size: .28rem;font-weight: bold;line-height: 1.6;}
 section.pageTerms .txt p{text-indent: .4rem;font-size: .24rem;padding-top: .35rem;padding-bottom: .35rem;color: #050505;line-height: 1.5;}
 
+/* pageCommon */
+section.pageCommon .middleBox .box{-padding: .5rem 0;}
+section.pageCommon .titleBox{width: 5.03rem;}
+section.pageCommon .titleBox .title1{height: auto;margin-bottom: 0;padding: .3rem 0;}
+section.pageCommon .titleBox .title1 .t2{font-size: .38rem;line-height: 1.4;}
+section.pageCommon .titleBox .title2{padding: .15rem 0;font-size: .24rem;line-height: 1.6;}
+section.pageCommon .formBox{width: 4.55rem;margin: 0 auto 0;}
+section.pageCommon .formBox .inputBox{width: 100%;height: .77rem;background-color: #9cb4d9;}
+section.pageCommon .formBox .inputBox>.input{width: 100%;height: 100%;font-size: .3159rem;color: #fff;text-align: center;}
+
+/* pageCodeTips */
+section.pageCodeTips{display: block;visibility: hidden;}
+section.pageCodeTips.active{visibility: visible;}
+section.pageCodeTips .formBox .tips{font-size: .24rem;line-height: 1.6;margin-top: .1rem;}
+section.pageCodeTips .formBox .btnBox{min-height: 2.2rem;margin: .5rem auto 0;display: flex;justify-content: space-between;flex-direction: column;align-items: center;}
+section.pageCodeTips .formBox .btnPro{background-image: url(../images/activityPaopao/page/btn_pro.png);}
+section.pageCodeTips .formBox .btnDuty{background-image: url(../images/activityPaopao/page/btn_duty.png);}
+section.pageCodeTips .formBox .btnSumbit{background-image: url(../images/activityPaopao/page/btn_submit.png);}
+
+/* pageRedBookEnter */
+section.pageRedBookEnter{-display: block;z-index: 2;}
+section.pageRedBookEnter .formBox{padding-top: .1rem;}
+section.pageRedBookEnter .formItem{margin-top: .25rem;}
+section.pageRedBookEnter .formItem label{font-size: .28rem;}
+section.pageRedBookEnter .btnSumbitRed{background-image: url(../images/activityPaopao/page/btn_submit.png);}
+section.pageRedBookEnter .formBox .inputBox{height: .50rem;margin-top: .15rem;}
+section.pageRedBookEnter .formBox .inputBox>.input{text-align: left;padding-left: .1rem;}
+section.pageRedBookEnter .uploadImg .inputBox{height: 2.5rem;}
+section.pageRedBookEnter .uploadImg .inputBox .input{position: absolute;opacity: 0;z-index: 10;padding-left: 0;display: block;}
+section.pageRedBookEnter .uploadImg .shell{width: 100%; height: 100%; background-size: cover; background-position: 50% 50%; -webkit-touch-callout: none;}
+section.pageRedBookEnter .uploadImg .compresse{width: 100%;height: 100%;position: absolute;top:0;left: 0;}
+
+section.pageRedBookEnter .iconAdd{font-size: .7rem;color: #fff;width: .7rem;height: .7rem;border: 1px dashed #fff;border-radius: 50%;display: flex;justify-content: center;align-items: center;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+section.pageRedBookEnter .btnBox{margin-top: .3rem;}
+
+/* pageRedBookSuccess */
+section.pageRedBookSuccess{-display: block;z-index: 2;}
+section.pageRedBookSuccess .middleBox{min-height: 6.8rem;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+section.pageRedBookSuccess .titleBox .title2{font-size: .28rem;}
+section.pageRedBookSuccess .titleBox{width: 4rem;}
+section.pageRedBookSuccess .titleBox strong{font-size: .3rem;}
+section.pageRedBookSuccess .iconGou{width: .9rem;height: .9rem;margin: 0 auto;border-radius: 50%;background: #fff;position: relative;}
+section.pageRedBookSuccess .iconGou::before{content: '';width: .46rem;height: .44rem;background-image: url(../images/activityPaopao/page/gou.png);position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+section.pageRedBookSuccess .iconGou:after{content:'';position: absolute;top: -1px; bottom: -1px;left: -1px; right: -1px;background: linear-gradient(0,#f8a2ad, #fee6e6);border-radius: 50%;content: '';z-index: -1;}
+
+
+
 
 /* 气泡 */
 .bg-bubbles{width: 100%;height: 100%;position: absolute;top: 0;left: 0; bottom: 0;}
 .bg-bubbles .paopaoItem{width: 1.2rem;height: 1.2rem;position: absolute;bottom: -3.2rem; left: 0;background-image: url(../images/activityPaopao/page/paopao.png);
- -webkit-animation: square 20s infinite;animation: square 20s infinite;-webkit-transition-timing-function: linear;transition-timing-function: linear;}
+ -webkit-animation: square 15s infinite;animation: square 15s infinite;-webkit-transition-timing-function: linear;transition-timing-function: linear;}
 .bg-bubbles .paopaoItem:nth-child(1) {left: -10%;}
-.bg-bubbles .paopaoItem:nth-child(2) {left: 10%;width: 1.6rem;height: 1.60rem;-webkit-animation-delay: 2s;animation-delay: 2s;-webkit-animation-duration: 17s;animation-duration: 17s;}
-.bg-bubbles .paopaoItem:nth-child(3) {left: 15%;-webkit-animation-delay: 4s;animation-delay: 4s;}
+.bg-bubbles .paopaoItem:nth-child(2) {left: 15%;width: 1.6rem;height: 1.60rem;-webkit-animation-delay: 2s;animation-delay: 2s;-webkit-animation-duration: 17s;animation-duration: 17s;}
+.bg-bubbles .paopaoItem:nth-child(3) {left: 25%;-webkit-animation-delay: 4s;animation-delay: 4s;}
 .bg-bubbles .paopaoItem:nth-child(4) {left: 30%;width: 1.20rem;height: 1.20rem;-webkit-animation-duration: 22s;animation-duration: 22s;opacity: 0.25;}
 .bg-bubbles .paopaoItem:nth-child(5) {left: 60%;}
-.bg-bubbles .paopaoItem:nth-child(6) {left: 70%;width: 2.40rem;height: 2.40rem;-webkit-animation-delay: 3s;animation-delay: 3s;opacity: 0.5;}
-.bg-bubbles .paopaoItem:nth-child(7) {left: 22%;width: 3.20rem;height: 3.20rem;-webkit-animation-delay: 7s;animation-delay: 7s;}
+.bg-bubbles .paopaoItem:nth-child(6) {left: 70%;width: 2rem;height: 2rem;-webkit-animation-delay: 3s;animation-delay: 3s;opacity: 0.5;}
+.bg-bubbles .paopaoItem:nth-child(7) {left: 22%;width: 2.8rem;height: 2.8rem;-webkit-animation-delay: 7s;animation-delay: 7s;}
 .bg-bubbles .paopaoItem:nth-child(8) {left: 45%;width: .40rem;height: .40rem;-webkit-animation-delay: 15s;animation-delay: 15s;-webkit-animation-duration: 40s;animation-duration: 40s;}
 .bg-bubbles .paopaoItem:nth-child(9) {left: 15%;width: .20rem;height: .20rem;-webkit-animation-delay: 2s;animation-delay: 2s;-webkit-animation-duration: 40s;animation-duration: 40s;opacity: 0.3;}
-.bg-bubbles .paopaoItem:nth-child(10) {left: 80%;width: 3.20rem;height: 3.20rem;-webkit-animation-delay: 11s;animation-delay: 11s;}
+.bg-bubbles .paopaoItem:nth-child(10) {left: 80%;width: 2.8rem;height: 2.8rem;-webkit-animation-delay: 11s;animation-delay: 11s;}
 @-webkit-keyframes square {
     0% {
         -webkit-transform: translateY(0);
@@ -88,10 +137,12 @@ section.pageTerms .txt p{text-indent: .4rem;font-size: .24rem;padding-top: .35re
 }
 
 /*---------------------------------------- normal ----------------------*/
-article.screenNormal section.pageInfo .middleBox .box{transform: translate(-50%,-50%) scale(0.9);}
+/* article.screenNormal section.pageInfo .middleBox .box{transform: translate(-50%,-50%) scale(0.9);} */
 
 /*---------------------------------------- 15:9 ----------------------*/
-article.screen159 section.pageInfo .middleBox .box{transform: translate(-50%,-50%) scale(0.85);}
+article.screen159 section.pageRedBookEnter .middleBox .box{transform: translate(-50%,-50%) scale(0.95);}
+/* article.screen159 section.pageInfo .middleBox .box{transform: translate(-50%,-50%) scale(0.85);} */
+
 
 /*---------------------------------------- 18:9 ----------------------*/
 /*.screen189  .btn1{margin:.6rem auto 0;}*/

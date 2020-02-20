@@ -1,6 +1,6 @@
 var timerSet = null //计时器
 var Seconds = $('section.gamePlayBox .timerBox').children('span.secondsNum') // 秒数
-var BarPercent = $('.BarPercent') //百分比
+var BarPercent = $('section.gamePlayBox .BarPercent') //百分比
 var progressBar = $('section.gamePlayBox .progressBar') //进度条
 /**
  * 计算百分比
@@ -45,7 +45,27 @@ function importActivityPaopaoGame() {
   activityPaopaoGame.BarPercentNum = 0 //游戏得分百分比
   activityPaopaoGame.times = 30 // 游戏秒数
   activityPaopaoGame.currentTime = 0 // 当前游戏秒数
+  //------------------音乐
+  activityPaopaoGame.sound_handler = function () {
+    if (os.weixin) {
+      try {
+        WeixinJSBridge.invoke('getNetworkType', {}, activityPaopaoGame.sound_creat)
+      } catch (e) {
+        wx.ready(activityPaopaoGame.sound_creat)
+      }
+    }
+    else activityPaopaoGame.sound_creat()
+  } // end func
+
+  activityPaopaoGame.sound_creat = function () {
+    activityPaopaoGame.soundList = iaudio.on([
+      { src: 'sound/paopao.mp3' }, // 泡泡
+      { src: 'sound/time.mp3' }]) // 倒计时
+  } // end func
+
+  //------------------音乐
   activityPaopaoGame.init = function (callback) {
+    activityPaopaoGame.sound_handler();
     Seconds.html(activityPaopaoGame.times)
     eventInit()
     if (callback) callback()
@@ -57,11 +77,15 @@ function importActivityPaopaoGame() {
     t--
     activityPaopaoGame.currentTime = t
     t < 10 ? Seconds.html('0' + t) : Seconds.html(t)
-    if (t == 0) {
+    if (t === 0) {
       clearTimeout(timerSet)
       setTimeout(activityPaopaoGame.end, 200)
     } else {
       timerSet = setTimeout(activityPaopaoGame.timeGo, 1000, t)
+      //倒计时
+      if (t === 5) {
+        activityPaopaoGame.soundList.time.play();
+      }
     }
   }
   // ----渲染用户得分百分比
@@ -141,6 +165,7 @@ function importActivityPaopaoGame() {
   function getResultModal() {
     resultBorder.removeClass('type1 type2 type3')
     gameResultBox.show()
+    activityPaopaoGame.soundList.paopao.play();
     if (isSecondPlay && activityPaopaoGame.BarPercentNum < 75) {
       //如果第一次消除未达到75%，并且再玩一次也未能达到，则弹出此框。让未达标用户也可以留资 则出现“游戏结束”弹框
       //type3

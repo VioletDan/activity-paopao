@@ -51,7 +51,7 @@
 			<div class="middleBox">
 				<div class="box">
 					<div class="titleBox">
-						<div class="title1">
+						<div class="title1 line">
 							<div class="t1">恭喜！</div>
 							<div class="t2">您已获得XXX一份！</div>
 						</div>
@@ -104,6 +104,86 @@
 				<div class="close"></div>
 			</div>
 		</section>
+		<!-- 提示用户点击输入兑换码页面 -->
+		<section class="page pageCommon pageCodeTips">
+			<div class="middleBox">
+				<div class="box">
+					<div class="titleBox">
+						<div class="title1">
+							<div class="t1">恭喜！</div>
+							<div class="t2">您已获得「双重透氧」<br>光感美肌好礼一份！</div>
+						</div>
+						<div class="title2 line">包括清透润白淡斑修护晚安霜5ml*1+娇韵诗「光芒小瓷瓶5ml*1</div>
+					</div>
+					<div class="formBox">
+						<div class="inputBox">
+							<input type="text" name="codeName" class="input" placeholder="输入兑换码" />
+						</div>
+						<div class="tips">*请及时前往以下任意免税店娇韵诗专柜，在工作人员的指引下领取哦</div>
+						<div class="btnBox">
+							<div class="btn btnSumbit"></div>
+							<!-- <div class="btn btnPro"></div> -->
+							<div class="btn btnDuty"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- 用户小红书输入页面 -->
+		<section class="page pageCommon pageRedBookEnter">
+			<div class="middleBox">
+				<div class="box">
+					<div class="titleBox">
+						<div class="title1">
+							<div class="t1">申领成功！</div>
+							<div class="t2">还有额外奖励哦！</div>
+						</div>
+						<div class="title2 line">X月X日前，在小红书分享本次申领体验和试用感受，即可参加额外福利抽奖，有机会赢取黄金双萃正装大奖！中奖结果将于X月x日公布。</div>
+					</div>
+					<div class="formBox">
+						<div class="formItem">
+							<label for="userID">输入小红书ID</label>
+							<div class="inputBox">
+								<input type="text" name="userID" class="input" />
+							</div>
+						</div>
+						<div class="formItem">
+							<label for="userLink">发布链接</label>
+							<div class="inputBox">
+								<input type="text" name="userLink" class="input" />
+							</div>
+						</div>
+						<div class="formItem uploadImg" id="uploadImg">
+							<label for="userCover">上传发布截图</label>
+							<div class="inputBox btnCamera">
+								<!-- <input type="file" name="userCover" class="input" /> -->
+								<canvas class="compresse"></canvas>
+								<div class="shell"></div>
+								<div class="iconAdd">+</div>
+							</div>
+						</div>
+
+						<div class="btnBox">
+							<div class="btn btnSumbitRed"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- 用户小红书输入页面提交成功 -->
+		<section class="page pageCommon pageRedBookSuccess">
+			<div class="middleBox">
+				<div class="box">
+					<div class="titleBox">
+						<div class="iconGou"></div>
+						<div class="title1">
+							<div class="t1">提交成功</div>
+						</div>
+						<div class="title2">您已成功参与额外福利抽奖中奖结果将于<strong>X月x日</strong>公布如有获奖，小娇将通过小程序服务通知与您联系记得留意一下哦！</div>
+					</div>
+				</div>
+			</div>
+		</section>
 	</article>
 	<!--------------------------------------------------------------javascript区域-------------------------------------------------------------------------------------->
 	<script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
@@ -112,7 +192,10 @@
 	<script src="js/base/monitor.js"></script>
 	<script src="js/base/share.js"></script>
 	<script src="js/swiper.min.js"></script>
-	<script src="js/API.js?v=4"></script>
+	<script src="js/API.js?v=1"></script>
+	<script src="js/base/reader.js"></script>
+	<script src="js/canvas/html2canvas.js"></script>
+	<script src="js/canvas/jcanvas.js"></script>
 	<script>ibase.load('js/exchangePaopao.js');</script>
 </body>
 

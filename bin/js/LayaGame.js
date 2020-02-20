@@ -273,6 +273,8 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             // if (window.document.getElementsByClassName('BarPercent')[0]) {
             //     window.document.getElementsByClassName('BarPercent')[0].innerHTML = parseInt((1 - (this.AllChildrenArr.length / maxBallNum)) * 100)
             // }
+            //播放声音
+            Laya.SoundManager.playSound("sound/paopao.mp3");
         }
 
         /**使用对象池创建爆炸动画 */
@@ -444,7 +446,7 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
     let ballWIDTH$1 = 115, //小球宽度
         distanceNum1, //一行6个球的间距
         distanceNum2, //一行5个球的间距
-        distanceY = ballWIDTH$1 * 2; //需要往上平移的距离
+        distanceY = ballWIDTH$1 * 2 + 45; //需要往上平移的距离
 
     let isMouseDownFirst = false;
 
@@ -455,7 +457,7 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
     class GameControl extends Laya.Script {
         /** @prop {name:dropBox,tips:"掉落容器预制体对象",type:Prefab}*/
         /** @prop {name:bullet,tips:"子弹预制体对象",type:Prefab}*/
-        /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:2000}*/
+        /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:4000}*/
 
         constructor() {
             super();
@@ -470,11 +472,11 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             ballWIDTH$1 = 115, //小球宽度
                 distanceNum1 = (Laya.stage.width - ballWIDTH$1 * 6) / 2, //一行6个球的间距
                 distanceNum2 = (Laya.stage.width - ballWIDTH$1 * 5) / 2, //一行5个球的间距
-                distanceY = ballWIDTH$1 * 2; //需要往上平移的距离
+                distanceY = ballWIDTH$1 * 2 + 45; //需要往上平移的距离
             //行数
             this.columInitNum = columInitNum;
             //间隔多少毫秒创建一行泡泡
-            this.createBoxInterval = 2000;
+            this.createBoxInterval = 4000;
             //开始时间
             this._time = Date.now();
             //是否已经开始游戏
@@ -770,7 +772,7 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
         stopGame() {
             this._started = false;
             this.enabled = false;
-            this.createBoxInterval = 2000;
+            this.createBoxInterval = 4000;
             // GameUI.instance.getChildByName("gameBox").removeChildren();
             columAddNum = 5;
             Laya.stage.off(Laya.Event.MOUSE_DOWN, this, this.OnStageMouseDown);

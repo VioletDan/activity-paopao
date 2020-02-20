@@ -279,6 +279,8 @@ export default class DropBox extends Laya.Script {
         // if (window.document.getElementsByClassName('BarPercent')[0]) {
         //     window.document.getElementsByClassName('BarPercent')[0].innerHTML = parseInt((1 - (this.AllChildrenArr.length / maxBallNum)) * 100)
         // }
+        //播放声音
+        Laya.SoundManager.playSound("sound/paopao.mp3");
     }
 
     /**使用对象池创建爆炸动画 */

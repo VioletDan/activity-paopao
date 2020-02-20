@@ -2,26 +2,202 @@
 article{background-color: transparent;background-image: url(../images/activityPaopao/page/bg.jpg);background-size:cover;}
 /* section */
 section{width: 100%;height: 100%;position: absolute;top: 0;left: 0;right: 0;bottom: 0;display: none;}
+section *::before,section *::after{content: '';position: absolute;background-position: 50% 50%;background-repeat: no-repeat;background-size: 100% 100%;}
 
 /* gameGuideBox */
 section.gameGuideBox{display: block;z-index: 10;}
 section.gameGuideBox .guideTop{width: 100%;height: 5.47rem;position: absolute;left: 0;top: 0;}
 section.gameGuideBox .guideBottom{width: 100%;position: absolute;bottom: 0;left: 0;}
-section.gameGuideBox .guideMask{width: 100%;height: auto;position: absolute;top: 0;left: 0;transition: all 300ms;opacity: 0;}
+section.gameGuideBox .guideMask{width: 100%;height: auto;position: absolute;top: 0;left: 0;transition: all 300ms;-opacity: 0;}
+section.gameGuideBox .guideMask img{width: 100%;}
+/* section.gameGuideBox .guideMask6 {background-color: rgba(0, 0, 0, .7);} */
+section.gameGuideBox .guideMask6 img{/*position: absolute;top:-.88rem;opacity: 0;*/}
+section.gameGuideBox .guideMask::before{z-index: 1;}
+section.gameGuideBox .guideMask1::before{width: 4.4rem;height: 3.83rem;top: .79rem;right: .25rem;background-image: url(../images/activityPaopao/page/guide_1_p.png);animation: lightSpeedIn1 0.8s 0.5s;-webkit-animation-timing-function: ease-out;animation-timing-function: ease-out;}
+section.gameGuideBox .guideMask2::before{width: 5.08rem;height: 3.66rem;top: 2.89rem;left: .79rem;background-image: url(../images/activityPaopao/page/guide_2_p.png);animation: lightSpeedIn2 0.8s;-webkit-animation-timing-function: ease-out;animation-timing-function: ease-out;}
+section.gameGuideBox .guideMask3::before{width: 4.56rem;height: 3.86rem;top: 5.66rem;left: 1.12rem;background-image: url(../images/activityPaopao/page/guide_3_p.png);animation: lightSpeedIn3 0.8s;-webkit-animation-timing-function: ease-out;animation-timing-function: ease-out;}
+section.gameGuideBox .guideMask4::before{width: 7.02rem;height: 4.85rem;top: 5.29rem;left: .48rem;background-image: url(../images/activityPaopao/page/guide_4_p.png);animation: lightSpeedIn4 0.8s;-webkit-animation-timing-function: ease-out;animation-timing-function: ease-out;}
+section.gameGuideBox .guideMask5::before{width: 6.02rem;height: 5.02rem;top: 5.06rem;left: .58rem;background-image: url(../images/activityPaopao/page/guide_5_p.png);animation: lightSpeedIn5 0.8s;-webkit-animation-timing-function: ease-out;animation-timing-function: ease-out;}
+section.gameGuideBox .guideMask6::before{width: 4.59rem;height: 4.19rem;top: .79rem;left: .25rem;background-image: url(../images/activityPaopao/page/guide_6_p.png);animation: lightSpeedIn6 0.8s;-webkit-animation-timing-function: ease-out;animation-timing-function: ease-out;}
+section.gameGuideBox .guideMask7::before{width: 6.17rem;height: 4.23rem;top: 6.67rem;left: .69rem;background-image: url(../images/activityPaopao/page/guide_7_p.png);animation: lightSpeedIn7 0.8s;-webkit-animation-timing-function: ease-out;animation-timing-function: ease-out;}
+section.gameGuideBox .guideMask8::before{width: 5.63rem;height: 4.51rem;top: 6.7rem;left: .69rem;background-image: url(../images/activityPaopao/page/guide_8_p.png);animation: lightSpeedIn8 0.8s;-webkit-animation-timing-function: ease-out;animation-timing-function: ease-out;}
+
+@-webkit-keyframes lightSpeedIn1 {
+    0% {
+        -webkit-transform: translate3d(100%,0,0) skewX(-30deg);
+        transform: translate3d(100%,0,0) skewX(-30deg);
+        opacity: 0
+    }
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1
+    }
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg)
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+}
+@-webkit-keyframes lightSpeedIn2 {
+    0% {
+        -webkit-transform: translate3d(-100%,0,0) skewX(-30deg);
+        transform: translate3d(-100%,0,0) skewX(-30deg);
+        opacity: 0
+    }
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1
+    }
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg)
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+}
+@-webkit-keyframes lightSpeedIn3 {
+    0% {
+        -webkit-transform: translate3d(100%,0,0) skewX(-30deg);
+        transform: translate3d(100%,0,0) skewX(-30deg);
+        opacity: 0
+    }
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1
+    }
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg)
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+}
+@-webkit-keyframes lightSpeedIn4 {
+    0% {
+        -webkit-transform: translate3d(-100%,0,0) skewX(-30deg);
+        transform: translate3d(-100%,0,0) skewX(-30deg);
+        opacity: 0
+    }
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1
+    }
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg)
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+}
+@-webkit-keyframes lightSpeedIn5 {
+    0% {
+        -webkit-transform: translate3d(100%,0,0) skewX(-30deg);
+        transform: translate3d(100%,0,0) skewX(-30deg);
+        opacity: 0
+    }
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1
+    }
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg)
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+}
+@-webkit-keyframes lightSpeedIn6 {
+    0% {
+        -webkit-transform: translate3d(-100%,0,0) skewX(-30deg);
+        transform: translate3d(-100%,0,0) skewX(-30deg);
+        opacity: 0
+    }
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1
+    }
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg)
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+}
+@-webkit-keyframes lightSpeedIn7 {
+    0% {
+        -webkit-transform: translate3d(100%,0,0) skewX(-30deg);
+        transform: translate3d(100%,0,0) skewX(-30deg);
+        opacity: 0
+    }
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1
+    }
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg)
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+}
+@-webkit-keyframes lightSpeedIn8 {
+    0% {
+        -webkit-transform: translate3d(-100%,0,0) skewX(-30deg);
+        transform: translate3d(-100%,0,0) skewX(-30deg);
+        opacity: 0
+    }
+    60% {
+        -webkit-transform: skewX(20deg);
+        transform: skewX(20deg);
+        opacity: 1
+    }
+    80% {
+        -webkit-transform: skewX(-5deg);
+        transform: skewX(-5deg)
+    }
+    to {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0)
+    }
+}
+
 section.gameGuideBox .guideMaskB{width: 100%;height: 100%;position: absolute;bottom: 0;left: 0;}
 section.gameGuideBox .guideMaskB::before{content: '';width: 100%;height:  calc(100% - 15.36rem);display: block;position: absolute;bottom: 0;left: 0;background-color: rgba(0, 0, 0, .7);}
 section.gameGuideBox .guideMaskB.active{background-color: rgba(0, 0, 0, .7);}
 section.gameGuideBox .guideMaskB.active::before{background-color: transparent;}
 section.gameGuideBox .arr{width: .16rem;position: absolute;left: 50%;margin-left: -.08rem;bottom: 3.45rem;}
+section.gameGuideBox .arr6{z-index: 10;}
 section.gameGuideBox .guideTouch{width: 100%;height: 100%;position: absolute;top: 0;left: 0;z-index: 10;}
 
 /* gamePlayBox */
 section.gamePlayBox{-display: block;}
-section.gamePlayBox .topBox{width: 100%;position: absolute;top: 0;left: 0;background-image: url(../images/activityPaopao/page/bg.jpg);min-height: 2.3rem;z-index: 4;background-position: top center;background-size: 100% auto;transition: all 300ms;opacity: 0;z-index: 5;}
+section.gamePlayBox .topBox{width: 100%;position: absolute;top: 0;left: 0;background-image: url(../images/activityPaopao/page/bg.jpg);min-height: 1.87rem;z-index: 4;background-position: top center;background-size: 100% auto;transition: all 300ms;opacity: 0;z-index: 5;}
 section.gamePlayBox .topBox.active{
     animation: topBox 1s linear forwards;
 }
-section.gamePlayBox .topBox .timerBox{text-align: right;margin: .4rem .4rem .65rem 0;}
+section.gamePlayBox .topBox .timerBox{text-align: right;margin: .4rem .4rem .2rem 0;}
 section.gamePlayBox .topBox .timerBox>span{color: #c96679;font-size: .3768rem;font-family: gotham;display: inline-block;text-align: center;}
 section.gamePlayBox .topBox .timerBox>span:first-child{width: .6rem;text-align: right;}
 section.gamePlayBox .topBox .timerBox>span:last-child{width: .6rem;text-align: left;}

@@ -28,9 +28,9 @@ $(document).ready(function () {
         articleBox.addClass('screenNormal')
       if (os.screenProp > 0.64) articleBox.addClass('screen159')
       if (os.ios) {
-        $('section.gamePlayBox .topBox').css({ height: '116px' });
+        $('section.gamePlayBox .topBox').css({ height: '72px' });
       } else {
-        $('section.gamePlayBox .topBox').css({ height: '111px' });
+        $('section.gamePlayBox .topBox').css({ height: '67px' });
       }
       loadBox.show()
       load_handler()
@@ -44,13 +44,18 @@ $(document).ready(function () {
     loader.addImage('images/activityPaopao/page/bg.jpg')
     loader.addImage('images/activityPaopao/page/bg3.jpg')
     loader.addImage('images/activityPaopao/page/btn_sure.png')
-    loader.addImage('images/activityPaopao/page/guide_1.png')
-    loader.addImage('images/activityPaopao/page/guide_2.png')
-    loader.addImage('images/activityPaopao/page/guide_3.png')
-    loader.addImage('images/activityPaopao/page/guide_4.png')
-    loader.addImage('images/activityPaopao/page/guide_5.png')
-    loader.addImage('images/activityPaopao/page/guide_6.png')
-    loader.addImage('images/activityPaopao/page/guide_7.png')
+    loader.addImage('images/activityPaopao/page/guide_1_m.png')
+    loader.addImage('images/activityPaopao/page/guide_2_m.png')
+    loader.addImage('images/activityPaopao/page/guide_3_m.png')
+    loader.addImage('images/activityPaopao/page/guide_6_m.png')
+    loader.addImage('images/activityPaopao/page/guide_7_m.png')
+    loader.addImage('images/activityPaopao/page/guide_8_m.png')
+    loader.addImage('images/activityPaopao/page/guide_1_p.png')
+    loader.addImage('images/activityPaopao/page/guide_2_p.png')
+    loader.addImage('images/activityPaopao/page/guide_3_p.png')
+    loader.addImage('images/activityPaopao/page/guide_6_p.png')
+    loader.addImage('images/activityPaopao/page/guide_7_p.png')
+    loader.addImage('images/activityPaopao/page/guide_8_p.png')
     loader.addImage('images/activityPaopao/page/guide_bottom.png')
     loader.addImage('images/activityPaopao/page/guide_top.png')
     loader.addImage('images/activityPaopao/page/line.png')
@@ -99,6 +104,24 @@ $(document).ready(function () {
     } else setTimeout(load_timer, 33, per)
   } // edn func
   // ----------------------------------------页面逻辑代码----------------------------------------
+  function sound_handler() {
+    if (os.weixin) {
+      try {
+        WeixinJSBridge.invoke('getNetworkType', {}, game.sound_creat)
+      } catch (e) {
+        wx.ready(sound_creat)
+      }
+    }
+    else sound_creat()
+  } // end func
+
+  function sound_creat() {
+    soundList = iaudio.on([
+      { src: 'sound/paopao.mp3' }, // 泡泡
+      { src: 'sound/time.mp3' }]) // 倒计时
+  } // end func
+
+  // init
   function init_handler() {
     icom.fadeIn(articleBox)
     //-------------------------页面初始化
@@ -115,26 +138,52 @@ $(document).ready(function () {
   }
   //-------------------------初始化游戏弹窗指引
   function gameGuideBoxInit() {
-    guideMask.transition({ opacity: 1, delay: 100 }, 100, function () {
+    activityPaopaoGame.init()
+    if (window.localStorage.getItem('isGuide') && window.localStorage.getItem('isGuide') === '3') {
+      //直接开始游戏
+      gameGuideBox.hide()
+      gamePlayBox.show()
+      gameStartHandle()
+    } else {
       guideTouch.off().on('touchend', throttle(guideTouchClick, 300))
-      activityPaopaoGame.init()
-    })
+    }
   }
 
   // 弹窗指引事件
   function guideTouchClick() {
     if (gameGuideBox.hasClass('limitTouch')) return //截取点击狂魔
-    if (guideNum < 7) {
+    if (guideNum < 8) {
       guideNum++;
-      guideMask.attr('src', 'images/activityPaopao/page/guide_' + guideNum + '.png')
+      guideMask.removeClass('guideMask' + (guideNum - 1)).addClass('guideMask' + guideNum);
+      if (guideNum == 3 || guideNum == 4 || guideNum == 5) {
+        guideMask.children('img').attr('src', 'images/activityPaopao/page/guide_' + 3 + '_m.png')
+      } else {
+        guideMask.children('img').attr('src', 'images/activityPaopao/page/guide_' + guideNum + '_m.png')
+      }
+      if (guideNum == 6) {
+        $('section.gameGuideBox .arr').addClass('arr6');
+      } else {
+        $('section.gameGuideBox .arr').removeClass('arr6');
+      }
     } else {
       gameGuideBox.addClass('limitTouch') //截取点击狂魔
       guideMask.transition({ opacity: 0 }, 100)
       gameGuideBox.hide()
       gamePlayBox.show()
       gameStartHandle()
+
+      //标识指引出现了几次
+      //存储 引导层只显示一次
+      if (!window.localStorage.getItem('isGuide')) {
+        window.localStorage.setItem('isGuide', '1')
+      } else {
+        var num = Number(window.localStorage.getItem('isGuide'))
+        window.localStorage.setItem('isGuide', String(num + 1))
+      }
       return
     }
+    //播放音效
+    activityPaopaoGame.soundList.paopao.play()
   }
 
   //----------------游戏开始事件

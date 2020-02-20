@@ -12,7 +12,7 @@ let columAddNum = 0; // 后面追加的泡泡行数
 let ballWIDTH = 115, //小球宽度
     distanceNum1, //一行6个球的间距
     distanceNum2, //一行5个球的间距
-    distanceY = ballWIDTH * 2; //需要往上平移的距离
+    distanceY = ballWIDTH * 2 + 45; //需要往上平移的距离
 
 let isMouseDownFirst = false;
 let tallA;
@@ -26,7 +26,7 @@ let onceFnFlag = true;
 export default class GameControl extends Laya.Script {
     /** @prop {name:dropBox,tips:"掉落容器预制体对象",type:Prefab}*/
     /** @prop {name:bullet,tips:"子弹预制体对象",type:Prefab}*/
-    /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:2000}*/
+    /** @prop {name:createBoxInterval,tips:"间隔多少毫秒创建一个下跌的容器",type:int,default:4000}*/
 
     constructor() {
         super();
@@ -41,11 +41,11 @@ export default class GameControl extends Laya.Script {
         ballWIDTH = 115, //小球宽度
             distanceNum1 = (Laya.stage.width - ballWIDTH * 6) / 2, //一行6个球的间距
             distanceNum2 = (Laya.stage.width - ballWIDTH * 5) / 2, //一行5个球的间距
-            distanceY = ballWIDTH * 2; //需要往上平移的距离
+            distanceY = ballWIDTH * 2 + 45; //需要往上平移的距离
         //行数
         this.columInitNum = columInitNum;
         //间隔多少毫秒创建一行泡泡
-        this.createBoxInterval = 2000;
+        this.createBoxInterval = 4000;
         //开始时间
         this._time = Date.now();
         //是否已经开始游戏
@@ -341,7 +341,7 @@ export default class GameControl extends Laya.Script {
     stopGame() {
         this._started = false;
         this.enabled = false;
-        this.createBoxInterval = 2000;
+        this.createBoxInterval = 4000;
         // GameUI.instance.getChildByName("gameBox").removeChildren();
         columAddNum = 5;
         Laya.stage.off(Laya.Event.MOUSE_DOWN, this, this.OnStageMouseDown);

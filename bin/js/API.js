@@ -5,10 +5,12 @@ var API = {
   DEBUG: true,
   collectDataType:'cny', //数据pv/uv收集活动类型
   OpenID:icom.getQueryString('openid'),
+  SessionKey:icom.getQueryString('SessionKey'),
 
   _send: function (method, data, success, fail) {
     // 有自己的openid并且data里面不带openid才赋值
     if (API.OpenID && !data.hasOwnProperty('OpenID')) data.OpenID = API.OpenID
+    if (API.SessionKey && !data.hasOwnProperty('SessionKey')) data.SessionKey = API.SessionKey
     if(API.collectDataType && data.hasOwnProperty('DataType')) data.DataType = API.collectDataType + data.DataType
 
     $.ajax({
@@ -82,5 +84,11 @@ var API = {
    */
   AddDataUv: function (data, success) {
     API._send('AddDataUv', data, success)
+  },
+   /**
+   * 拿最新活动的留资
+   */
+  GetUserActivity: function (data, success) {
+    API._send('GetUserActivity', data, success)
   },
 }
