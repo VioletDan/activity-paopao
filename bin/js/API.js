@@ -91,4 +91,10 @@ var API = {
   GetUserActivity: function (data, success) {
     API._send('GetUserActivity', data, success)
   },
+  /**
+   * 小红书留资
+   */
+  AddRedBook: function (data, success) {
+    API._send('AddRedBook', data, success)
+  },
 }

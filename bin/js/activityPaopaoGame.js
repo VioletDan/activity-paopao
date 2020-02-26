@@ -145,7 +145,7 @@ function importActivityPaopaoGame() {
 
   function btnApplyClick() {
     console.log('领取福利')
-    window.location.replace('exchangePaopao.html?openid=' + openid + '&AID=' + AID + '&SessionKey=' + SessionKey + '&v=' + new Date().getTime())
+    window.location.replace('exchangePaopao.html?debug=2&openid=' + openid + '&AID=' + AID + '&SessionKey=' + SessionKey + '&v=' + new Date().getTime())
   }
 
   function btnAgainClick() {

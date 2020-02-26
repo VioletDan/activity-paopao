@@ -156,9 +156,9 @@ $(document).ready(function () {
       guideNum++;
       guideMask.removeClass('guideMask' + (guideNum - 1)).addClass('guideMask' + guideNum);
       if (guideNum == 3 || guideNum == 4 || guideNum == 5) {
-        guideMask.children('img').attr('src', 'images/activityPaopao/page/guide_' + 3 + '_m.png')
+        guideMask.children('img').attr('src', 'images/activityPaopao/page/guide_' + 3 + '_m.png?v=1')
       } else {
-        guideMask.children('img').attr('src', 'images/activityPaopao/page/guide_' + guideNum + '_m.png')
+        guideMask.children('img').attr('src', 'images/activityPaopao/page/guide_' + guideNum + '_m.png?v=1')
       }
       if (guideNum == 6) {
         $('section.gameGuideBox .arr').addClass('arr6');
