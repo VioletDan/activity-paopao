@@ -19,6 +19,9 @@ section.page .titleBox .line::after{content: '';width: 100%;height: 1px;backgrou
 
 /* pageInfo formBox */
 section.pageInfo{-display: block;}
+section.pageInfo .titleBox .title1{height:auto;}
+section.pageInfo .titleBox .title1 .t1{margin-bottom: .2rem;}
+section.pageInfo .titleBox .title1 .t2{line-height: 1.2;}
 section.pageInfo .formBox{width: 4.5rem;margin: 0 auto;}
 section.pageInfo .formBox .formcon{width: 4.15rem;margin: 0 auto;}
 section.pageInfo .formBox .formcon .inputBox{width: 100%;height: .77rem;background-color: #9cb4d9;display: flex;justify-content: space-between;align-items: center;margin-top: .4rem;}
@@ -67,13 +70,22 @@ section.pageCommon .formBox .inputBox>.input{width: 100%;height: 100%;font-size:
 section.pageCodeTips{-display: block;}
 section.pageCodeTips.active{visibility: visible;}
 section.pageCodeTips .titleBox .title2{padding: .15rem .35rem;}
-section.pageCodeTips .prizePro{width: 2.41rem;margin: .15rem auto .45rem;}
+section.pageCodeTips .prizePro{width: 2.41rem;margin: .15rem auto .3rem;}
 section.pageCodeTips .formBox .tips{font-size: .244rem;line-height: 1.6;margin-top: .1rem;text-align: justify;}
-section.pageCodeTips .formBox .btnBox{min-height: 2.2rem;margin: .5rem auto 0;display: flex;justify-content: space-between;flex-direction: column;align-items: center;}
-section.pageCodeTips .formBox .btnPro{background-image: url(../images/activityPaopao/page/btn_pro.png);}
-section.pageCodeTips .formBox .btnDuty{background-image: url(../images/activityPaopao/page/btn_duty.png);}
-section.pageCodeTips .formBox .btnSumbit{background-image: url(../images/activityPaopao/page/btn_submit.png);}
-section.pageCodeTips .formBox .btnCheckDutyList{font-size: .24rem;color: #7794c0;margin: 0 auto;padding: .25rem 0 2px; width: 1.54rem;border-bottom: 1px solid #7794c0;}
+section.pageCodeTips .formBox .btnBox{min-height: 2.1rem;margin: .35rem auto 0;display: flex;justify-content: space-between;flex-direction: column;align-items: center;}
+section.pageCodeTips .formBox .btnPro{background-image: url(../images/activityPaopao/page/btn_pro.png?v=1);}
+section.pageCodeTips .formBox .btnDuty{background-image: url(../images/activityPaopao/page/btn_duty.png?v=1);}
+section.pageCodeTips .formBox .btnSumbit{background-image: url(../images/activityPaopao/page/btn_submit.png?v=1);}
+section.pageCodeTips .formBox .btnCheckDutyList{font-size: .32rem;color: #7794c0;margin: 0 auto;padding: .2rem 0 3px;text-align: center; width: 2.1rem;border-bottom: 1px solid #7794c0;}
+section.pageCodeTips .formBox .arrBox{width: .25rem; margin: .1rem auto;}
+section.pageCodeTips .formBox .arrBox i{ display: block; width: 0.35rem; height: 0.15rem;background-image: url(../images/activityPaopao/page/arr2.png);}
+section.pageCodeTips .formBox .arrBox i:nth-child(1){ -webkit-animation: ar 0.8s 0s ease infinite alternate;}
+section.pageCodeTips .formBox .arrBox i:nth-child(2){ -webkit-animation: ar 0.8s 0.2s ease infinite alternate;}
+section.pageCodeTips .formBox .arrBox i:nth-child(3){ -webkit-animation: ar 0.8s 0.4s ease infinite alternate;}
+@-webkit-keyframes ar{
+	from{ transform: translateY(0); opacity: 1;}
+	to{ transform: translateY(0.1rem); opacity: 0.3;}
+}
 
 /* pageDutyStore */
 section.pageDutyStore{-display: block;background-color: rgba(156, 180, 217, .6);}
@@ -94,7 +106,7 @@ section.pageDutyStore .listBox .listItem .listTitle{font-size: .28rem;padding-bo
 section.pageDutyStore .listBox .listItem .listTitle::before{content: '';width: .37rem;height: .37rem;position: absolute;top: -0.07rem;left: -.46rem;background-image: url(../images/activityPaopao/page/duty_icon_loc.png);}
 section.pageDutyStore .listBox .listItem .listInfo{font-size: .24rem;padding-top: .08rem;}
 section.pageDutyStore .listBox .listItem .listInfo .common{line-height: 1.54;}
-section.pageDutyStore .btnDuty{background-image: url(../images/activityPaopao/page/btn_duty.png);width: 3.01rem;height: .81rem;}
+section.pageDutyStore .btnDuty{background-image: url(../images/activityPaopao/page/btn_duty.png?v=1);width: 3.01rem;height: .81rem;}
 
 /* pageLookBanner6 */
 section.pageLookBanner6{background-color: #fff;}
@@ -111,7 +123,7 @@ section.pageRedBookEnter .titleBox{width: 5.45rem;}
 section.pageRedBookEnter .formBox{padding-top: .1rem;}
 section.pageRedBookEnter .formItem{margin-top: .25rem;}
 section.pageRedBookEnter .formItem label{font-size: .28rem;}
-section.pageRedBookEnter .btnSumbitRed{background-image: url(../images/activityPaopao/page/btn_submit.png);}
+section.pageRedBookEnter .btnSumbitRed{background-image: url(../images/activityPaopao/page/btn_submit.png?v=1);}
 section.pageRedBookEnter .formBox .inputBox{height: .50rem;margin-top: .15rem;}
 section.pageRedBookEnter .formBox .inputBox>.input{text-align: left;padding-left: .1rem;}
 section.pageRedBookEnter .uploadImg .inputBox{height: 2.5rem;}

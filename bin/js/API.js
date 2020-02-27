@@ -3,7 +3,7 @@ var API = {
   // DOMAIN: "https://clarins.beats-digital.com",               //正式
   DOMAIN: 'http://clarins-test.beats-digital.com/ClarinsApi', // 测试
   DEBUG: true,
-  collectDataType:'cny', //数据pv/uv收集活动类型
+  collectDataType:'焕白挑战-', //数据pv/uv收集活动类型
   OpenID:icom.getQueryString('openid'),
   SessionKey:icom.getQueryString('SessionKey'),
 

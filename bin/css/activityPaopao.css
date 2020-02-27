@@ -231,13 +231,13 @@ section.gameResultBox{-display: block;background-color: rgba(0, 0, 0, .7);text-a
 section.gameResultBox .middleBox{width: 5.94rem;height: 6.58rem;background-image: url(../images/activityPaopao/page/result_bg.png);display: flex;justify-content: center;align-items: center;}
 section.gameResultBox .middleBox .border{width: 5.36rem;height: 5.94rem;background-image: url(../images/activityPaopao/page/result_border.png);display: flex;justify-content: center;align-items: center;}
 section.gameResultBox .middleBox .border .box{width: 100%;height: 100%;}
-section.gameResultBox .middleBox .border .title{font-size: .5634rem;color: #6181b0;font-style: italic;font-family: '黑体';margin-bottom: .6rem;margin-top: .7rem;}
+section.gameResultBox .middleBox .border .title{font-size: .5634rem;color: #6181b0;-font-style: italic;font-family: '黑体';margin-bottom: .6rem;margin-top: .7rem;}
 section.gameResultBox .middleBox .border .txt{font-size: .325rem;color: #6181b0;font-family: '黑体';line-height: .5rem;}
 section.gameResultBox .middleBox .border .txt2{margin-top: .3rem;margin-bottom: .56rem;display: none;}
 section.gameResultBox .middleBox .border .btnBox{width: 4rem;height: 2.16rem; margin: 0 auto;display: flex;justify-content: space-between;flex-direction: column;align-items: center}
 section.gameResultBox .middleBox .border .btnBox .btn{width: 100%;height: .98rem;}
-section.gameResultBox .middleBox .border .btnBox .btn:first-child{background-image: url(../images/activityPaopao/page/result_againBtn.png);display: none;}
-section.gameResultBox .middleBox .border .btnBox .btn:last-child{background-image: url(../images/activityPaopao/page/result_prizeBtn.png);display: none;}
+section.gameResultBox .middleBox .border .btnBox .btn:first-child{background-image: url(../images/activityPaopao/page/result_againBtn.png?v=1);display: none;}
+section.gameResultBox .middleBox .border .btnBox .btn:last-child{background-image: url(../images/activityPaopao/page/result_prizeBtn.png?v=1);display: none;}
 .closeBtn{width: .5rem;height: .5rem;background-image: url(../images/activityPaopao/page/result_colseBtn.png);position: absolute;top: .1rem;right: .1rem;z-index: 10;display: none;}
 
 

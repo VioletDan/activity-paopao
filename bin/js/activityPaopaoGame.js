@@ -100,8 +100,13 @@ function importActivityPaopaoGame() {
 
     if (per >= 100) {
       //停止游戏
-      clearTimeout(timerSet)
-      setTimeout(activityPaopaoGame.end, 200)
+      clearTimeout(timerSet);
+      setTimeout(activityPaopaoGame.end, 200);
+      API.AddDataUv({
+        DataType: '消除泡泡100%通关'
+      }, (data) => {
+        // console.log(data)
+      });
     }
   }
   // ---游戏开始
@@ -144,16 +149,36 @@ function importActivityPaopaoGame() {
   }
 
   function btnApplyClick() {
-    console.log('领取福利')
-    window.location.replace('exchangePaopao.html?debug=2&openid=' + openid + '&AID=' + AID + '&SessionKey=' + SessionKey + '&v=' + new Date().getTime())
+    // console.log('领取福利');
+    window.location.replace('exchangePaopao.html?debug=1&openid=' + openid + '&AID=' + AID + '&SessionKey=' + SessionKey + '&v=' + new Date().getTime());
+    API.AddDataPv({
+      DataType: '领取福利'
+    }, (data) => {
+      // console.log(data)
+    });
+    API.AddDataUv({
+      DataType: '领取福利'
+    }, (data) => {
+      // console.log(data)
+    });
   }
 
   function btnAgainClick() {
-    console.log('再玩一次')
-    isSecondPlay = true //第二次玩
-    gameResultBox.hide()//隐藏游戏结果盒子
-    activityPaopaoGame.reset() //重置數據
-    activityPaopaoGame.startAgain()
+    // console.log('再玩一次');
+    isSecondPlay = true; //第二次玩
+    gameResultBox.hide();//隐藏游戏结果盒子
+    activityPaopaoGame.reset(); //重置數據
+    activityPaopaoGame.startAgain();
+    API.AddDataPv({
+      DataType: '再玩一次'
+    }, (data) => {
+      // console.log(data)
+    });
+    API.AddDataUv({
+      DataType: '再玩一次'
+    }, (data) => {
+      // console.log(data)
+    });
   }
 
   // -----计算用户分数
@@ -169,23 +194,58 @@ function importActivityPaopaoGame() {
     if (isSecondPlay && activityPaopaoGame.BarPercentNum < 75) {
       //如果第一次消除未达到75%，并且再玩一次也未能达到，则弹出此框。让未达标用户也可以留资 则出现“游戏结束”弹框
       //type3
-      resultBorder.addClass('type3')
-      resultTitle.html('游戏结束')
-      resultTxt1.html('您消除了' + activityPaopaoGame.BarPercentNum + '%污染泡泡<br>再接再厉创造光芒奇迹吧！')
+      resultBorder.addClass('type3');
+      resultTitle.html('游戏结束');
+      resultTxt1.html('您消除了' + activityPaopaoGame.BarPercentNum + '%污染泡泡<br>再接再厉创造光芒奇迹吧！');
+      API.AddDataPv({
+        DataType: '再玩一次消除泡泡未达到75%弹窗'
+      }, (data) => {
+        // console.log(data)
+      });
+      API.AddDataUv({
+        DataType: '再玩一次消除泡泡未达到75%弹窗'
+      }, (data) => {
+        // console.log(data)
+      });
     } else {
       if (activityPaopaoGame.BarPercentNum >= 75) {
         //游戏结果消除了多于75%的泡泡，则出现“太棒了”弹框
         //type2
-        resultBorder.addClass('type2')
-        resultTitle.html('太棒啦！')
-        resultTxt1.html('您消除了' + activityPaopaoGame.BarPercentNum + '%污染泡泡<br>无瑕光芒，闪耀绽放！')
+        resultBorder.addClass('type2');
+        resultTitle.html('太棒啦！');
+        resultTxt1.html('您消除了' + activityPaopaoGame.BarPercentNum + '%污染泡泡<br>无瑕光芒，闪耀绽放！');
         resultTxt2.html('专属福利已开启！')
+        API.AddDataPv({
+          DataType: '消除泡泡多于75%弹窗'
+        }, (data) => {
+          // console.log(data)
+        });
+        API.AddDataUv({
+          DataType: '消除泡泡多于75%弹窗'
+        }, (data) => {
+          // console.log(data)
+        });
+        API.AddDataUv({
+          DataType: '消除泡泡'+ activityPaopaoGame.BarPercentNum +'%通关'
+        }, (data) => {
+          // console.log(data)
+        });
       } else {
         //如果第一次游戏结果小于75%，则以上弹框，让用户“再玩一次
         //type1
-        resultBorder.addClass('type1')
-        resultTitle.html('还差一点！')
-        resultTxt1.html('您消除了' + activityPaopaoGame.BarPercentNum + '%污染泡泡<br>未能开启福利,再来一次为更加<br>闪耀的光芒继续加油吧！')
+        resultBorder.addClass('type1');
+        resultTitle.html('还差一点！');
+        resultTxt1.html('您消除了' + activityPaopaoGame.BarPercentNum + '%污染泡泡<br>未能开启福利,再来一次为更加<br>闪耀的光芒继续加油吧！');
+        API.AddDataPv({
+          DataType: '消除泡泡未达到75%弹窗'
+        }, (data) => {
+          // console.log(data)
+        });
+        API.AddDataUv({
+          DataType: '消除泡泡未达到75%弹窗'
+        }, (data) => {
+          // console.log(data)
+        });
       }
     }
   }

@@ -10,7 +10,8 @@ $(document).ready(function () {
   var guideTouch = $('section.gameGuideBox .guideTouch');
   var guideMask = $('section.gameGuideBox .guideMask');
   var guideMaskB = $('section.gameGuideBox .guideMaskB');
-  var guideNum = 1
+  var guideNum = 1;
+  var isGuideStr = 'isGuide1'; //存储游戏指引的标识字符串
 
   //游戏盒子
   var gamePlayBox = $('section.gamePlayBox')
@@ -139,13 +140,23 @@ $(document).ready(function () {
   //-------------------------初始化游戏弹窗指引
   function gameGuideBoxInit() {
     activityPaopaoGame.init()
-    if (window.localStorage.getItem('isGuide') && window.localStorage.getItem('isGuide') === '3') {
+    if (window.localStorage.getItem(isGuideStr) && window.localStorage.getItem(isGuideStr) === '3') {
       //直接开始游戏
       gameGuideBox.hide()
       gamePlayBox.show()
       gameStartHandle()
     } else {
-      guideTouch.off().on('touchend', throttle(guideTouchClick, 300))
+      guideTouch.off().on('touchend', throttle(guideTouchClick, 300));
+      API.AddDataPv({
+        DataType: '游戏指引第1步'
+      }, (data) => {
+        // console.log(data)
+      });
+      API.AddDataUv({
+        DataType: '游戏指引第1步'
+      }, (data) => {
+        // console.log(data)
+      });
     }
   }
 
@@ -165,6 +176,16 @@ $(document).ready(function () {
       } else {
         $('section.gameGuideBox .arr').removeClass('arr6');
       }
+      API.AddDataPv({
+        DataType: '游戏指引第'+ guideNum +'步'
+      }, (data) => {
+        // console.log(data)
+      });
+      API.AddDataUv({
+        DataType: '游戏指引第'+ guideNum +'步'
+      }, (data) => {
+        // console.log(data)
+      });
     } else {
       gameGuideBox.addClass('limitTouch') //截取点击狂魔
       guideMask.transition({ opacity: 0 }, 100)
@@ -174,11 +195,11 @@ $(document).ready(function () {
 
       //标识指引出现了几次
       //存储 引导层只显示一次
-      if (!window.localStorage.getItem('isGuide')) {
-        window.localStorage.setItem('isGuide', '1')
+      if (!window.localStorage.getItem(isGuideStr)) {
+        window.localStorage.setItem(isGuideStr, '1')
       } else {
-        var num = Number(window.localStorage.getItem('isGuide'))
-        window.localStorage.setItem('isGuide', String(num + 1))
+        var num = Number(window.localStorage.getItem(isGuideStr))
+        window.localStorage.setItem(isGuideStr, String(num + 1))
       }
       return
     }
@@ -190,7 +211,17 @@ $(document).ready(function () {
   function gameStartHandle() {
     Laya.Scene.open('gameBox.scene');
     $('section.gamePlayBox .topBox').addClass('active');
-    setTimeout(activityPaopaoGame.start, 2000)
+    setTimeout(activityPaopaoGame.start, 2000);
+    API.AddDataPv({
+      DataType: '开始游戏'
+    }, (data) => {
+      // console.log(data)
+    });
+    API.AddDataUv({
+      DataType: '开始游戏'
+    }, (data) => {
+      // console.log(data)
+    });
   }
 
 
