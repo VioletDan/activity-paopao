@@ -638,7 +638,8 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
                 this.owner.arrBox.moveDownRattion = _tallA;
             }
             this.isOpacity(this.owner.arrBox, 1);
-
+            //开始瓶子发光效果
+            GameUI.instance.borderShine.play();
             //---------------------------------------------
         }
 
@@ -724,6 +725,8 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             if (isMove || isMouseDownFirst) {
                 this.launchPaopao();
             }
+            //停止瓶子发光效果
+            GameUI.instance.borderShine.stop();
         }
         /**
          * 发射泡泡
@@ -787,6 +790,7 @@ let HexagonArr = []; //存放碰撞球的周边6个球的位置
             this._isDrop = true;
             GameControl.instance.calcBoxPos();
             this.startGame();
+            GameUI.instance.arrBox.alpha = 0; 
             //点击事件
             Laya.stage.on(Laya.Event.MOUSE_DOWN, this, this.OnStageMouseDown);
             Laya.stage.on(Laya.Event.MOUSE_MOVE, this, this.OnStageMouseMove);
