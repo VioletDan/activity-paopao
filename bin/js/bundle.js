@@ -745,7 +745,7 @@
             var rigY = -Math.sin((90 - this.owner.arrBox.rotation) * Math.PI / 180) * this.speed;
             rig.setVelocity({ x: rigX, y: rigY });
             this._gameBox.addChild(flyer);
-            this.isOpacity(this.owner.arrBox, 0);
+            // this.isOpacity(this.owner.arrBox, 0)
         }
 
         //换皮肤
@@ -776,6 +776,7 @@
             this._started = false;
             this.enabled = false;
             this.createBoxInterval = 4000;
+            GameUI.instance.arrBox.alpha = 0;        
             // GameUI.instance.getChildByName("gameBox").removeChildren();
             columAddNum = 5;
             Laya.stage.off(Laya.Event.MOUSE_DOWN, this, this.OnStageMouseDown);
