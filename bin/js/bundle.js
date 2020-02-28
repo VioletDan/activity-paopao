@@ -257,10 +257,6 @@
          */
         boomAni(obj, first) {
             var owner = obj;
-            let effect = Laya.Pool.getItemByCreateFun("effect", this.createEffect, this);
-            effect.pos(obj.x, obj.y);
-            GameUI.instance._control._gameBox.addChild(effect);
-            effect.play(0, true);
             if (first) {
                 const index = this.AllChildrenArr.findIndex(AllChildren => obj.var == AllChildren.var);
                 index > -1 && this.AllChildrenArr.splice(index, 1);
@@ -276,6 +272,11 @@
             // if (window.document.getElementsByClassName('BarPercent')[0]) {
             //     window.document.getElementsByClassName('BarPercent')[0].innerHTML = parseInt((1 - (this.AllChildrenArr.length / maxBallNum)) * 100)
             // }
+            //播放动画
+            let effect = Laya.Pool.getItemByCreateFun("effect", this.createEffect, this);
+            effect.pos(obj.x, obj.y);
+            GameUI.instance._control._gameBox.addChild(effect);
+            effect.play(0, true);
             //播放声音
             Laya.SoundManager.playSound("sound/paopao.mp3");
         }
@@ -1016,7 +1017,8 @@
     	{ url: 'images/gameBox/bottle.png', type: Loader.IMAGE },
     	{ url: 'images/gameBox/bottom.png', type: Loader.IMAGE },
     	{ url: 'res/atlas/gameBox.atlas', type: Loader.ATLAS },
-    	{ url: 'res/atlas/gameBox.png', type: Loader.IMAGE }
+    	{ url: 'res/atlas/gameBox.png', type: Loader.IMAGE },
+    	{ url: 'images/gameBox/shine3_3.png', type: Loader.IMAGE }
     ];
     class Main {
     	constructor() {
@@ -1051,8 +1053,8 @@
 
     	onConfigLoaded() {		
     		//加载IDE指定的场景
-    		GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
-    		// Laya.loader.load(PreResources,Laya.Handler.create(this, this.loadInit));
+    		// GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
+    		Laya.loader.load(PreResources,Laya.Handler.create(this, this.loadInit));
     	}
 
     	loadInit(){
