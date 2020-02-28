@@ -292,7 +292,11 @@ export default class GameControl extends Laya.Script {
         // }
         typeMouse = false;
         if (isMove || isMouseDownFirst) {
-            this.launchPaopao();
+            if (Math.abs(this.owner.arrBox.rotation) % 360 >= 90 && Math.abs(this.owner.arrBox.rotation) % 360 <= 270) {
+                //底部就不发射泡泡
+            } else {
+                this.launchPaopao();
+            }
         }
         //停止瓶子发光效果
         GameUI.instance.borderShine.stop();

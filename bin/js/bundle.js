@@ -726,7 +726,9 @@
             // }
             typeMouse = false;
             if (isMove || isMouseDownFirst) {
-                this.launchPaopao();
+                if (Math.abs(this.owner.arrBox.rotation) % 360 >= 90 && Math.abs(this.owner.arrBox.rotation) % 360 <= 270) ; else {
+                    this.launchPaopao();
+                }
             }
             //停止瓶子发光效果
             GameUI.instance.borderShine.stop();

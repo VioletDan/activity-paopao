@@ -1,6 +1,6 @@
 {
     "type":"View",
-    "selectedBox":14,
+    "selectedBox":9,
     "selecteID":59,
     "searchKey":"View,gameBox",
     "props":{"width":750,"visible":false,"sceneColor":"#000000","runtime":"script/GameUI.js","name":"gameBox","height":1624},
@@ -68,12 +68,26 @@
                     "$HIDDEN":false
                 },
                 {
+                    "type":"Sprite",
+                    "searchKey":"Sprite,borderShine,borderShine",
+                    "props":{"y":180,"x":375,"var":"borderShine","texture":"images/gameBox/shine3_3.png","pivotY":386,"pivotX":375,"name":"borderShine","alpha":0},
+                    "nodeParent":9,
+                    "label":"borderShine",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":59,
+                    "child":[
+                        ]
+                },
+                {
                     "type":"Box",
                     "searchKey":"Box,bottle",
                     "props":{"x":115,"name":"bottle","bottom":0},
                     "nodeParent":9,
                     "label":"bottle",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -92,20 +106,6 @@
                             "child":[
                                 ],
                             "$HIDDEN":false
-                        },
-                        {
-                            "type":"Sprite",
-                            "searchKey":"Sprite,borderShine,borderShine",
-                            "props":{"y":-33,"x":58.5,"var":"borderShine","texture":"images/gameBox/shine3_2.png","name":"borderShine","alpha":1},
-                            "nodeParent":14,
-                            "label":"borderShine",
-                            "isOpen":true,
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":59,
-                            "child":[
-                                ]
                         }],
                     "$HIDDEN":false
                 },
@@ -542,21 +542,79 @@
                     "keyframes":{
                         "x":[
                             {
-                                "value":58.5,
+                                "value":375,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":59,
                                 "key":"x",
                                 "index":0
                             }],
+                        "scaleY":[
+                            {
+                                "value":0.8,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":59,
+                                "key":"scaleY",
+                                "index":0
+                            },
+                            {
+                                "value":1,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":59,
+                                "key":"scaleY",
+                                "index":20
+                            },
+                            {
+                                "value":0.8,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":59,
+                                "key":"scaleY",
+                                "index":45
+                            }],
+                        "scaleX":[
+                            {
+                                "value":0.8,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":59,
+                                "key":"scaleX",
+                                "index":0
+                            },
+                            {
+                                "value":1,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":59,
+                                "key":"scaleX",
+                                "index":20
+                            },
+                            {
+                                "value":0.8,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":59,
+                                "key":"scaleX",
+                                "index":45
+                            }],
                         "alpha":[
+                            {
+                                "value":0,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":59,
+                                "key":"alpha",
+                                "index":0
+                            },
                             {
                                 "value":1,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":59,
                                 "key":"alpha",
-                                "index":0
+                                "index":20
                             },
                             {
                                 "value":0,
@@ -564,21 +622,13 @@
                                 "tween":true,
                                 "target":59,
                                 "key":"alpha",
-                                "index":35
-                            },
-                            {
-                                "value":1,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":59,
-                                "key":"alpha",
-                                "index":70
+                                "index":45
                             }]
                     }
                 }],
             "name":"borderShine",
             "id":2,
-            "frameRate":24,
+            "frameRate":60,
             "action":0
         }],
     "$HIDDEN":false
