@@ -260,10 +260,6 @@ export default class DropBox extends Laya.Script {
      */
     boomAni(obj, first) {
         var owner = obj;
-        let effect = Laya.Pool.getItemByCreateFun("effect", this.createEffect, this);
-        effect.pos(obj.x, obj.y);
-        GameUI.instance._control._gameBox.addChild(effect);
-        effect.play(0, true);
         if (first) {
             const index = this.AllChildrenArr.findIndex(AllChildren => obj.var == AllChildren.var);
             index > -1 && this.AllChildrenArr.splice(index, 1);
@@ -279,6 +275,11 @@ export default class DropBox extends Laya.Script {
         // if (window.document.getElementsByClassName('BarPercent')[0]) {
         //     window.document.getElementsByClassName('BarPercent')[0].innerHTML = parseInt((1 - (this.AllChildrenArr.length / maxBallNum)) * 100)
         // }
+        //播放动画
+        let effect = Laya.Pool.getItemByCreateFun("effect", this.createEffect, this);
+        effect.pos(obj.x, obj.y);
+        GameUI.instance._control._gameBox.addChild(effect);
+        effect.play(0, true);
         //播放声音
         Laya.SoundManager.playSound("sound/paopao.mp3");
     }

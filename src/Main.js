@@ -5,7 +5,8 @@ var PreResources = [
 	{ url: 'images/gameBox/bottle.png', type: Loader.IMAGE },
 	{ url: 'images/gameBox/bottom.png', type: Loader.IMAGE },
 	{ url: 'res/atlas/gameBox.atlas', type: Loader.ATLAS },
-	{ url: 'res/atlas/gameBox.png', type: Loader.IMAGE }
+	{ url: 'res/atlas/gameBox.png', type: Loader.IMAGE },
+	{ url: 'images/gameBox/shine3_3.png', type: Loader.IMAGE }
 ];
 class Main {
 	constructor() {
@@ -40,8 +41,8 @@ class Main {
 
 	onConfigLoaded() {		
 		//加载IDE指定的场景
-		GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
-		// Laya.loader.load(PreResources,Laya.Handler.create(this, this.loadInit));
+		// GameConfig.startScene && Laya.Scene.open(GameConfig.startScene);
+		Laya.loader.load(PreResources,Laya.Handler.create(this, this.loadInit));
 	}
 
 	loadInit(){
